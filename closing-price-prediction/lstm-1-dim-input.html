@@ -1,0 +1,1228 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Closing Price Prediction with LSTM &#8212; Making Money in Stocks</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/icon.jpg"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Closing Price Prediction with ARIMA" href="arima.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/icon.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Making Money in Stocks</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Making Money in Stocks
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   Closing Price Prediction
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="arima.html">
+     Closing Price Prediction with ARIMA
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Closing Price Prediction with LSTM
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/Isaac-Fate/stox/master?urlpath=tree/book/closing-price-prediction/lstm-1-dim-input.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/Isaac-Fate/stox/blob/master/book/closing-price-prediction/lstm-1-dim-input.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/Isaac-Fate/stox/tree/master/"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/Isaac-Fate/stox/tree/master//issues/new?title=Issue%20on%20page%20%2Fclosing-price-prediction/lstm-1-dim-input.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/closing-price-prediction/lstm-1-dim-input.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-processing">
+   Data Processing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaling-the-data">
+     Scaling the Data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-and-test-datasets">
+     Training and Test Datasets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#converting-to-tensors">
+     Converting to Tensors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-construction">
+   Model Construction
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#class-definition">
+     Class Definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#summary">
+     Summary
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimizer-and-loss-function">
+     Optimizer and Loss Function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training-and-testing">
+   Training and Testing
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Closing Price Prediction with LSTM</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-processing">
+   Data Processing
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaling-the-data">
+     Scaling the Data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-and-test-datasets">
+     Training and Test Datasets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#converting-to-tensors">
+     Converting to Tensors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-construction">
+   Model Construction
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#class-definition">
+     Class Definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#summary">
+     Summary
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimizer-and-loss-function">
+     Optimizer and Loss Function
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training-and-testing">
+   Training and Testing
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="closing-price-prediction-with-lstm">
+<h1>Closing Price Prediction with LSTM<a class="headerlink" href="#closing-price-prediction-with-lstm" title="Permalink to this headline">#</a></h1>
+<p>In this notebook, we only consider the time series consisting of daily closing prices. The information of daily opening, lowest and highest price is not used.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">torchsummary</span> <span class="kn">import</span> <span class="n">summary</span>
+<span class="kn">from</span> <span class="nn">torchviz</span> <span class="kn">import</span> <span class="n">make_dot</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">mplfinance</span> <span class="k">as</span> <span class="nn">mpf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="data-processing">
+<h2>Data Processing<a class="headerlink" href="#data-processing" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;../../data&quot;</span>
+<span class="n">stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="s2">&quot;stocks.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">stocks</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Company</th>
+      <th>Sector</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-11-02</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>41.650002</td>
+      <td>42.125000</td>
+      <td>41.320000</td>
+      <td>42.027500</td>
+      <td>165573600</td>
+    </tr>
+    <tr>
+      <th>2017-11-03</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.500000</td>
+      <td>43.564999</td>
+      <td>42.779999</td>
+      <td>43.125000</td>
+      <td>237594400</td>
+    </tr>
+    <tr>
+      <th>2017-11-06</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.092499</td>
+      <td>43.747501</td>
+      <td>42.930000</td>
+      <td>43.562500</td>
+      <td>140105200</td>
+    </tr>
+    <tr>
+      <th>2017-11-07</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.477501</td>
+      <td>43.812500</td>
+      <td>43.400002</td>
+      <td>43.702499</td>
+      <td>97446000</td>
+    </tr>
+    <tr>
+      <th>2017-11-08</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.665001</td>
+      <td>44.060001</td>
+      <td>43.582500</td>
+      <td>44.060001</td>
+      <td>97638000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We choose to analyze the Apple company.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">apple</span> <span class="o">=</span> <span class="n">stocks</span><span class="p">[</span><span class="n">stocks</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;AAPL&quot;</span><span class="p">]</span>
+<span class="n">apple</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Company</th>
+      <th>Sector</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-11-02</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>41.650002</td>
+      <td>42.125000</td>
+      <td>41.320000</td>
+      <td>42.027500</td>
+      <td>165573600</td>
+    </tr>
+    <tr>
+      <th>2017-11-03</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.500000</td>
+      <td>43.564999</td>
+      <td>42.779999</td>
+      <td>43.125000</td>
+      <td>237594400</td>
+    </tr>
+    <tr>
+      <th>2017-11-06</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.092499</td>
+      <td>43.747501</td>
+      <td>42.930000</td>
+      <td>43.562500</td>
+      <td>140105200</td>
+    </tr>
+    <tr>
+      <th>2017-11-07</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.477501</td>
+      <td>43.812500</td>
+      <td>43.400002</td>
+      <td>43.702499</td>
+      <td>97446000</td>
+    </tr>
+    <tr>
+      <th>2017-11-08</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.665001</td>
+      <td>44.060001</td>
+      <td>43.582500</td>
+      <td>44.060001</td>
+      <td>97638000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mpf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">apple</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;candle&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/lstm-1-dim-input_7_0.png" src="../_images/lstm-1-dim-input_7_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">apple</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/lstm-1-dim-input_8_0.png" src="../_images/lstm-1-dim-input_8_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">begin</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">num_days</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">begin</span> <span class="o">+</span> <span class="n">num_days</span>
+<span class="n">closing_prices</span> <span class="o">=</span> <span class="n">apple</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">begin</span> <span class="p">:</span> <span class="n">end</span><span class="p">][</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">closing_prices</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([42.02750015, 43.125     , 43.5625    , 43.70249939, 44.06000137,
+       43.97000122, 43.66749954, 43.49250031, 42.83499908, 42.27000046,
+       42.77500153, 42.53749847, 42.49499893, 43.28499985, 43.74000168,
+       43.74250031, 43.52249908, 43.26750183, 42.36999893, 42.96250153,
+       42.76250076, 42.45000076, 42.40999985, 42.25249863, 42.33000183,
+       42.34249878, 43.16749954, 42.92499924, 43.06750107, 43.05500031,
+       43.49250031, 44.10499954, 43.63499832, 43.58750153, 43.75249863,
+       43.75249863, 42.64250183, 42.65000153, 42.77000046, 42.30749893,
+       43.06499863, 43.05749893, 43.25749969, 43.75      , 43.58750153,
+       43.58250046, 43.57249832, 43.81999969, 44.27249908, 44.04750061,
+       44.77500153, 44.81499863, 44.61500168, 44.25      , 44.25999832,
+       43.55500031, 42.77750015, 42.87749863, 41.99000168, 41.74250031,
+       41.85749817, 41.94499969, 40.125     , 39.12250137, 40.75749969,
+       39.88499832, 38.78749847, 39.10250092, 40.67750168, 41.08499908,
+       41.84249878, 43.24750137, 43.10749817, 42.96250153, 42.76750183,
+       43.125     , 43.875     , 44.74250031, 44.59749985, 44.52999878,
+       43.75      , 44.05250168, 44.20500183, 44.16749954, 43.75749969,
+       44.23500061, 44.99499893, 45.43000031, 44.99250031, 44.61000061,
+       44.66249847, 44.50500107, 43.82500076, 43.81000137, 42.81750107,
+       42.21250153, 41.23500061, 43.19250107, 42.08499908, 41.61999893,
+       41.94499969, 41.66999817, 42.09749985, 42.90250015, 43.20000076,
+       42.09500122, 42.51250076, 43.3125    , 43.11000061, 43.53499985,
+       43.68249893, 43.95500183, 44.56000137, 44.45999908, 43.20000076,
+       41.43000031, 41.31000137, 40.73500061, 40.91249847, 41.05500031,
+       40.58000183, 41.31499863, 42.27500153, 44.14250183, 44.22249985,
+       45.95750046, 46.29000092, 46.51250076, 46.84000015, 47.50999832,
+       47.14749908, 47.03749847, 46.61000061, 47.04499817, 46.74750137,
+       46.57749939, 46.90750122, 46.79000092, 47.09000015, 47.03749847,
+       47.14500046, 46.97499847, 46.875     , 46.71749878, 47.56000137,
+       47.95750046, 48.32749939, 48.49499893, 48.36500168, 47.92499924])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_batches</span><span class="p">(</span><span class="n">seq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="n">seq</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">-</span> <span class="n">window_size</span><span class="p">)</span>
+    <span class="p">])</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">window_size</span> <span class="o">=</span> <span class="n">L</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">batches</span> <span class="o">=</span> <span class="n">make_batches</span><span class="p">(</span><span class="n">closing_prices</span><span class="p">,</span> <span class="n">window_size</span><span class="p">)</span>
+<span class="n">batches</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[42.02750015, 43.125     , 43.5625    , ..., 42.83499908,
+        42.27000046, 42.77500153],
+       [43.125     , 43.5625    , 43.70249939, ..., 42.27000046,
+        42.77500153, 42.53749847],
+       [43.5625    , 43.70249939, 44.06000137, ..., 42.77500153,
+        42.53749847, 42.49499893],
+       ...,
+       [46.90750122, 46.79000092, 47.09000015, ..., 47.56000137,
+        47.95750046, 48.32749939],
+       [46.79000092, 47.09000015, 47.03749847, ..., 47.95750046,
+        48.32749939, 48.49499893],
+       [47.09000015, 47.03749847, 47.14500046, ..., 48.32749939,
+        48.49499893, 48.36500168]])
+</pre></div>
+</div>
+</div>
+</div>
+<section id="scaling-the-data">
+<h3>Scaling the Data<a class="headerlink" href="#scaling-the-data" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">batches</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-and-test-datasets">
+<h3>Training and Test Datasets<a class="headerlink" href="#training-and-test-datasets" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">split</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">test_size</span><span class="p">))</span>
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">batches</span><span class="p">[:</span><span class="n">split</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">batches</span><span class="p">[</span><span class="n">split</span><span class="p">:,</span> <span class="p">:]</span>
+
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">train_ds</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">train_ds</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">test_ds</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">test_ds</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((125, 10, 1), (125, 1))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="converting-to-tensors">
+<h3>Converting to Tensors<a class="headerlink" href="#converting-to-tensors" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">y_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">x_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">y_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train_tensor</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([125, 10, 1])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="model-construction">
+<h2>Model Construction<a class="headerlink" href="#model-construction" title="Permalink to this headline">#</a></h2>
+<section id="class-definition">
+<h3>Class Definition<a class="headerlink" href="#class-definition" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LSTM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="c1"># initialize super class</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="n">input_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span> <span class="o">=</span> <span class="n">output_size</span>
+
+        <span class="c1"># LSTM layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># fully connected layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+
+        <span class="c1"># h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size, requires_grad = True)</span>
+        <span class="c1"># c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size, requires_grad = True)</span>
+
+        <span class="c1"># output has shape (N, L, H)</span>
+        <span class="c1"># h_n has shape (num_layers, N, H)</span>
+        <span class="c1">#</span>
+        <span class="c1"># where N is the batch size</span>
+        <span class="c1"># L is the sequence length</span>
+        <span class="c1"># and H is the hidden size</span>
+        <span class="c1"># output, (h_n, c_n) = self.lstm.forward(x, (h0.detach(), c0.detach()))</span>
+        <span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="n">h_n</span><span class="p">,</span> <span class="n">c_n</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># in fact, we want the last hidden value</span>
+        <span class="c1"># from the last LSTM layer, i.e., h_n[-1, :, :]</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h_n</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+
+        <span class="c1"># get predicted value from</span>
+        <span class="c1"># the fully connected layer</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span>
+    <span class="n">input_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">output_size</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">model</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LSTM(
+  (lstm): LSTM(1, 16, batch_first=True)
+  (fc): Linear(in_features=16, out_features=1, bias=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="optimizer-and-loss-function">
+<h3>Optimizer and Loss Function<a class="headerlink" href="#optimizer-and-loss-function" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">optimiser</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="training-and-testing">
+<h2>Training and Testing<a class="headerlink" href="#training-and-testing" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_train_tensor</span><span class="p">)</span>
+
+    <span class="c1"># calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y_train_tensor</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;epoch:</span><span class="se">\t</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="se">\t</span><span class="s2">loss:</span><span class="se">\t</span><span class="si">{</span><span class="n">loss</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># clear gradients</span>
+    <span class="n">optimiser</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># compute gradients through backward propagation</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># update parameters</span>
+    <span class="n">optimiser</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	0	loss:	0.1867639720439911
+epoch:	1	loss:	0.15634724497795105
+epoch:	2	loss:	0.12949250638484955
+epoch:	3	loss:	0.1070537120103836
+epoch:	4	loss:	0.0913994312286377
+epoch:	5	loss:	0.08670558780431747
+epoch:	6	loss:	0.09315524995326996
+epoch:	7	loss:	0.09487166255712509
+epoch:	8	loss:	0.0878499448299408
+epoch:	9	loss:	0.07886507362127304
+epoch:	10	loss:	0.07207663357257843
+epoch:	11	loss:	0.06802939623594284
+epoch:	12	loss:	0.06577152013778687
+epoch:	13	loss:	0.0642218291759491
+epoch:	14	loss:	0.06259313225746155
+epoch:	15	loss:	0.0604262575507164
+epoch:	16	loss:	0.05754180625081062
+epoch:	17	loss:	0.054008543491363525
+epoch:	18	loss:	0.050137586891651154
+epoch:	19	loss:	0.04647042974829674
+epoch:	20	loss:	0.04367609694600105
+epoch:	21	loss:	0.04219632223248482
+epoch:	22	loss:	0.041609782725572586
+epoch:	23	loss:	0.040601544082164764
+epoch:	24	loss:	0.038394104689359665
+epoch:	25	loss:	0.03554760664701462
+epoch:	26	loss:	0.033030010759830475
+epoch:	27	loss:	0.031259406358003616
+epoch:	28	loss:	0.030016008764505386
+epoch:	29	loss:	0.028840338811278343
+epoch:	30	loss:	0.02739822492003441
+epoch:	31	loss:	0.02563677728176117
+epoch:	32	loss:	0.023767197504639626
+epoch:	33	loss:	0.022146670147776604
+epoch:	34	loss:	0.021106231957674026
+epoch:	35	loss:	0.020755939185619354
+epoch:	36	loss:	0.020838625729084015
+epoch:	37	loss:	0.02086271531879902
+epoch:	38	loss:	0.020586388185620308
+epoch:	39	loss:	0.02017861232161522
+epoch:	40	loss:	0.019892940297722816
+epoch:	41	loss:	0.01980937272310257
+epoch:	42	loss:	0.01983565464615822
+epoch:	43	loss:	0.019831420853734016
+epoch:	44	loss:	0.019712045788764954
+epoch:	45	loss:	0.01948295533657074
+epoch:	46	loss:	0.019212549552321434
+epoch:	47	loss:	0.018974341452121735
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	48	loss:	0.018799010664224625
+epoch:	49	loss:	0.01866772398352623
+epoch:	50	loss:	0.018544860184192657
+epoch:	51	loss:	0.018415948376059532
+epoch:	52	loss:	0.01829749159514904
+epoch:	53	loss:	0.018216675147414207
+epoch:	54	loss:	0.01818476803600788
+epoch:	55	loss:	0.018186375498771667
+epoch:	56	loss:	0.01818901300430298
+epoch:	57	loss:	0.018162639811635017
+epoch:	58	loss:	0.01809568703174591
+epoch:	59	loss:	0.017999157309532166
+epoch:	60	loss:	0.017898280173540115
+epoch:	61	loss:	0.01781751587986946
+epoch:	62	loss:	0.017767541110515594
+epoch:	63	loss:	0.017741497606039047
+epoch:	64	loss:	0.01772189699113369
+epoch:	65	loss:	0.017692813649773598
+epoch:	66	loss:	0.017648622393608093
+epoch:	67	loss:	0.017594115808606148
+epoch:	68	loss:	0.017537986859679222
+epoch:	69	loss:	0.017486074939370155
+epoch:	70	loss:	0.017439253628253937
+epoch:	71	loss:	0.017395829781889915
+epoch:	72	loss:	0.01735501177608967
+epoch:	73	loss:	0.017318038269877434
+epoch:	74	loss:	0.017286522313952446
+epoch:	75	loss:	0.017259947955608368
+epoch:	76	loss:	0.017234861850738525
+epoch:	77	loss:	0.017206812277436256
+epoch:	78	loss:	0.01717354729771614
+epoch:	79	loss:	0.017136888578534126
+epoch:	80	loss:	0.017101546749472618
+epoch:	81	loss:	0.01707168109714985
+epoch:	82	loss:	0.01704789325594902
+epoch:	83	loss:	0.017026985064148903
+epoch:	84	loss:	0.017004510387778282
+epoch:	85	loss:	0.01697801798582077
+epoch:	86	loss:	0.0169483944773674
+epoch:	87	loss:	0.016918601468205452
+epoch:	88	loss:	0.016891159117221832
+epoch:	89	loss:	0.016866527497768402
+epoch:	90	loss:	0.016843432560563087
+epoch:	91	loss:	0.016820384189486504
+epoch:	92	loss:	0.016796862706542015
+epoch:	93	loss:	0.016773303970694542
+epoch:	94	loss:	0.016750292852520943
+epoch:	95	loss:	0.016727913171052933
+epoch:	96	loss:	0.016705825924873352
+epoch:	97	loss:	0.01668383739888668
+epoch:	98	loss:	0.016662215813994408
+epoch:	99	loss:	0.01664142869412899
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_test_tensor</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">y_pred</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.5951205 ],
+       [0.55362403],
+       [0.5865252 ],
+       [0.5871462 ],
+       [0.63290316],
+       [0.6474109 ],
+       [0.6682987 ],
+       [0.6513091 ],
+       [0.62549275],
+       [0.5884776 ],
+       [0.697739  ],
+       [0.8071953 ],
+       [0.90866446],
+       [0.9787087 ]], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;True Closing Price&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Predicted Price&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/lstm-1-dim-input_28_0.png" src="../_images/lstm-1-dim-input_28_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.011577865958384535
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "Isaac-Fate/stox",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./closing-price-prediction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="arima.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Closing Price Prediction with ARIMA</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Isaac Fei<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
