@@ -1,0 +1,14 @@
+# macOS .DS_Store files
+**/.DS_Store
+
+# PyCharm
+./.idea/
+
+# Python cache files
+**/__pycache__/
+
+# Jupyter notebook checkpoints
+**/.ipynb_checkpoints/
+
+# Jupyter book
+./book/_build/

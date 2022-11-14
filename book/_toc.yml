@@ -1,0 +1,7 @@
+format: jb-book
+root: intro
+chapters:
+  - file: closing-price-prediction/index
+    sections:
+      - file: closing-price-prediction/arima
+      - file: closing-price-prediction/lstm-1-dim-input
