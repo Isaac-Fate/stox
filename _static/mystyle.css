@@ -1,4 +1,4 @@
-table {
+div.cell_output table {
     display: block; /* this line is necessary */
     overflow: scroll;
 }
