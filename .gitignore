@@ -12,3 +12,6 @@
 
 # Jupyter book
 ./book/_build/
+
+# `out` directory
+./out/
