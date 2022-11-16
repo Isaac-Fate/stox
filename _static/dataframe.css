@@ -1,4 +1,4 @@
-/* Pandas tables. Pulled from the Jupyter / nbsphinx CSS */
+/* Pandas tables */
 div.cell_output table {
     border: none;
     border-collapse: collapse;
@@ -6,7 +6,7 @@ div.cell_output table {
     color: black;
     font-size: 1em;
     table-layout: fixed;
-
-    display: block; /* this line is necessary */
+    
+    display: block;
     overflow: scroll;
-  }
+}
