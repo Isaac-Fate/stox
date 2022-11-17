@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; Making Money in Stocks</title>
+    <title>Scraping Stock Data &#8212; Making Money in Stocks</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -56,6 +56,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualization" href="visualization.html" />
+    <link rel="prev" title="Data Collecting and Visualization" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -115,17 +117,22 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="index.html">
    Data Collecting and Visualization
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Scraping Stock Data
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="visualization.html">
      Visualization
@@ -380,50 +387,23 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1><no title></h1>
+                <h1>Scraping Stock Data</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -431,7 +411,9 @@ title="Print to PDF"
                 
               <div>
                 
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="scraping-stock-data">
+<h1>Scraping Stock Data<a class="headerlink" href="#scraping-stock-data" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">io</span>
@@ -605,7 +587,7 @@ title="Print to PDF"
  &#39;dayHigh&#39;: 149.87,
  &#39;coinMarketCapLink&#39;: None,
  &#39;regularMarketPrice&#39;: 148.79,
- &#39;preMarketPrice&#39;: 148.99,
+ &#39;preMarketPrice&#39;: 148.88,
  &#39;logo_url&#39;: &#39;https://logo.clearbit.com/apple.com&#39;,
  &#39;trailingPegRatio&#39;: None}
 </pre></div>
@@ -654,9 +636,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -880,6 +859,9 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
@@ -1101,9 +1083,6 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
@@ -1140,6 +1119,9 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
@@ -1147,6 +1129,9 @@ title="Print to PDF"
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -1534,9 +1519,6 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
@@ -1556,9 +1538,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -1746,9 +1725,6 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
@@ -1756,6 +1732,9 @@ title="Print to PDF"
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -2134,60 +2113,6 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the trend of stock prices in different sectors</span>
-<span class="n">sector</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter the sector:&quot;</span><span class="p">)</span>
-<span class="n">sector_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;technology&quot;</span><span class="p">:</span><span class="n">technology_dict</span><span class="p">,</span> <span class="s2">&quot;healthcare&quot;</span><span class="p">:</span><span class="n">healthcare_dict</span><span class="p">,</span> <span class="s2">&quot;cyclical&quot;</span><span class="p">:</span><span class="n">cyclical_dict</span><span class="p">,</span><span class="s2">&quot;industrials&quot;</span><span class="p">:</span><span class="n">industrials_dict</span><span class="p">,</span> <span class="s2">&quot;financial&quot;</span><span class="p">:</span><span class="n">financial_dict</span><span class="p">,</span> <span class="s2">&quot;communication&quot;</span><span class="p">:</span> <span class="n">communication_dict</span><span class="p">,</span> <span class="s2">&quot;energy&quot;</span><span class="p">:</span><span class="n">energy_dict</span><span class="p">}</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
-
-<span class="k">def</span> <span class="nf">plot_graph</span><span class="p">(</span><span class="n">df_dict</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">df_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">])</span>
-        
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">df_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sector</span><span class="si">}</span><span class="s2"> sector daily price for 5 years&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="k">if</span> <span class="n">sector</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sector_dict</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please enter &#39;technology&#39;, &#39;healthcare&#39;, &#39;cyclical&#39;, &#39;industrials&#39;, &#39;financial&#39;, &#39;communication&#39;, &#39;energy&#39;&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">plot_graph</span><span class="p">(</span><span class="n">sector_dict</span><span class="p">[</span><span class="n">sector</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">StdinNotImplementedError</span><span class="g g-Whitespace">                  </span>Traceback (most recent call last)
-<span class="nn">Input In [17],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># the trend of stock prices in different sectors</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">sector</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter the sector:&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">sector_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;technology&quot;</span><span class="p">:</span><span class="n">technology_dict</span><span class="p">,</span> <span class="s2">&quot;healthcare&quot;</span><span class="p">:</span><span class="n">healthcare_dict</span><span class="p">,</span> <span class="s2">&quot;cyclical&quot;</span><span class="p">:</span><span class="n">cyclical_dict</span><span class="p">,</span><span class="s2">&quot;industrials&quot;</span><span class="p">:</span><span class="n">industrials_dict</span><span class="p">,</span> <span class="s2">&quot;financial&quot;</span><span class="p">:</span><span class="n">financial_dict</span><span class="p">,</span> <span class="s2">&quot;communication&quot;</span><span class="p">:</span> <span class="n">communication_dict</span><span class="p">,</span> <span class="s2">&quot;energy&quot;</span><span class="p">:</span><span class="n">energy_dict</span><span class="p">}</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/ipykernel/kernelbase.py:1174,</span> in <span class="ni">Kernel.raw_input</span><span class="nt">(self, prompt)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1167</span> <span class="sd">&quot;&quot;&quot;Forward raw_input to frontends</span>
-<span class="g g-Whitespace">   </span><span class="mi">1168</span><span class="sd"> </span>
-<span class="g g-Whitespace">   </span><span class="mi">1169</span><span class="sd"> Raises</span>
-<span class="g g-Whitespace">   </span><span class="mi">1170</span><span class="sd"> ------</span>
-<span class="g g-Whitespace">   </span><span class="mi">1171</span><span class="sd"> StdinNotImplementedError if active frontend doesn&#39;t support stdin.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1172</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1173</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_stdin</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1174</span>     <span class="k">raise</span> <span class="n">StdinNotImplementedError</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1175</span>         <span class="s2">&quot;raw_input was called, but this frontend does not support input requests.&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1176</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1177</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_request</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1178</span>     <span class="nb">str</span><span class="p">(</span><span class="n">prompt</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1179</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_parent_ident</span><span class="p">[</span><span class="s2">&quot;shell&quot;</span><span class="p">],</span>
-<span class="g g-Whitespace">   </span><span class="mi">1180</span>     <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">(</span><span class="s2">&quot;shell&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1181</span>     <span class="n">password</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1182</span> <span class="p">)</span>
-
-<span class="ne">StdinNotImplementedError</span>: raw_input was called, but this frontend does not support input requests.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">technology_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
           <span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="n">healthcare_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
           <span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="n">cyclical_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -2245,54 +2170,54 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-02</th>
+      <th>2017-11-17</th>
       <td>AAPL</td>
       <td>Technology</td>
-      <td>41.650002</td>
-      <td>42.125000</td>
-      <td>41.320000</td>
-      <td>42.027500</td>
-      <td>165573600</td>
+      <td>42.759998</td>
+      <td>42.847500</td>
+      <td>42.410000</td>
+      <td>42.537498</td>
+      <td>87598000.0</td>
     </tr>
     <tr>
-      <th>2017-11-03</th>
+      <th>2017-11-20</th>
       <td>AAPL</td>
       <td>Technology</td>
-      <td>43.500000</td>
-      <td>43.564999</td>
-      <td>42.779999</td>
-      <td>43.125000</td>
-      <td>237594400</td>
+      <td>42.572498</td>
+      <td>42.639999</td>
+      <td>42.389999</td>
+      <td>42.494999</td>
+      <td>65049600.0</td>
     </tr>
     <tr>
-      <th>2017-11-06</th>
+      <th>2017-11-21</th>
       <td>AAPL</td>
       <td>Technology</td>
-      <td>43.092499</td>
-      <td>43.747501</td>
-      <td>42.930000</td>
-      <td>43.562500</td>
-      <td>140105200</td>
+      <td>42.695000</td>
+      <td>43.424999</td>
+      <td>42.695000</td>
+      <td>43.285000</td>
+      <td>100525200.0</td>
     </tr>
     <tr>
-      <th>2017-11-07</th>
+      <th>2017-11-22</th>
       <td>AAPL</td>
       <td>Technology</td>
-      <td>43.477501</td>
-      <td>43.812500</td>
-      <td>43.400002</td>
-      <td>43.702499</td>
-      <td>97446000</td>
+      <td>43.340000</td>
+      <td>43.750000</td>
+      <td>43.262501</td>
+      <td>43.740002</td>
+      <td>102355600.0</td>
     </tr>
     <tr>
-      <th>2017-11-08</th>
+      <th>2017-11-24</th>
       <td>AAPL</td>
       <td>Technology</td>
-      <td>43.665001</td>
-      <td>44.060001</td>
-      <td>43.582500</td>
-      <td>44.060001</td>
-      <td>97638000</td>
+      <td>43.775002</td>
+      <td>43.875000</td>
+      <td>43.662498</td>
+      <td>43.742500</td>
+      <td>56106800.0</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2305,58 +2230,58 @@ title="Print to PDF"
       <td>...</td>
     </tr>
     <tr>
-      <th>2022-10-26</th>
+      <th>2022-11-10</th>
       <td>COP</td>
       <td>Energy</td>
-      <td>124.720001</td>
-      <td>128.179993</td>
-      <td>124.580002</td>
-      <td>126.570000</td>
-      <td>8139100</td>
-    </tr>
-    <tr>
-      <th>2022-10-27</th>
-      <td>COP</td>
-      <td>Energy</td>
-      <td>127.699997</td>
-      <td>129.449997</td>
-      <td>126.239998</td>
-      <td>126.639999</td>
-      <td>8948500</td>
-    </tr>
-    <tr>
-      <th>2022-10-28</th>
-      <td>COP</td>
-      <td>Energy</td>
-      <td>128.500000</td>
-      <td>128.990005</td>
-      <td>124.010002</td>
-      <td>127.169998</td>
-      <td>7293200</td>
-    </tr>
-    <tr>
-      <th>2022-10-31</th>
-      <td>COP</td>
-      <td>Energy</td>
-      <td>125.580002</td>
-      <td>129.990005</td>
+      <td>128.100006</td>
+      <td>129.770004</td>
       <td>125.570000</td>
-      <td>126.089996</td>
-      <td>7121000</td>
+      <td>129.460007</td>
+      <td>7543900.0</td>
     </tr>
     <tr>
-      <th>2022-11-01</th>
+      <th>2022-11-11</th>
       <td>COP</td>
       <td>Energy</td>
-      <td>128.740005</td>
-      <td>129.320007</td>
-      <td>126.889999</td>
-      <td>127.779999</td>
-      <td>5874800</td>
+      <td>131.199997</td>
+      <td>134.850006</td>
+      <td>130.559998</td>
+      <td>133.960007</td>
+      <td>8660300.0</td>
+    </tr>
+    <tr>
+      <th>2022-11-14</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>132.380005</td>
+      <td>135.679993</td>
+      <td>132.279999</td>
+      <td>133.029999</td>
+      <td>6163400.0</td>
+    </tr>
+    <tr>
+      <th>2022-11-15</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>133.589996</td>
+      <td>134.839996</td>
+      <td>131.910004</td>
+      <td>134.089996</td>
+      <td>8300600.0</td>
+    </tr>
+    <tr>
+      <th>2022-11-16</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>132.580002</td>
+      <td>133.500000</td>
+      <td>129.089996</td>
+      <td>129.240005</td>
+      <td>7364400.0</td>
     </tr>
   </tbody>
 </table>
-<p>63377 rows × 7 columns</p>
+<p>63388 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -2380,11 +2305,14 @@ dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filepath</span> <span class="o">=</span> <span class="s2">&quot;../../data/stocks.csv&quot;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2413,6 +2341,20 @@ dtype: int64
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Data Collecting and Visualization</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="visualization.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Visualization</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>
