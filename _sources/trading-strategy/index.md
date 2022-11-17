@@ -1,0 +1,4 @@
+# Trading Strategy
+
+```{tableofcontents}
+```
