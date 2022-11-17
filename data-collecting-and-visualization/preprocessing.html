@@ -131,6 +131,11 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul class="current">
    <li class="toctree-l2">
+    <a class="reference internal" href="data-collecting.html">
+     Scraping Stock Data
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="visualization.html">
      Visualization
     </a>
@@ -652,7 +657,7 @@ title="Print to PDF"
 </section>
 <section id="resampling">
 <h2>Resampling<a class="headerlink" href="#resampling" title="Permalink to this headline">#</a></h2>
-<p>Note that some dates are missing. For example, there is no data on 2017/11/04 and 2017/11/05 for Apple company.</p>
+<p>Note that the data at weekends are missing since markets are closed at weekends. For example, there is no data on 2017/11/04 and 2017/11/05 for Apple company.</p>
 <p>To fix this, we can resample the data in each day. We can do so using <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>’s <code class="docutils literal notranslate"><span class="pre">resample</span></code> method.</p>
 <p>Moreover, before resampling, we need to first group the data frame by the <code class="docutils literal notranslate"><span class="pre">&quot;Company&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;Sector&quot;</span></code> fields.</p>
 <div class="cell docutils container">
