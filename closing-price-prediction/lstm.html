@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Data Collecting and Visualization &#8212; Making Money in Stocks</title>
+    <title>LSTM Model &#8212; Making Money in Stocks</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -56,8 +56,6 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Scraping Stock Data" href="data-collecting.html" />
-    <link rel="prev" title="Making Money in Stocks" href="../intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -117,31 +115,31 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../data-collecting-and-visualization/index.html">
    Data Collecting and Visualization
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="data-collecting.html">
+    <a class="reference internal" href="../data-collecting-and-visualization/data-collecting.html">
      Scraping Stock Data
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="visualization.html">
+    <a class="reference internal" href="../data-collecting-and-visualization/visualization.html">
      Visualization
     </a>
    </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../closing-price-prediction/index.html">
+  <a class="reference internal" href="index.html">
    Closing Price Prediction
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
@@ -151,12 +149,12 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/arima.html">
+    <a class="reference internal" href="arima.html">
      Closing Price Prediction with ARIMA
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/lstm-1-dim-input.html">
+    <a class="reference internal" href="lstm-1-dim-input.html">
      Closing Price Prediction with LSTM
     </a>
    </li>
@@ -257,7 +255,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/Isaac-Fate/stox/tree/master//issues/new?title=Issue%20on%20page%20%2Fdata-collecting-and-visualization/index.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/Isaac-Fate/stox/tree/master//issues/new?title=Issue%20on%20page%20%2Fclosing-price-prediction/lstm.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -285,7 +283,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/data-collecting-and-visualization/index.md"
+        <a href="../_sources/closing-price-prediction/lstm.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -322,23 +320,80 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#time-series-transformation-sliding-window">
+   Time Series Transformation: Sliding Window
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lstm">
+   LSTM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-tuning-grid-search-and-randomized-search">
+   Model Tuning: Grid Search and Randomized Search
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Data Collecting and Visualization</h1>
+                <h1>LSTM Model</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#time-series-transformation-sliding-window">
+   Time Series Transformation: Sliding Window
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lstm">
+   LSTM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-tuning-grid-search-and-randomized-search">
+   Model Tuning: Grid Search and Randomized Search
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -346,14 +401,17 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="data-collecting-and-visualization">
-<h1>Data Collecting and Visualization<a class="headerlink" href="#data-collecting-and-visualization" title="Permalink to this headline">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="data-collecting.html">Scraping Stock Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a></li>
-</ul>
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="lstm-model">
+<h1>LSTM Model<a class="headerlink" href="#lstm-model" title="Permalink to this headline">#</a></h1>
+<section id="time-series-transformation-sliding-window">
+<h2>Time Series Transformation: Sliding Window<a class="headerlink" href="#time-series-transformation-sliding-window" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="lstm">
+<h2>LSTM<a class="headerlink" href="#lstm" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="model-tuning-grid-search-and-randomized-search">
+<h2>Model Tuning: Grid Search and Randomized Search<a class="headerlink" href="#model-tuning-grid-search-and-randomized-search" title="Permalink to this headline">#</a></h2>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -369,7 +427,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./data-collecting-and-visualization"
+            path: "./closing-price-prediction"
         },
         predefinedOutput: true
     }
@@ -383,20 +441,6 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Making Money in Stocks</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="data-collecting.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Scraping Stock Data</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>

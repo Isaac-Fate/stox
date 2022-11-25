@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Data Collecting and Visualization &#8212; Making Money in Stocks</title>
+    <title>Double Exponential Moving Average (DEMA) &#8212; Making Money in Stocks</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -56,8 +56,6 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Scraping Stock Data" href="data-collecting.html" />
-    <link rel="prev" title="Making Money in Stocks" href="../intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -117,24 +115,24 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../data-collecting-and-visualization/index.html">
    Data Collecting and Visualization
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="data-collecting.html">
+    <a class="reference internal" href="../data-collecting-and-visualization/data-collecting.html">
      Scraping Stock Data
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="visualization.html">
+    <a class="reference internal" href="../data-collecting-and-visualization/visualization.html">
      Visualization
     </a>
    </li>
@@ -218,6 +216,71 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/Isaac-Fate/stox/master?urlpath=tree/book/trading-strategy/dema.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/Isaac-Fate/stox/blob/master/book/trading-strategy/dema.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="initThebeSBT()"
+  class="headerbtn headerbtn-launch-thebe"
+  data-toggle="tooltip"
+data-placement="left"
+title="Launch Thebe"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="headerbtn__text-container">Live Code</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -257,7 +320,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/Isaac-Fate/stox/tree/master//issues/new?title=Issue%20on%20page%20%2Fdata-collecting-and-visualization/index.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/Isaac-Fate/stox/tree/master//issues/new?title=Issue%20on%20page%20%2Ftrading-strategy/dema.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -285,7 +348,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/data-collecting-and-visualization/index.md"
+        <a href="../_sources/trading-strategy/dema.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -296,7 +359,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="headerbtn__text-container">.ipynb</span>
 </a>
 
       </li>
@@ -334,7 +397,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Data Collecting and Visualization</h1>
+                <h1>Double Exponential Moving Average (DEMA)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -346,13 +409,226 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="data-collecting-and-visualization">
-<h1>Data Collecting and Visualization<a class="headerlink" href="#data-collecting-and-visualization" title="Permalink to this headline">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="data-collecting.html">Scraping Stock Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="double-exponential-moving-average-dema">
+<h1>Double Exponential Moving Average (DEMA)<a class="headerlink" href="#double-exponential-moving-average-dema" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/demo.pkl&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-11-02</th>
+      <td>41.650002</td>
+      <td>42.125000</td>
+      <td>41.320000</td>
+      <td>42.027500</td>
+      <td>165573600</td>
+    </tr>
+    <tr>
+      <th>2017-11-03</th>
+      <td>43.500000</td>
+      <td>43.564999</td>
+      <td>42.779999</td>
+      <td>43.125000</td>
+      <td>237594400</td>
+    </tr>
+    <tr>
+      <th>2017-11-06</th>
+      <td>43.092499</td>
+      <td>43.747501</td>
+      <td>42.930000</td>
+      <td>43.562500</td>
+      <td>140105200</td>
+    </tr>
+    <tr>
+      <th>2017-11-07</th>
+      <td>43.477501</td>
+      <td>43.812500</td>
+      <td>43.400002</td>
+      <td>43.702499</td>
+      <td>97446000</td>
+    </tr>
+    <tr>
+      <th>2017-11-08</th>
+      <td>43.665001</td>
+      <td>44.060001</td>
+      <td>43.582500</td>
+      <td>44.060001</td>
+      <td>97638000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2022-10-26</th>
+      <td>150.960007</td>
+      <td>151.990005</td>
+      <td>148.039993</td>
+      <td>149.350006</td>
+      <td>88194300</td>
+    </tr>
+    <tr>
+      <th>2022-10-27</th>
+      <td>148.070007</td>
+      <td>149.050003</td>
+      <td>144.130005</td>
+      <td>144.800003</td>
+      <td>109180200</td>
+    </tr>
+    <tr>
+      <th>2022-10-28</th>
+      <td>148.199997</td>
+      <td>157.500000</td>
+      <td>147.820007</td>
+      <td>155.740005</td>
+      <td>164762400</td>
+    </tr>
+    <tr>
+      <th>2022-10-31</th>
+      <td>153.160004</td>
+      <td>154.240005</td>
+      <td>151.919998</td>
+      <td>153.339996</td>
+      <td>97943200</td>
+    </tr>
+    <tr>
+      <th>2022-11-01</th>
+      <td>155.080002</td>
+      <td>155.449997</td>
+      <td>149.130005</td>
+      <td>150.649994</td>
+      <td>80321400</td>
+    </tr>
+  </tbody>
+</table>
+<p>1258 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10</span><span class="p">][[</span><span class="s2">&quot;Close&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Close</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-11-02</th>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2017-11-03</th>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2017-11-06</th>
+      <td>42.905000</td>
+    </tr>
+    <tr>
+      <th>2017-11-07</th>
+      <td>43.463333</td>
+    </tr>
+    <tr>
+      <th>2017-11-08</th>
+      <td>43.775000</td>
+    </tr>
+    <tr>
+      <th>2017-11-09</th>
+      <td>43.910834</td>
+    </tr>
+    <tr>
+      <th>2017-11-10</th>
+      <td>43.899167</td>
+    </tr>
+    <tr>
+      <th>2017-11-13</th>
+      <td>43.710000</td>
+    </tr>
+    <tr>
+      <th>2017-11-14</th>
+      <td>43.331666</td>
+    </tr>
+    <tr>
+      <th>2017-11-15</th>
+      <td>42.865833</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 
@@ -369,7 +645,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./data-collecting-and-visualization"
+            path: "./trading-strategy"
         },
         predefinedOutput: true
     }
@@ -383,20 +659,6 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Making Money in Stocks</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="data-collecting.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Scraping Stock Data</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>

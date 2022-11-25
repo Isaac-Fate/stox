@@ -58,8 +58,6 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Closing Price Prediction" href="../closing-price-prediction/index.html" />
-    <link rel="prev" title="Visualization" href="visualization.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -119,17 +117,17 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="index.html">
    Data Collecting and Visualization
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="data-collecting.html">
      Scraping Stock Data
@@ -138,11 +136,6 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="visualization.html">
      Visualization
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Preprocessing
     </a>
    </li>
   </ul>
@@ -168,6 +161,11 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
  </li>
 </ul>
 
@@ -1116,6 +1114,309 @@ title="Print to PDF"
 <p>91992 rows × 5 columns</p>
 </div></div></div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">stocks</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Company</th>
+      <th>Sector</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-11-02</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>41.650002</td>
+      <td>42.125000</td>
+      <td>41.320000</td>
+      <td>42.027500</td>
+      <td>165573600</td>
+    </tr>
+    <tr>
+      <th>2017-11-03</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.500000</td>
+      <td>43.564999</td>
+      <td>42.779999</td>
+      <td>43.125000</td>
+      <td>237594400</td>
+    </tr>
+    <tr>
+      <th>2017-11-06</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.092499</td>
+      <td>43.747501</td>
+      <td>42.930000</td>
+      <td>43.562500</td>
+      <td>140105200</td>
+    </tr>
+    <tr>
+      <th>2017-11-07</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.477501</td>
+      <td>43.812500</td>
+      <td>43.400002</td>
+      <td>43.702499</td>
+      <td>97446000</td>
+    </tr>
+    <tr>
+      <th>2017-11-08</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>43.665001</td>
+      <td>44.060001</td>
+      <td>43.582500</td>
+      <td>44.060001</td>
+      <td>97638000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2022-10-26</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>124.720001</td>
+      <td>128.179993</td>
+      <td>124.580002</td>
+      <td>126.570000</td>
+      <td>8139100</td>
+    </tr>
+    <tr>
+      <th>2022-10-27</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>127.699997</td>
+      <td>129.449997</td>
+      <td>126.239998</td>
+      <td>126.639999</td>
+      <td>8948500</td>
+    </tr>
+    <tr>
+      <th>2022-10-28</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>128.500000</td>
+      <td>128.990005</td>
+      <td>124.010002</td>
+      <td>127.169998</td>
+      <td>7293200</td>
+    </tr>
+    <tr>
+      <th>2022-10-31</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>125.580002</td>
+      <td>129.990005</td>
+      <td>125.570000</td>
+      <td>126.089996</td>
+      <td>7121000</td>
+    </tr>
+    <tr>
+      <th>2022-11-01</th>
+      <td>COP</td>
+      <td>Energy</td>
+      <td>128.740005</td>
+      <td>129.320007</td>
+      <td>126.889999</td>
+      <td>127.779999</td>
+      <td>5874800</td>
+    </tr>
+  </tbody>
+</table>
+<p>63377 rows × 7 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">demo</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;Company == &#39;AAPL&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Sector&quot;</span><span class="p">])</span>
+<span class="n">demo</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-11-02</th>
+      <td>41.650002</td>
+      <td>42.125000</td>
+      <td>41.320000</td>
+      <td>42.027500</td>
+      <td>165573600</td>
+    </tr>
+    <tr>
+      <th>2017-11-03</th>
+      <td>43.500000</td>
+      <td>43.564999</td>
+      <td>42.779999</td>
+      <td>43.125000</td>
+      <td>237594400</td>
+    </tr>
+    <tr>
+      <th>2017-11-06</th>
+      <td>43.092499</td>
+      <td>43.747501</td>
+      <td>42.930000</td>
+      <td>43.562500</td>
+      <td>140105200</td>
+    </tr>
+    <tr>
+      <th>2017-11-07</th>
+      <td>43.477501</td>
+      <td>43.812500</td>
+      <td>43.400002</td>
+      <td>43.702499</td>
+      <td>97446000</td>
+    </tr>
+    <tr>
+      <th>2017-11-08</th>
+      <td>43.665001</td>
+      <td>44.060001</td>
+      <td>43.582500</td>
+      <td>44.060001</td>
+      <td>97638000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2022-10-26</th>
+      <td>150.960007</td>
+      <td>151.990005</td>
+      <td>148.039993</td>
+      <td>149.350006</td>
+      <td>88194300</td>
+    </tr>
+    <tr>
+      <th>2022-10-27</th>
+      <td>148.070007</td>
+      <td>149.050003</td>
+      <td>144.130005</td>
+      <td>144.800003</td>
+      <td>109180200</td>
+    </tr>
+    <tr>
+      <th>2022-10-28</th>
+      <td>148.199997</td>
+      <td>157.500000</td>
+      <td>147.820007</td>
+      <td>155.740005</td>
+      <td>164762400</td>
+    </tr>
+    <tr>
+      <th>2022-10-31</th>
+      <td>153.160004</td>
+      <td>154.240005</td>
+      <td>151.919998</td>
+      <td>153.339996</td>
+      <td>97943200</td>
+    </tr>
+    <tr>
+      <th>2022-11-01</th>
+      <td>155.080002</td>
+      <td>155.449997</td>
+      <td>149.130005</td>
+      <td>150.649994</td>
+      <td>80321400</td>
+    </tr>
+  </tbody>
+</table>
+<p>1258 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">demo</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/demo.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
@@ -1146,20 +1447,6 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="visualization.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Visualization</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="../closing-price-prediction/index.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Closing Price Prediction</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
