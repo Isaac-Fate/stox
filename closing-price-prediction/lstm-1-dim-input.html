@@ -56,7 +56,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="References" href="../references.html" />
+    <link rel="next" title="Trading Strategy" href="../trading-strategy/index.html" />
     <link rel="prev" title="Closing Price Prediction with ARIMA" href="arima.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -162,10 +162,22 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../references.html">
-   References
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../trading-strategy/index.html">
+   Trading Strategy
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trading-strategy/simple-moving-average.html">
+     Simple Moving Average
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1105,112 +1117,112 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	0	loss:	0.1520378291606903
-epoch:	1	loss:	0.1384148746728897
-epoch:	2	loss:	0.1294545978307724
-epoch:	3	loss:	0.1224350854754448
-epoch:	4	loss:	0.1152692586183548
-epoch:	5	loss:	0.10726296901702881
-epoch:	6	loss:	0.09834945201873779
-epoch:	7	loss:	0.08861212432384491
-epoch:	8	loss:	0.07811107486486435
-epoch:	9	loss:	0.06658168137073517
-epoch:	10	loss:	0.05332735553383827
-epoch:	11	loss:	0.038252729922533035
-epoch:	12	loss:	0.023674478754401207
-epoch:	13	loss:	0.015212011523544788
-epoch:	14	loss:	0.01725882664322853
-epoch:	15	loss:	0.028371697291731834
-epoch:	16	loss:	0.03252803906798363
-epoch:	17	loss:	0.026628900319337845
-epoch:	18	loss:	0.018794706091284752
-epoch:	19	loss:	0.013569772243499756
-epoch:	20	loss:	0.011789903044700623
-epoch:	21	loss:	0.012699536047875881
-epoch:	22	loss:	0.014741349034011364
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	0	loss:	0.14766256511211395
+epoch:	1	loss:	0.13554789125919342
+epoch:	2	loss:	0.12465040385723114
+epoch:	3	loss:	0.1136636808514595
+epoch:	4	loss:	0.1020599976181984
+epoch:	5	loss:	0.08935532718896866
+epoch:	6	loss:	0.07514238357543945
+epoch:	7	loss:	0.059256985783576965
+epoch:	8	loss:	0.04213998466730118
+epoch:	9	loss:	0.025584615767002106
+epoch:	10	loss:	0.014640819281339645
+epoch:	11	loss:	0.017186051234602928
+epoch:	12	loss:	0.03019111230969429
+epoch:	13	loss:	0.03340165317058563
+epoch:	14	loss:	0.026623576879501343
+epoch:	15	loss:	0.018334176391363144
+epoch:	16	loss:	0.013090040534734726
+epoch:	17	loss:	0.01182126346975565
+epoch:	18	loss:	0.013300962746143341
+epoch:	19	loss:	0.015442161820828915
+epoch:	20	loss:	0.017214341089129448
+epoch:	21	loss:	0.018148405477404594
+epoch:	22	loss:	0.017986807972192764
+epoch:	23	loss:	0.016852403059601784
+epoch:	24	loss:	0.015128583647310734
+epoch:	25	loss:	0.013184712268412113
+epoch:	26	loss:	0.011400393210351467
+epoch:	27	loss:	0.01025969535112381
+epoch:	28	loss:	0.01004886720329523
+epoch:	29	loss:	0.010595990344882011
+epoch:	30	loss:	0.01148264016956091
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	23	loss:	0.016542138531804085
-epoch:	24	loss:	0.01748509332537651
-epoch:	25	loss:	0.01750388741493225
-epoch:	26	loss:	0.01671588234603405
-epoch:	27	loss:	0.015283728018403053
-epoch:	28	loss:	0.013478612527251244
-epoch:	29	loss:	0.011727076955139637
-epoch:	30	loss:	0.010485565289855003
-epoch:	31	loss:	0.010011889971792698
-epoch:	32	loss:	0.01025393232703209
-epoch:	33	loss:	0.010926444083452225
-epoch:	34	loss:	0.011591506190598011
-epoch:	35	loss:	0.011776183731853962
-epoch:	36	loss:	0.011294140480458736
-epoch:	37	loss:	0.010405121371150017
-epoch:	38	loss:	0.009528808295726776
-epoch:	39	loss:	0.008934823796153069
-epoch:	40	loss:	0.008702687919139862
-epoch:	41	loss:	0.008775259368121624
-epoch:	42	loss:	0.008991917595267296
-epoch:	43	loss:	0.009160490706562996
-epoch:	44	loss:	0.009155629202723503
-epoch:	45	loss:	0.008956403471529484
-epoch:	46	loss:	0.00861210934817791
-epoch:	47	loss:	0.00820381660014391
-epoch:	48	loss:	0.0078323595225811
-epoch:	49	loss:	0.007593071553856134
-epoch:	50	loss:	0.00751725398004055
-epoch:	51	loss:	0.007543385960161686
-epoch:	52	loss:	0.007566910237073898
-epoch:	53	loss:	0.007507151924073696
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	31	loss:	0.012115883640944958
+epoch:	32	loss:	0.012013274244964123
+epoch:	33	loss:	0.011277907527983189
+epoch:	34	loss:	0.010293914936482906
+epoch:	35	loss:	0.009450930170714855
+epoch:	36	loss:	0.009030766785144806
+epoch:	37	loss:	0.009015203453600407
+epoch:	38	loss:	0.009220274165272713
+epoch:	39	loss:	0.009471624158322811
+epoch:	40	loss:	0.009607411921024323
+epoch:	41	loss:	0.009533082135021687
+epoch:	42	loss:	0.009270504117012024
+epoch:	43	loss:	0.00889486912637949
+epoch:	44	loss:	0.008496643975377083
+epoch:	45	loss:	0.008187791332602501
+epoch:	46	loss:	0.00803711824119091
+epoch:	47	loss:	0.008025703020393848
+epoch:	48	loss:	0.008089515380561352
+epoch:	49	loss:	0.008132523857057095
+epoch:	50	loss:	0.008069666102528572
+epoch:	51	loss:	0.007899975404143333
+epoch:	52	loss:	0.007674524560570717
+epoch:	53	loss:	0.007461075205355883
+epoch:	54	loss:	0.007319592405110598
+epoch:	55	loss:	0.007255633361637592
+epoch:	56	loss:	0.007237904705107212
+epoch:	57	loss:	0.007227275986224413
+epoch:	58	loss:	0.007183431647717953
+epoch:	59	loss:	0.007090972736477852
+epoch:	60	loss:	0.006963509134948254
+epoch:	61	loss:	0.006824917625635862
+epoch:	62	loss:	0.006705157924443483
+epoch:	63	loss:	0.006623095367103815
+epoch:	64	loss:	0.006572152953594923
+epoch:	65	loss:	0.006533321458846331
+epoch:	66	loss:	0.006482577882707119
+epoch:	67	loss:	0.006405806168913841
+epoch:	68	loss:	0.006311254110187292
+epoch:	69	loss:	0.006216157227754593
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	54	loss:	0.007334529887884855
-epoch:	55	loss:	0.007084192242473364
-epoch:	56	loss:	0.006843370385468006
-epoch:	57	loss:	0.006686095148324966
-epoch:	58	loss:	0.00662265345454216
-epoch:	59	loss:	0.006613716017454863
-epoch:	60	loss:	0.006603701505810022
-epoch:	61	loss:	0.0065433974377810955
-epoch:	62	loss:	0.0064172642305493355
-epoch:	63	loss:	0.006257045082747936
-epoch:	64	loss:	0.006114513613283634
-epoch:	65	loss:	0.006023440044373274
-epoch:	66	loss:	0.005985558032989502
-epoch:	67	loss:	0.005970173981040716
-epoch:	68	loss:	0.00593208521604538
-epoch:	69	loss:	0.005854381248354912
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	70	loss:	0.006137834396213293
+epoch:	71	loss:	0.006082464940845966
+epoch:	72	loss:	0.006040365435183048
+epoch:	73	loss:	0.005998024716973305
+epoch:	74	loss:	0.005944130476564169
+epoch:	75	loss:	0.0058769239112734795
+epoch:	76	loss:	0.005805600434541702
+epoch:	77	loss:	0.005740761291235685
+epoch:	78	loss:	0.005689333193004131
+epoch:	79	loss:	0.005648763384670019
+epoch:	80	loss:	0.005609807092696428
+epoch:	81	loss:	0.005565627012401819
+epoch:	82	loss:	0.005515509285032749
+epoch:	83	loss:	0.005466462578624487
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	70	loss:	0.005762877874076366
-epoch:	71	loss:	0.0056946068070828915
-epoch:	72	loss:	0.005667983554303646
-epoch:	73	loss:	0.0056686801835894585
-epoch:	74	loss:	0.005660234950482845
-epoch:	75	loss:	0.005622906144708395
-epoch:	76	loss:	0.005569413769990206
-epoch:	77	loss:	0.005525939632207155
-epoch:	78	loss:	0.005509476643055677
-epoch:	79	loss:	0.005509324837476015
-epoch:	80	loss:	0.005499071907252073
-epoch:	81	loss:	0.005469168536365032
-epoch:	82	loss:	0.005431341473013163
-epoch:	83	loss:	0.005403655115514994
-epoch:	84	loss:	0.0053911409340798855
-epoch:	85	loss:	0.005379964597523212
-epoch:	86	loss:	0.005357698071748018
-epoch:	87	loss:	0.005325447767972946
-epoch:	88	loss:	0.005294121336191893
-epoch:	89	loss:	0.005272397305816412
-epoch:	90	loss:	0.005256080999970436
-epoch:	91	loss:	0.005236516706645489
-epoch:	92	loss:	0.005210660398006439
-epoch:	93	loss:	0.005182858556509018
-epoch:	94	loss:	0.005159938242286444
-epoch:	95	loss:	0.005142203066498041
-epoch:	96	loss:	0.0051249852403998375
-epoch:	97	loss:	0.005104564130306244
-epoch:	98	loss:	0.005081589333713055
-epoch:	99	loss:	0.005060199182480574
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch:	84	loss:	0.005425433628261089
+epoch:	85	loss:	0.005393618252128363
+epoch:	86	loss:	0.005366182886064053
+epoch:	87	loss:	0.00533637497574091
+epoch:	88	loss:	0.005302520003169775
+epoch:	89	loss:	0.005267967935651541
+epoch:	90	loss:	0.00523827038705349
+epoch:	91	loss:	0.005215202458202839
+epoch:	92	loss:	0.0051955790258944035
+epoch:	93	loss:	0.005174990277737379
+epoch:	94	loss:	0.005152158439159393
+epoch:	95	loss:	0.00513008376583457
+epoch:	96	loss:	0.005111677572131157
+epoch:	97	loss:	0.005096861626952887
+epoch:	98	loss:	0.005082408897578716
+epoch:	99	loss:	0.0050661321729421616
 </pre></div>
 </div>
 </div>
@@ -1223,55 +1235,55 @@ epoch:	99	loss:	0.005060199182480574
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.21110061],
-       [0.24548216],
-       [0.28302807],
-       [0.30577555],
-       [0.24564509],
-       [0.2161144 ],
-       [0.18250743],
-       [0.16901998],
-       [0.19152163],
-       [0.21346715],
-       [0.20787923],
-       [0.22460653],
-       [0.26795867],
-       [0.3005851 ],
-       [0.32562837],
-       [0.3579833 ],
-       [0.4248472 ],
-       [0.46960127],
-       [0.46714684],
-       [0.46359867],
-       [0.4635066 ],
-       [0.47694594],
-       [0.47648022],
-       [0.4527895 ],
-       [0.43924654],
-       [0.42436254],
-       [0.4372561 ],
-       [0.44318312],
-       [0.43943334],
-       [0.4694286 ],
-       [0.49817044],
-       [0.48142517],
-       [0.47462285],
-       [0.50971067],
-       [0.53951675],
-       [0.5425971 ],
-       [0.55686074],
-       [0.58539164],
-       [0.64159995],
-       [0.67979366],
-       [0.6989159 ],
-       [0.70259446],
-       [0.70716745],
-       [0.71605617],
-       [0.7442332 ],
-       [0.76165396],
-       [0.78839403],
-       [0.8083622 ],
-       [0.8350289 ]], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.21153794],
+       [0.24454705],
+       [0.28292114],
+       [0.30545574],
+       [0.2383342 ],
+       [0.21188985],
+       [0.17628272],
+       [0.16232826],
+       [0.18573932],
+       [0.20701064],
+       [0.20015006],
+       [0.22018848],
+       [0.26677787],
+       [0.2994864 ],
+       [0.32457525],
+       [0.35871577],
+       [0.4302693 ],
+       [0.47391278],
+       [0.46814966],
+       [0.46614665],
+       [0.46576273],
+       [0.47968388],
+       [0.476232  ],
+       [0.44844627],
+       [0.4352398 ],
+       [0.41864634],
+       [0.43484807],
+       [0.4395231 ],
+       [0.4344856 ],
+       [0.46968657],
+       [0.4991429 ],
+       [0.4778669 ],
+       [0.47391075],
+       [0.51473945],
+       [0.5437287 ],
+       [0.54397815],
+       [0.5615732 ],
+       [0.5932691 ],
+       [0.6550842 ],
+       [0.6933853 ],
+       [0.71354353],
+       [0.717795  ],
+       [0.72441274],
+       [0.73515975],
+       [0.76712805],
+       [0.78350997],
+       [0.8134729 ],
+       [0.8345169 ],
+       [0.8651234 ]], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1297,7 +1309,7 @@ epoch:	99	loss:	0.005060199182480574
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.006638210504935137
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.005769477199406781
 </pre></div>
 </div>
 </div>
@@ -1339,10 +1351,10 @@ epoch:	99	loss:	0.005060199182480574
             <p class="prev-next-title">Closing Price Prediction with ARIMA</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../references.html" title="next page">
+    <a class='right-next' id="next-link" href="../trading-strategy/index.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">References</p>
+        <p class="prev-next-title">Trading Strategy</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
