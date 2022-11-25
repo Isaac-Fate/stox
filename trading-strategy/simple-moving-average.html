@@ -56,6 +56,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Trading Strategy" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -115,7 +116,7 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../data-collecting-and-visualization/index.html">
    Data Collecting and Visualization
@@ -160,10 +161,22 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../references.html">
-   References
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   Trading Strategy
   </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Simple Moving Average
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -584,12 +597,12 @@ title="Print to PDF"
 <p>The <strong>golden cross</strong></p>
 <ul class="simple">
 <li><p>appears when the short-term MA crosses <em>up</em> through the long-term MA, and</p></li>
-<li><p>it indicates a <em>buy</em> signal.</p></li>
+<li><p>it indicates a signal to <em>buy</em>.</p></li>
 </ul>
 <p>The <strong>death cross</strong></p>
 <ul class="simple">
 <li><p>appears when the short-term MA crosses trends <em>down</em> and crosses the long-term MA, and</p></li>
-<li><p>it indicates a <em>sell</em> signal.</p></li>
+<li><p>it indicates a signal to <em>sell</em>.</p></li>
 </ul>
 <p>We can use <em>bitwise</em> operations to find golden and death crosses. By definition, we note that a golden cross occurs when</p>
 <ul class="simple">
@@ -699,6 +712,13 @@ Death cross: DatetimeIndex([&#39;2017-12-01&#39;, &#39;2017-12-28&#39;, &#39;201
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Trading Strategy</p>
+        </div>
+    </a>
 </div>
             </footer>
         </div>
