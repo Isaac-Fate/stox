@@ -1,7 +1,14 @@
 format: jb-book
 root: intro
 chapters:
-  - file: closing-price-prediction/index
-    sections:
-      - file: closing-price-prediction/arima
-      - file: closing-price-prediction/lstm-1-dim-input
+- file: data-collecting-and-visualization/index
+  sections:
+  - file: data-collecting-and-visualization/data-collecting
+  - file: data-collecting-and-visualization/visualization
+- file: closing-price-prediction/index
+  sections:
+  - file: closing-price-prediction/arima
+  - file: closing-price-prediction/lstm-1-dim-input
+- file: trading-strategy/index
+  sections:
+  - file: trading-strategy/simple-moving-average

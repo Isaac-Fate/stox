@@ -15,3 +15,6 @@
 
 # `out` directory
 /out/
+
+/playground/
+/tests/
