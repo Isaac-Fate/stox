@@ -176,6 +176,11 @@ const thebe_selector_output = ".output, .cell_output"
      Simple Moving Average
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../trading-strategy/trading-by-prediction.html">
+     Trading by Prediction
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
@@ -589,16 +594,16 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>If we want to search news about Apple on September 1, 2022, then the URL is:</p>
+<p>If we want to search news about Tesla on September 1, 2022, then the URL is:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">create_search_url</span><span class="p">(</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;2022-9-1&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">create_search_url</span><span class="p">(</span><span class="s2">&quot;Tesla&quot;</span><span class="p">,</span> <span class="s2">&quot;2022-10-1&quot;</span><span class="p">)</span>
 <span class="n">url</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://www.google.com/search?q=apple&amp;tbm=nws&amp;tbs=cdr:1,cd_min:09/01/2022,cd_max:09/01/2022,sbd:0&amp;lr=lang_en&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://www.google.com/search?q=Tesla&amp;tbm=nws&amp;tbs=cdr:1,cd_min:10/01/2022,cd_max:10/01/2022,sbd:0&amp;lr=lang_en&#39;
 </pre></div>
 </div>
 </div>
@@ -671,16 +676,16 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;https://www.macrumors.com/2022/09/01/apple-watch-pro-bad-news-for-band-collections/&#39;,
- &#39;https://techcrunch.com/2022/09/01/apple-settles-lawsuit-with-developer-over-app-store-rejections-and-scams/&#39;,
- &#39;https://www.macrumors.com/2022/09/01/apple-settles-flicktype-lawsuit/&#39;,
- &#39;https://www.ft.com/content/75891d95-4432-4571-83df-b4cdf82d5da5&#39;,
- &#39;https://www.gov.uk/find-digital-market-research/mobile-ecosystems-market-study-appendix-i-apples-restrictions-on-cloud-gaming-2022-cma&#39;,
- &#39;https://www.computerworld.com/article/3672238/will-apple-make-the-app-store-more-business-friendly.html&#39;,
- &#39;https://www.computerworld.com/article/3672111/apple-pushes-out-emergency-updates-to-address-zero-day-exploits.html&#39;,
- &#39;https://www.businessinsider.com/guides/tech/apple-event-september-what-to-expect-2022-09&#39;,
- &#39;https://9to5mac.com/2022/09/01/samsung-trolls-iphone-14-apple-ad/&#39;,
- &#39;https://www.livemint.com/technology/gadgets/iphone-14-max-could-come-with-iphone-14-plus-moniker-report-11662038925215.html&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;https://www.bbc.com/news/technology-63100636&#39;,
+ &#39;https://www.marca.com/en/technology/2022/10/01/63382cea46163f6e848b4596.html&#39;,
+ &#39;https://finance.yahoo.com/news/tesla-ceo-elon-musk-claims-humanoid-robot-171501450.html&#39;,
+ &#39;https://tech.hindustantimes.com/tech/news/tesla-is-set-to-hit-delivery-record-in-rebound-from-supply-strains-71664607829057.html&#39;,
+ &#39;https://www.siasat.com/tesla-now-has-160000-customers-running-fsd-software-musk-2425130/&#39;,
+ &#39;https://www.geo.tv/latest/443707-sea-bertruck-elong-musk-says-tesla-cybertruck-will-be-able-to-serve-as-a-boat&#39;,
+ &#39;https://www.capital.fr/entreprises-marches/elon-musk-presente-optimus-le-futur-robot-humanoide-de-tesla-1447804&#39;,
+ &#39;https://www.fool.com/investing/2022/10/01/better-stock-split-stock-to-buy-tesla-or-shopify/&#39;,
+ &#39;https://www.barrons.com/articles/tesla-nio-li-xpeng-deliveries-51664633994&#39;,
+ &#39;https://www.mysuncoast.com/2022/10/01/driver-dies-when-tesla-catches-fire-crash-i-75/&#39;]
 </pre></div>
 </div>
 </div>
@@ -728,7 +733,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Apple Watch &#39;Pro&#39; Could Be Bad News for Band Collections&quot;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Tesla boss Elon Musk presents humanoid robot Optimus&#39;
 </pre></div>
 </div>
 </div>
@@ -753,15 +758,15 @@ title="Print to PDF"
 
 </pre></div>
 </div>
-<p>For example, we can find the news for Apple from November 1, 2022, to November 27, 2022, like so:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="n">find</span><span class="o">-</span><span class="n">company</span><span class="o">-</span><span class="n">news</span> <span class="o">--</span><span class="n">company</span> <span class="n">AAPL</span> <span class="o">--</span><span class="n">query</span> <span class="s2">&quot;apple technology&quot;</span> <span class="o">--</span><span class="n">from</span><span class="o">-</span><span class="n">date</span> <span class="s2">&quot;2022-9-1&quot;</span> <span class="o">--</span><span class="n">to</span><span class="o">-</span><span class="n">date</span> <span class="s2">&quot;2022-9-5&quot;</span> <span class="o">--</span><span class="n">force</span> 
+<p>For example, we can find the news for Tesla from October 1, 2022, to October 5, 2022, like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="n">find</span><span class="o">-</span><span class="n">company</span><span class="o">-</span><span class="n">news</span> <span class="o">--</span><span class="n">company</span> <span class="n">TSLA</span> <span class="o">--</span><span class="n">query</span> <span class="s2">&quot;Tesla&quot;</span> <span class="o">--</span><span class="n">from</span><span class="o">-</span><span class="n">date</span> <span class="s2">&quot;2022-10-1&quot;</span> <span class="o">--</span><span class="n">to</span><span class="o">-</span><span class="n">date</span> <span class="s2">&quot;2022-10-5&quot;</span> <span class="o">--</span><span class="n">force</span>
 <span class="n">Start</span> <span class="n">finding</span> <span class="n">news</span> <span class="n">headlines</span><span class="o">...</span>
-<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">01</span><span class="p">:</span> <span class="n">Apple</span> <span class="n">settles</span> <span class="k">with</span> <span class="n">Tin</span> <span class="n">Pan</span> <span class="n">Alley</span> <span class="n">heirs</span><span class="p">,</span> <span class="n">ending</span> <span class="n">string</span> <span class="n">of</span> <span class="n">tech</span> <span class="n">company</span> <span class="n">lawsuits</span>
-<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">02</span><span class="p">:</span> <span class="n">Bloomberg</span>
-<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">03</span><span class="p">:</span> <span class="n">How</span> <span class="n">Apple</span> <span class="n">Watch</span> <span class="n">Series</span> <span class="mi">8</span><span class="s1">&#39;s Body Temperature Feature Is Expected to Work</span>
-<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">04</span><span class="p">:</span> <span class="n">Apple</span> <span class="n">plans</span> <span class="n">to</span> <span class="n">double</span> <span class="n">its</span> <span class="n">digital</span> <span class="n">advertising</span> <span class="n">business</span> <span class="n">workforce</span>
-<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">05</span><span class="p">:</span> <span class="n">Apple</span> <span class="n">Watch</span> <span class="n">Pro</span> <span class="n">New</span> <span class="n">Leak</span> <span class="n">Shows</span> <span class="n">Stunning</span><span class="p">,</span> <span class="n">Unexpected</span> <span class="n">Design</span>
-<span class="n">Successfully</span> <span class="n">found</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">news</span> <span class="k">for</span> <span class="n">AAPL</span><span class="o">.</span>
+<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">01</span><span class="p">:</span> <span class="n">Tesla</span> <span class="n">boss</span> <span class="n">Elon</span> <span class="n">Musk</span> <span class="n">presents</span> <span class="n">humanoid</span> <span class="n">robot</span> <span class="n">Optimus</span>
+<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">02</span><span class="p">:</span> <span class="n">Tesla</span> <span class="n">blames</span> <span class="n">logistics</span> <span class="n">problems</span> <span class="n">after</span> <span class="n">delivering</span> <span class="n">fewer</span> <span class="n">cars</span> <span class="n">than</span> <span class="n">forecast</span>
+<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">03</span><span class="p">:</span> <span class="n">Tesla</span> <span class="n">slides</span> <span class="n">on</span> <span class="n">widening</span> <span class="n">delivery</span> <span class="ow">and</span> <span class="n">production</span> <span class="n">gap</span><span class="p">,</span> <span class="n">demand</span> <span class="n">worries</span>
+<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">04</span><span class="p">:</span> <span class="n">A</span> <span class="n">Musk</span> <span class="n">Retweet</span><span class="p">:</span> <span class="n">Tesla</span> <span class="n">CEO</span> <span class="n">Says</span> <span class="n">He</span><span class="s1">&#39;ll Pay $44 Billion to Buy Twitter</span>
+<span class="n">News</span> <span class="n">on</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">05</span><span class="p">:</span> <span class="n">Musk</span><span class="s1">&#39;s move to close Twitter deal leaves Tesla investors worried</span>
+<span class="n">Successfully</span> <span class="n">found</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">news</span> <span class="k">for</span> <span class="n">TSLA</span><span class="o">.</span>
 </pre></div>
 </div>
 </section>
