@@ -441,8 +441,8 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-loading">
-   Data Loading
+  <a class="reference internal nav-link" href="#load-data">
+   Load Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -459,13 +459,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#profit">
    Profit
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#wrapping-up-into-a-function">
-     Wrapping up Into a Function
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -487,8 +480,8 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-loading">
-   Data Loading
+  <a class="reference internal nav-link" href="#load-data">
+   Load Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -505,13 +498,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#profit">
    Profit
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#wrapping-up-into-a-function">
-     Wrapping up Into a Function
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -534,12 +520,12 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<section id="data-loading">
-<h2>Data Loading<a class="headerlink" href="#data-loading" title="Permalink to this headline">#</a></h2>
-<p>Load daily closing prices as a data frame:</p>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this headline">#</a></h2>
+<p>Consider the Tesla stock of the latest 90 days.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/demo.pkl&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/TSLA.pkl&quot;</span><span class="p">)</span>
 <span class="n">stock_price</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Close&quot;</span><span class="p">]]</span>
 <span class="n">stock_price</span>
 </pre></div>
@@ -574,23 +560,23 @@ title="Print to PDF"
   <tbody>
     <tr>
       <th>2017-11-02</th>
-      <td>42.027500</td>
+      <td>19.950666</td>
     </tr>
     <tr>
       <th>2017-11-03</th>
-      <td>43.125000</td>
+      <td>20.406000</td>
     </tr>
     <tr>
       <th>2017-11-06</th>
-      <td>43.562500</td>
+      <td>20.185333</td>
     </tr>
     <tr>
       <th>2017-11-07</th>
-      <td>43.702499</td>
+      <td>20.403334</td>
     </tr>
     <tr>
       <th>2017-11-08</th>
-      <td>44.060001</td>
+      <td>20.292667</td>
     </tr>
     <tr>
       <th>...</th>
@@ -598,23 +584,23 @@ title="Print to PDF"
     </tr>
     <tr>
       <th>2022-10-26</th>
-      <td>149.350006</td>
+      <td>224.639999</td>
     </tr>
     <tr>
       <th>2022-10-27</th>
-      <td>144.800003</td>
+      <td>225.089996</td>
     </tr>
     <tr>
       <th>2022-10-28</th>
-      <td>155.740005</td>
+      <td>228.520004</td>
     </tr>
     <tr>
       <th>2022-10-31</th>
-      <td>153.339996</td>
+      <td>227.539993</td>
     </tr>
     <tr>
       <th>2022-11-01</th>
-      <td>150.649994</td>
+      <td>227.820007</td>
     </tr>
   </tbody>
 </table>
@@ -625,11 +611,12 @@ title="Print to PDF"
 <section id="long-and-short-term-simple-moving-averages">
 <h2>Long and Short-Term Simple Moving Averages<a class="headerlink" href="#long-and-short-term-simple-moving-averages" title="Permalink to this headline">#</a></h2>
 <p>For each day, we need to compute the average stock price within a period of time before that day. To do so, we need to <em>slide</em> a fixed length window (hence the name <em>moving</em> average) along the times series and compute the mean value of the prices falling into the window. Panda’s <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> (or <code class="docutils literal notranslate"><span class="pre">Series</span></code>) has a method <code class="docutils literal notranslate"><span class="pre">rolling</span></code>, which can achieve this easily.</p>
-<p>Compute the long and short-term moving averages, respectively:</p>
+<p>In this notebook, we assume the periods of the long and short-term SMA are 20 and 5, respectively. We now compute the moving averages:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">long_period</span> <span class="o">=</span> <span class="mi">15</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">long_period</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">short_period</span> <span class="o">=</span> <span class="mi">5</span>
+
 <span class="n">long</span> <span class="o">=</span> <span class="n">stock_price</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">long_period</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">short</span> <span class="o">=</span> <span class="n">stock_price</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">short_period</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
@@ -683,25 +670,27 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Golden cross: DatetimeIndex([&#39;2017-11-27&#39;, &#39;2017-12-14&#39;, &#39;2018-01-08&#39;, &#39;2018-02-15&#39;,
-               &#39;2018-04-09&#39;, &#39;2018-05-04&#39;, &#39;2018-07-06&#39;, &#39;2018-09-27&#39;,
-               &#39;2019-01-15&#39;, &#39;2019-06-07&#39;, &#39;2019-08-16&#39;, &#39;2019-09-04&#39;,
-               &#39;2019-10-01&#39;, &#39;2019-12-10&#39;, &#39;2020-02-07&#39;, &#39;2020-03-31&#39;,
-               &#39;2020-07-31&#39;, &#39;2020-09-30&#39;, &#39;2020-11-09&#39;, &#39;2020-12-02&#39;,
-               &#39;2021-01-21&#39;, &#39;2021-03-16&#39;, &#39;2021-03-26&#39;, &#39;2021-04-05&#39;,
-               &#39;2021-05-26&#39;, &#39;2021-06-09&#39;, &#39;2021-08-05&#39;, &#39;2021-08-13&#39;,
-               &#39;2021-10-15&#39;, &#39;2021-11-17&#39;, &#39;2022-02-02&#39;, &#39;2022-03-21&#39;,
-               &#39;2022-05-31&#39;, &#39;2022-06-27&#39;, &#39;2022-10-19&#39;],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Golden cross: DatetimeIndex([&#39;2017-12-11&#39;, &#39;2018-01-11&#39;, &#39;2018-02-22&#39;, &#39;2018-04-11&#39;,
+               &#39;2018-05-02&#39;, &#39;2018-06-04&#39;, &#39;2018-08-03&#39;, &#39;2018-09-21&#39;,
+               &#39;2018-10-25&#39;, &#39;2018-11-30&#39;, &#39;2019-01-10&#39;, &#39;2019-02-11&#39;,
+               &#39;2019-02-14&#39;, &#39;2019-04-01&#39;, &#39;2019-06-11&#39;, &#39;2019-09-05&#39;,
+               &#39;2019-10-01&#39;, &#39;2019-10-11&#39;, &#39;2019-12-12&#39;, &#39;2020-04-07&#39;,
+               &#39;2020-08-14&#39;, &#39;2020-09-17&#39;, &#39;2020-09-30&#39;, &#39;2020-11-09&#39;,
+               &#39;2020-11-18&#39;, &#39;2021-02-05&#39;, &#39;2021-03-17&#39;, &#39;2021-04-06&#39;,
+               &#39;2021-05-28&#39;, &#39;2021-06-10&#39;, &#39;2021-07-30&#39;, &#39;2021-08-26&#39;,
+               &#39;2021-11-23&#39;, &#39;2021-12-28&#39;, &#39;2022-03-18&#39;, &#39;2022-06-02&#39;,
+               &#39;2022-06-27&#39;, &#39;2022-07-07&#39;, &#39;2022-09-13&#39;, &#39;2022-10-31&#39;],
               dtype=&#39;datetime64[ns]&#39;, name=&#39;Date&#39;, freq=None)
-Death cross: DatetimeIndex([&#39;2017-12-01&#39;, &#39;2017-12-28&#39;, &#39;2018-01-25&#39;, &#39;2018-03-20&#39;,
-               &#39;2018-04-23&#39;, &#39;2018-06-18&#39;, &#39;2018-09-13&#39;, &#39;2018-10-10&#39;,
-               &#39;2019-05-09&#39;, &#39;2019-08-05&#39;, &#39;2019-08-29&#39;, &#39;2019-09-26&#39;,
-               &#39;2019-12-04&#39;, &#39;2020-02-05&#39;, &#39;2020-02-24&#39;, &#39;2020-07-24&#39;,
-               &#39;2020-09-09&#39;, &#39;2020-10-22&#39;, &#39;2020-11-24&#39;, &#39;2021-01-07&#39;,
-               &#39;2021-02-03&#39;, &#39;2021-03-24&#39;, &#39;2021-03-29&#39;, &#39;2021-05-03&#39;,
-               &#39;2021-06-01&#39;, &#39;2021-08-02&#39;, &#39;2021-08-10&#39;, &#39;2021-09-14&#39;,
-               &#39;2021-11-11&#39;, &#39;2022-01-10&#39;, &#39;2022-02-16&#39;, &#39;2022-04-11&#39;,
-               &#39;2022-06-10&#39;, &#39;2022-08-25&#39;],
+Death cross: DatetimeIndex([&#39;2017-12-04&#39;, &#39;2017-12-28&#39;, &#39;2018-02-06&#39;, &#39;2018-03-07&#39;,
+               &#39;2018-04-26&#39;, &#39;2018-05-17&#39;, &#39;2018-07-03&#39;, &#39;2018-08-20&#39;,
+               &#39;2018-10-04&#39;, &#39;2018-11-26&#39;, &#39;2018-12-20&#39;, &#39;2019-01-23&#39;,
+               &#39;2019-02-12&#39;, &#39;2019-02-20&#39;, &#39;2019-04-10&#39;, &#39;2019-07-30&#39;,
+               &#39;2019-09-26&#39;, &#39;2019-10-04&#39;, &#39;2019-11-27&#39;, &#39;2020-02-28&#39;,
+               &#39;2020-07-31&#39;, &#39;2020-09-09&#39;, &#39;2020-09-24&#39;, &#39;2020-10-22&#39;,
+               &#39;2020-11-12&#39;, &#39;2021-02-03&#39;, &#39;2021-02-10&#39;, &#39;2021-03-22&#39;,
+               &#39;2021-04-29&#39;, &#39;2021-06-08&#39;, &#39;2021-07-19&#39;, &#39;2021-08-19&#39;,
+               &#39;2021-11-15&#39;, &#39;2021-12-06&#39;, &#39;2022-01-18&#39;, &#39;2022-04-13&#39;,
+               &#39;2022-06-09&#39;, &#39;2022-07-01&#39;, &#39;2022-08-24&#39;, &#39;2022-09-27&#39;],
               dtype=&#39;datetime64[ns]&#39;, name=&#39;Date&#39;, freq=None)
 </pre></div>
 </div>
@@ -791,7 +780,7 @@ Death cross: DatetimeIndex([&#39;2017-12-01&#39;, &#39;2017-12-28&#39;, &#39;201
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.20026821])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.07209155,  0.21490402, -0.03145861])
 </pre></div>
 </div>
 </div>
@@ -807,7 +796,7 @@ x (1 + p_1) (1 + p_2) \cdots (1 + p_n)
 \[
 \text{Profit} = x (1 + p_1) (1 + p_2) \cdots (1 + p_n) - x
 \]</div>
-<p>If you investigate 100 dollars, then you will earn:</p>
+<p>If you investigate 100 dollars, then you will gain:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># capital principal</span>
@@ -824,80 +813,24 @@ x (1 + p_1) (1 + p_2) \cdots (1 + p_n)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20.026820827180174
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9.185579844095642
 </pre></div>
 </div>
 </div>
 </div>
-<section id="wrapping-up-into-a-function">
-<h3>Wrapping up Into a Function<a class="headerlink" href="#wrapping-up-into-a-function" title="Permalink to this headline">#</a></h3>
-<p>Since we will calculate the profit of different shares and under different strategies, we utilized this procedure into a function <code class="docutils literal notranslate"><span class="pre">calc_profit</span></code>.</p>
+<p>Hence, the profit rate is:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calc_profit</span><span class="p">(</span>
-        <span class="n">capital</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">stock_price</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-        <span class="n">buy_dates</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span>
-        <span class="n">sell_dates</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span>
-        <span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the total profit.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">        capital (float): Capital principal, i.e., invested money.</span>
-<span class="sd">        stock_price (pd.DataFrame): A data frame whose first column consists of closing prices.</span>
-<span class="sd">        buy_dates (pd.DatetimeIndex): Dates to buy.</span>
-<span class="sd">        sell_dates (pd.DatetimeIndex): Dates to sell.</span>
-<span class="sd">        start_date (str): Starting date represented as a string. For examples, `&quot;2022&quot;`, `&quot;2022-01&quot;` or `&quot;2022-01-01&quot;`.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">        float: Profit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="c1"># column name that stores the closing prices</span>
-    <span class="n">price_col</span> <span class="o">=</span> <span class="n">stock_price</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    
-    <span class="c1"># only consider the dates after the provided starting date</span>
-    <span class="n">buy_dates</span> <span class="o">=</span> <span class="n">buy_dates</span><span class="p">[</span><span class="n">buy_dates</span> <span class="o">&gt;=</span> <span class="n">start_date</span><span class="p">]</span>
-    <span class="n">sell_dates</span> <span class="o">=</span> <span class="n">sell_dates</span><span class="p">[</span><span class="n">sell_dates</span> <span class="o">&gt;=</span> <span class="n">start_date</span><span class="p">]</span>
-    
-    <span class="c1"># gain nothing</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buy_dates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">0</span>
-    
-    <span class="c1"># if we need to sell first, then ignore the first selling date </span>
-    <span class="c1"># since we don&#39;t have any shares </span>
-    <span class="k">if</span> <span class="n">buy_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">sell_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-        <span class="n">sell_dates</span> <span class="o">=</span> <span class="n">sell_dates</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-    
-    <span class="n">buy</span> <span class="o">=</span> <span class="n">stock_price</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">buy_dates</span><span class="p">,</span> <span class="n">price_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">sell</span> <span class="o">=</span> <span class="n">stock_price</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sell_dates</span><span class="p">,</span> <span class="n">price_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span>
-    
-    <span class="c1"># buying and selling dates should come in pairs </span>
-    <span class="c1"># except that there may be one more buying date in the end</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">buy</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sell</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">buy</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sell</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-    
-    <span class="c1"># don&#39;t buy</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buy</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sell</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">buy</span> <span class="o">=</span> <span class="n">buy</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        
-    <span class="c1"># an array of percentage profit</span>
-    <span class="n">pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">sell</span> <span class="o">-</span> <span class="n">buy</span><span class="p">)</span> <span class="o">/</span> <span class="n">buy</span>
-    
-    <span class="c1"># total amount</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="n">capital</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pct</span><span class="p">)</span>
-    
-    <span class="c1"># profit/gain</span>
-    <span class="n">profit</span> <span class="o">=</span> <span class="n">total</span> <span class="o">-</span> <span class="n">capital</span>
-    
-    <span class="k">return</span> <span class="n">profit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Profit rate: </span><span class="si">{</span><span class="n">profit</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Profit rate: 9.19%
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 </section>
 </section>
 
