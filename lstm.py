@@ -6,7 +6,9 @@ from torch import optim
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import TimeSeriesSplit, GridSearchCV, RandomizedSearchCV
 from typing import Union
+import os
 
 ALL_FEATURES = ["Open", "High", "Low", "Close", "Volume"]
 
@@ -131,7 +133,7 @@ class LSTM(nn.Module):
 
         return y
     
-def train(
+def _train(
         model: LSTM, 
         X_train: np.ndarray, 
         y_train: np.ndarray,
@@ -169,6 +171,7 @@ def train(
 
         # update parameters
         optimiser.step()
+
 class PricePredictor(BaseEstimator):
     
     feature_encoder: LabelEncoder = None
@@ -181,7 +184,7 @@ class PricePredictor(BaseEstimator):
             num_days_ago: int = 100,
             hidden_size: int = 32,
             num_layers: int = 1,
-            num_epochs: int = 10,
+            num_epochs: int = 50,
             lr: float = 0.01   
         ) -> None:
         """A model that takes in M days to predict N-day closing prices 
@@ -285,7 +288,7 @@ class PricePredictor(BaseEstimator):
         X, y = self.ts_transformer.fit_transform(ts)
         
         # train LSTM model
-        train(
+        _train(
             model=self.model,
             X_train=X,
             y_train=y,
@@ -320,10 +323,10 @@ class PricePredictor(BaseEstimator):
         # mean squred error
         self.mse = mean_squared_error(y_true, y_pred)
         
-        try:
+        if len(y_pred) >= 2:
             self.r2 = r2_score(y_true, y_pred)
             return self.r2
-        except:
+        else:
             self.metric = "Negative MSE"
             return -self.mse
     
@@ -406,3 +409,66 @@ class PricePredictor(BaseEstimator):
         feature_min, feature_max = self.ts_transformer.scaler.feature_range
         price = price_min + (y_pred - feature_min) * price_range / (feature_max - feature_min)
         return price
+
+def train(
+        stocks: pd.DataFrame,
+        company: str,
+        num_days_left_out: int = 90,
+        pred_len: int = 1
+    ) -> dict:
+    
+    feature_encoder = LabelEncoder()
+    feature_encoder.fit(ALL_FEATURES)
+    df = stocks.query(f"Company == '{company}'")
+    train_df = df[:-num_days_left_out]
+    train_df = train_df[ALL_FEATURES]
+    train_ts = train_df[feature_encoder.classes_].to_numpy()
+    
+    # a sliding window splitter for time series cross validation
+    ts_cv = TimeSeriesSplit(
+        n_splits=2,
+        test_size=pred_len
+    )
+    
+    # initialize a price predictor model
+    PricePredictor.feature_encoder = feature_encoder
+    price_predictor = PricePredictor(pred_len=pred_len)
+    
+    # use random search to tune the model
+    search = RandomizedSearchCV(
+        price_predictor,
+        {
+            "features": [
+                ["Close"],
+                ["Close", "Open"],
+                ["Close", "Open", "Volume"]
+            ],
+            "seq_len": [
+                30, 60, 90
+            ],
+            "num_days_ago": [
+                300, 400, 500
+            ],
+            "hidden_size": [
+                16, 32
+            ],
+            "num_layers": [
+                1, 2
+            ]
+        },
+        cv=ts_cv,
+        n_iter=10,
+        verbose=2
+    )
+    
+    # train!
+    search.fit(train_ts)
+    
+    # return the training result
+    train_result = {
+        "model": search.best_estimator_,
+        "params": search.best_params_,
+        "score": search.best_score_
+    }
+    
+    return train_result

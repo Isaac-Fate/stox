@@ -1,30 +1,32 @@
 import numpy as np
 import pandas as pd
+from typing import Union
 
 def calc_profit(
-        capital: float,
         stock_price: pd.DataFrame,
         buy_dates: pd.DatetimeIndex,
         sell_dates: pd.DatetimeIndex,
-        start_date: str
+        start_date: str,
+        capital: Union[float, None] = None,
     ) -> float:
     """Calculate the total profit.
 
     Parameters
     ----------
-        capital (float): Capital principal, i.e., invested money.
         stock_price (pd.DataFrame): A data frame whose first column consists of closing prices.
         buy_dates (pd.DatetimeIndex): Dates to buy.
         sell_dates (pd.DatetimeIndex): Dates to sell.
         start_date (str): Starting date represented as a string. For examples, `"2022"`, `"2022-01"` or `"2022-01-01"`.
+        capital (Union[float, None], optional): Capital principal, i.e., invested money. Defaults to None.
 
     Returns
     -------
-        float: Profit.
+        float: Profit or its rate if the capital is not provided.
     """
     
     # column name that stores the closing prices
     price_col = stock_price.columns[0]
+    price_col = "Close"
     
     # only consider the dates after the provided starting date
     buy_dates = buy_dates[buy_dates >= start_date]
@@ -54,6 +56,7 @@ def calc_profit(
     pct = (sell - buy) / buy
     
     # total amount
+    capital = 1 if capital is None else capital
     total = capital * np.prod(1 + pct)
     
     # profit/gain
