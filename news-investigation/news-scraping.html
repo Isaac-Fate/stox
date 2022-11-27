@@ -443,8 +443,13 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#get-headlines">
-   Get Headlines
+  <a class="reference internal nav-link" href="#find-links-to-webpages">
+   Find Links to Webpages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#scrape-headlines">
+   Scrape Headlines
   </a>
  </li>
 </ul>
@@ -472,8 +477,13 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#get-headlines">
-   Get Headlines
+  <a class="reference internal nav-link" href="#find-links-to-webpages">
+   Find Links to Webpages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#scrape-headlines">
+   Scrape Headlines
   </a>
  </li>
 </ul>
@@ -491,6 +501,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span><span class="p">,</span> <span class="n">Tag</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 </pre></div>
 </div>
@@ -501,7 +512,7 @@ title="Print to PDF"
 <p>When typing something into Google’s search bar, essentially we are creating a URL which leads to a website. For example, the following URL will lead to the webpage that we can reach by typing the word <em>apple</em> into the search bar.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;https://www.google.com&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GOOGLE</span> <span class="o">=</span> <span class="s2">&quot;https://www.google.com&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -517,6 +528,12 @@ title="Print to PDF"
 <li><p><code class="docutils literal notranslate"><span class="pre">tbs=sbd:0</span></code> sorts the results by relevancy</p></li>
 </ul>
 </li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lr</span></code>, language, e.g.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">lr=lang_en</span></code> for English</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lr=lang_zh-CN</span></code> for Chinese</p></li>
+</ul>
+</li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -524,21 +541,21 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_search_url</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_search_url</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">date_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Create a Google search URL based on provided query content and date.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">        query (str): _description_</span>
-<span class="sd">        date_str (str): _description_</span>
+<span class="sd">        query (str): The text typed into the search bar.</span>
+<span class="sd">        date_str (str): Date string with format &quot;YYYY-mm-dd&quot;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        str: Search URL.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1"># base URL</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">URL</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">GOOGLE</span>
     
     <span class="c1"># search content</span>
     <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;/search?q=</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -554,6 +571,9 @@ title="Print to PDF"
     <span class="c1"># sort by relevancy</span>
     <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;,sbd:0&quot;</span>
     
+    <span class="c1"># we want results in english</span>
+    <span class="n">url</span> <span class="o">+=</span> <span class="s2">&quot;&amp;lr=lang_en&quot;</span>
+    
     <span class="k">return</span> <span class="n">url</span>
 </pre></div>
 </div>
@@ -562,26 +582,139 @@ title="Print to PDF"
 <p>If we want to search news about Apple on September 1, 2022, then the URL is:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">create_search_url</span><span class="p">(</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;2022-9-1&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">create_search_url</span><span class="p">(</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;2022-9-1&quot;</span><span class="p">)</span>
+<span class="n">url</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://www.google.com/search?q=apple&amp;tbm=nws&amp;tbs=cdr:1,cd_min:09/01/2022,cd_max:09/01/2022,sbd:0&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://www.google.com/search?q=apple&amp;tbm=nws&amp;tbs=cdr:1,cd_min:09/01/2022,cd_max:09/01/2022,sbd:0&amp;lr=lang_en&#39;
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="get-headlines">
-<h2>Get Headlines<a class="headerlink" href="#get-headlines" title="Permalink to this headline">#</a></h2>
+<section id="find-links-to-webpages">
+<h2>Find Links to Webpages<a class="headerlink" href="#find-links-to-webpages" title="Permalink to this headline">#</a></h2>
+<p>We can use function <code class="docutils literal notranslate"><span class="pre">requests.get</span></code> to request the content of a website.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Always remember to add a <strong>header</strong> to pretend to be a browser, otherwise your request may be denied.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Firefox&quot;</span>
+    <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:106.0) Gecko/20100101 Firefox/106.0&quot;</span>
 <span class="p">}</span>
 
-<span class="c1"># res = requests.get(url, headers=headers)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Response [200]&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The return code 200 means that the request is successful. Alternatively, we can check this by examining whether <code class="docutils literal notranslate"><span class="pre">res.ok</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">ok</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Parse the raw HTML content using <code class="docutils literal notranslate"><span class="pre">bs4.BeautifulSoup</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By observing the HTML structure of the Google search page, we find that all links are contained inside tags with <code class="docutils literal notranslate"><span class="pre">class=SoaBEf</span></code>. And these tags are decedents of a tag with <code class="docutils literal notranslate"><span class="pre">id=search</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># find search tag</span>
+<span class="n">search_tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;search&quot;</span><span class="p">)</span>
+
+<span class="c1"># find tags containing links to webpages</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="n">search_tag</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;SoaBEf&quot;</span><span class="p">})</span>
+
+<span class="c1"># extract links</span>
+<span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">tag</span><span class="p">:</span> <span class="n">Tag</span>
+<span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+    <span class="n">inner_tag</span><span class="p">:</span> <span class="n">Tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+    <span class="n">link</span> <span class="o">=</span> <span class="n">inner_tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">)</span>
+    <span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    
+<span class="n">links</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;https://www.macrumors.com/2022/09/01/apple-watch-pro-bad-news-for-band-collections/&#39;,
+ &#39;https://techcrunch.com/2022/09/01/apple-settles-lawsuit-with-developer-over-app-store-rejections-and-scams/&#39;,
+ &#39;https://www.macrumors.com/2022/09/01/apple-settles-flicktype-lawsuit/&#39;,
+ &#39;https://www.macrumors.com/2022/09/01/apple-card-nike-6-percent-daily-cash/&#39;,
+ &#39;https://www.ft.com/content/75891d95-4432-4571-83df-b4cdf82d5da5&#39;,
+ &#39;https://www.gov.uk/find-digital-market-research/mobile-ecosystems-market-study-appendix-i-apples-restrictions-on-cloud-gaming-2022-cma&#39;,
+ &#39;https://www.computerworld.com/article/3672238/will-apple-make-the-app-store-more-business-friendly.html&#39;,
+ &#39;https://www.computerworld.com/article/3672111/apple-pushes-out-emergency-updates-to-address-zero-day-exploits.html&#39;,
+ &#39;https://www.businessinsider.com/guides/tech/apple-event-september-what-to-expect-2022-09&#39;,
+ &#39;https://www.notebookcheck.net/Apple-iPhone-14-Pro-and-iPhone-14-Pro-Max-to-only-show-one-punch-hole-not-two.644481.0.html&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="scrape-headlines">
+<h2>Scrape Headlines<a class="headerlink" href="#scrape-headlines" title="Permalink to this headline">#</a></h2>
+<p>Now, we want to access each webpage via its link and scrape its heading (news headline).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">link</span> <span class="o">=</span> <span class="n">links</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">res</span><span class="o">.</span><span class="n">ok</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Make another soup for the webpage:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">webpage_soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For most of webpages, the first level heading is contained in a special tag named <code class="docutils literal notranslate"><span class="pre">&lt;h1&gt;</span></code>.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">headline_tag</span><span class="p">:</span> <span class="n">Tag</span> <span class="o">=</span> <span class="n">webpage_soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;h1&quot;</span><span class="p">)</span>
+<span class="n">headline</span> <span class="o">=</span> <span class="n">headline_tag</span><span class="o">.</span><span class="n">text</span>
+<span class="n">headline</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Apple Watch &#39;Pro&#39; Could Be Bad News for Band Collections&quot;
 </pre></div>
 </div>
 </div>
