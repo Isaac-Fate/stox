@@ -12,6 +12,7 @@ chapters:
 - file: trading-strategy/index
   sections:
   - file: trading-strategy/simple-moving-average
+  - file: trading-strategy/trading-by-prediction
 - file: news-investigation/index
   sections:
   - file: news-investigation/news-scraping

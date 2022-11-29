@@ -66,6 +66,8 @@ def train(stocks, company, pred_len, model_dir):
 @click.option("-f", "--force", is_flag=True, default=False, show_default=True, help="Whether to find headline even if news data exists.")
 def find_news_headlines_for_company(company, query, from_date, to_date, skip, force):
     """Find news headlines for the specified company. 
+    
+    Notes: Each news headline will be saved as a single JSON file under the directory ./data/news/<company ticker>/. And the file will be named by the date.
     """
     
     try:
@@ -106,7 +108,7 @@ def find_news_headlines_for_company(company, query, from_date, to_date, skip, fo
         
         # save data
         with open(news_filepath, "w") as f:
-            json.dump({"Date": date_str, "News": headline}, f, indent=4)
+            json.dump({"Date": date_str, "Headline": headline}, f, indent=4)
     
     click.echo(f"Successfully found all the news for {company}.")
     
