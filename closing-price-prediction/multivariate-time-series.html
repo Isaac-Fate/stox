@@ -27,7 +27,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/code.css" />
     <link rel="stylesheet" type="text/css" href="../_static/dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
@@ -53,9 +52,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"R": "\\mathbb{R}", "C": "\\mathbb{C}", "F": "\\mathbb{F}", "N": "\\mathbb{N}", "Ns": "\\mathbb{N^\\ast}", "Z": "\\mathbb{Z}", "Q": "\\mathbb{Q}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"], "abs": ["\\left\\lvert #1 \\right\\rvert", 1], "norm": ["\\left\\lVert #1 \\right\\rVert", 1], "argmin": ["\\mathop{\\mathrm{arg \\, min}}"], "argmax": ["\\mathop{\\mathrm{arg \\, max}}"], "d": ["\\mathrm{d}"], "v": ["\\mathbf{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Trading Strategy" href="../trading-strategy/index.html" />
+    <link rel="prev" title="Closing Price Prediction with ARIMA" href="arima.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -115,7 +118,7 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../data-collecting-and-visualization/index.html">
    Data Collecting and Visualization
@@ -138,24 +141,24 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="index.html">
    Closing Price Prediction
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="arima.html">
      Closing Price Prediction with ARIMA
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="lstm-1-dim-input.html">
-     Closing Price Prediction with LSTM
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     LSTM for Multivariate Time Series
     </a>
    </li>
   </ul>
@@ -200,6 +203,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="../news-investigation/news-scraping.html">
      News Scraping
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../news-investigation/quantification.html">
+     Quantification
     </a>
    </li>
   </ul>
@@ -452,8 +460,28 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#encode-fields-in-a-data-frame">
-   Encode Fields in a Data Frame
+  <a class="reference internal nav-link" href="#encode-column-names-in-the-data-frame">
+   Encode Column Names in the Data Frame
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sliding-windows">
+   Sliding Windows
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-lstm-model">
+   Build LSTM Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#price-predictor">
+   Price Predictor
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fine-tune-the-model-randomized-search">
+   Fine-Tune the Model: Randomized Search
   </a>
  </li>
 </ul>
@@ -481,8 +509,28 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#encode-fields-in-a-data-frame">
-   Encode Fields in a Data Frame
+  <a class="reference internal nav-link" href="#encode-column-names-in-the-data-frame">
+   Encode Column Names in the Data Frame
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sliding-windows">
+   Sliding Windows
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-lstm-model">
+   Build LSTM Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#price-predictor">
+   Price Predictor
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fine-tune-the-model-randomized-search">
+   Fine-Tune the Model: Randomized Search
   </a>
  </li>
 </ul>
@@ -504,16 +552,19 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section id="load-data">
 <h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this headline">#</a></h2>
+<p>We explore the Tesla stock data in our demonstration.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/demo.pkl&quot;</span><span class="p">)</span>
-<span class="n">df</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stock</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/TSLA.pkl&quot;</span><span class="p">)</span>
+<span class="n">stock</span>
 </pre></div>
 </div>
 </div>
@@ -554,43 +605,43 @@ title="Print to PDF"
   <tbody>
     <tr>
       <th>2017-11-02</th>
-      <td>41.650002</td>
-      <td>42.125000</td>
-      <td>41.320000</td>
-      <td>42.027500</td>
-      <td>165573600</td>
+      <td>20.008667</td>
+      <td>20.579332</td>
+      <td>19.508667</td>
+      <td>19.950666</td>
+      <td>296871000</td>
     </tr>
     <tr>
       <th>2017-11-03</th>
-      <td>43.500000</td>
-      <td>43.564999</td>
-      <td>42.779999</td>
-      <td>43.125000</td>
-      <td>237594400</td>
+      <td>19.966667</td>
+      <td>20.416668</td>
+      <td>19.675333</td>
+      <td>20.406000</td>
+      <td>133410000</td>
     </tr>
     <tr>
       <th>2017-11-06</th>
-      <td>43.092499</td>
-      <td>43.747501</td>
-      <td>42.930000</td>
-      <td>43.562500</td>
-      <td>140105200</td>
+      <td>20.466667</td>
+      <td>20.500000</td>
+      <td>19.934000</td>
+      <td>20.185333</td>
+      <td>97290000</td>
     </tr>
     <tr>
       <th>2017-11-07</th>
-      <td>43.477501</td>
-      <td>43.812500</td>
-      <td>43.400002</td>
-      <td>43.702499</td>
-      <td>97446000</td>
+      <td>20.068001</td>
+      <td>20.433332</td>
+      <td>20.002001</td>
+      <td>20.403334</td>
+      <td>79414500</td>
     </tr>
     <tr>
       <th>2017-11-08</th>
-      <td>43.665001</td>
-      <td>44.060001</td>
-      <td>43.582500</td>
-      <td>44.060001</td>
-      <td>97638000</td>
+      <td>20.366667</td>
+      <td>20.459333</td>
+      <td>20.086666</td>
+      <td>20.292667</td>
+      <td>70879500</td>
     </tr>
     <tr>
       <th>...</th>
@@ -602,252 +653,230 @@ title="Print to PDF"
     </tr>
     <tr>
       <th>2022-10-26</th>
-      <td>150.960007</td>
-      <td>151.990005</td>
-      <td>148.039993</td>
-      <td>149.350006</td>
-      <td>88194300</td>
+      <td>219.399994</td>
+      <td>230.600006</td>
+      <td>218.199997</td>
+      <td>224.639999</td>
+      <td>85012500</td>
     </tr>
     <tr>
       <th>2022-10-27</th>
-      <td>148.070007</td>
-      <td>149.050003</td>
-      <td>144.130005</td>
-      <td>144.800003</td>
-      <td>109180200</td>
+      <td>229.770004</td>
+      <td>233.809998</td>
+      <td>222.850006</td>
+      <td>225.089996</td>
+      <td>61638800</td>
     </tr>
     <tr>
       <th>2022-10-28</th>
-      <td>148.199997</td>
-      <td>157.500000</td>
-      <td>147.820007</td>
-      <td>155.740005</td>
-      <td>164762400</td>
+      <td>225.399994</td>
+      <td>228.860001</td>
+      <td>216.350006</td>
+      <td>228.520004</td>
+      <td>69152400</td>
     </tr>
     <tr>
       <th>2022-10-31</th>
-      <td>153.160004</td>
-      <td>154.240005</td>
-      <td>151.919998</td>
-      <td>153.339996</td>
-      <td>97943200</td>
+      <td>226.190002</td>
+      <td>229.850006</td>
+      <td>221.940002</td>
+      <td>227.539993</td>
+      <td>61554300</td>
     </tr>
     <tr>
       <th>2022-11-01</th>
-      <td>155.080002</td>
-      <td>155.449997</td>
-      <td>149.130005</td>
-      <td>150.649994</td>
-      <td>80321400</td>
+      <td>234.050003</td>
+      <td>237.399994</td>
+      <td>227.279999</td>
+      <td>227.820007</td>
+      <td>62566500</td>
     </tr>
   </tbody>
 </table>
 <p>1258 rows × 5 columns</p>
 </div></div></div>
 </div>
+<p>Leave out the last 90 days for testing:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Open&#39;, &#39;High&#39;, &#39;Low&#39;, &#39;Close&#39;, &#39;Volume&#39;], dtype=&#39;object&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_days</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[:</span><span class="o">-</span><span class="n">num_days</span><span class="p">]</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[</span><span class="o">-</span><span class="n">num_days</span><span class="p">:]</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="encode-fields-in-a-data-frame">
-<h2>Encode Fields in a Data Frame<a class="headerlink" href="#encode-fields-in-a-data-frame" title="Permalink to this headline">#</a></h2>
+<section id="encode-column-names-in-the-data-frame">
+<h2>Encode Column Names in the Data Frame<a class="headerlink" href="#encode-column-names-in-the-data-frame" title="Permalink to this headline">#</a></h2>
+<p>Since the input of PyTorch and Scikit-learn’s model is usually a NumPy array of a tensor, we need to extract the data from Pandas’ data frame by dropping the information of column names and indices, etc.</p>
+<p>But we also need the connection between the raw data and its actual meaning. For example, we need to know the original column name of a column vector in the array. Scikit-learn’s <code class="docutils literal notranslate"><span class="pre">LabelEncoder</span></code> can help us with this.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
 
-<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
-<span class="n">le</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-<span class="n">le</span><span class="o">.</span><span class="n">classes_</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;Close&#39;, &#39;High&#39;, &#39;Low&#39;, &#39;Open&#39;, &#39;Volume&#39;], dtype=object)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;High&#39;], dtype=object)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-<span class="n">X</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[4.20275002e+01, 4.21250000e+01, 4.13199997e+01, 4.16500015e+01,
-        1.65573600e+08],
-       [4.31250000e+01, 4.35649986e+01, 4.27799988e+01, 4.35000000e+01,
-        2.37594400e+08],
-       [4.35625000e+01, 4.37475014e+01, 4.29300003e+01, 4.30924988e+01,
-        1.40105200e+08],
-       ...,
-       [1.55740005e+02, 1.57500000e+02, 1.47820007e+02, 1.48199997e+02,
-        1.64762400e+08],
-       [1.53339996e+02, 1.54240005e+02, 1.51919998e+02, 1.53160004e+02,
-        9.79432000e+07],
-       [1.50649994e+02, 1.55449997e+02, 1.49130005e+02, 1.55080002e+02,
-        8.03214000e+07]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">[:,</span> <span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s2">&quot;Close&quot;</span><span class="p">,</span> <span class="s2">&quot;Open&quot;</span><span class="p">,</span> <span class="s2">&quot;High&quot;</span><span class="p">])]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 42.02750015,  41.65000153,  42.125     ],
-       [ 43.125     ,  43.5       ,  43.56499863],
-       [ 43.5625    ,  43.09249878,  43.74750137],
-       ...,
-       [155.74000549, 148.19999695, 157.5       ],
-       [153.33999634, 153.16000366, 154.24000549],
-       [150.6499939 , 155.08000183, 155.44999695]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Close&quot;</span><span class="p">,</span> <span class="s2">&quot;Open&quot;</span><span class="p">,</span> <span class="s2">&quot;High&quot;</span><span class="p">]]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<span class="n">ALL_FEATURES</span> <span class="o">=</span> <span class="n">stock</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">feature_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">feature_encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ALL_FEATURES</span><span class="p">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Close</th>
-      <th>Open</th>
-      <th>High</th>
-    </tr>
-    <tr>
-      <th>Date</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2017-11-02</th>
-      <td>42.027500</td>
-      <td>41.650002</td>
-      <td>42.125000</td>
-    </tr>
-    <tr>
-      <th>2017-11-03</th>
-      <td>43.125000</td>
-      <td>43.500000</td>
-      <td>43.564999</td>
-    </tr>
-    <tr>
-      <th>2017-11-06</th>
-      <td>43.562500</td>
-      <td>43.092499</td>
-      <td>43.747501</td>
-    </tr>
-    <tr>
-      <th>2017-11-07</th>
-      <td>43.702499</td>
-      <td>43.477501</td>
-      <td>43.812500</td>
-    </tr>
-    <tr>
-      <th>2017-11-08</th>
-      <td>44.060001</td>
-      <td>43.665001</td>
-      <td>44.060001</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>2022-10-26</th>
-      <td>149.350006</td>
-      <td>150.960007</td>
-      <td>151.990005</td>
-    </tr>
-    <tr>
-      <th>2022-10-27</th>
-      <td>144.800003</td>
-      <td>148.070007</td>
-      <td>149.050003</td>
-    </tr>
-    <tr>
-      <th>2022-10-28</th>
-      <td>155.740005</td>
-      <td>148.199997</td>
-      <td>157.500000</td>
-    </tr>
-    <tr>
-      <th>2022-10-31</th>
-      <td>153.339996</td>
-      <td>153.160004</td>
-      <td>154.240005</td>
-    </tr>
-    <tr>
-      <th>2022-11-01</th>
-      <td>150.649994</td>
-      <td>155.080002</td>
-      <td>155.449997</td>
-    </tr>
-  </tbody>
-</table>
-<p>1258 rows × 3 columns</p>
-</div></div></div>
+<span class="n">feature_encoder</span><span class="o">.</span><span class="n">classes_</span>
+</pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;Close&#39;, &#39;High&#39;, &#39;Low&#39;, &#39;Open&#39;, &#39;Volume&#39;], dtype=&#39;&lt;U6&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the <em>order</em> of column names in <code class="docutils literal notranslate"><span class="pre">feature_encoder.class_</span></code> does not be the same as that in the original data frame!</p>
+</div>
+<p>Now, we transform the data frame to a NumPy array, which is in fact a time series (hence the name <code class="docutils literal notranslate"><span class="pre">train_ts</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># re-order the columns by the column names in the feature encoder</span>
+<span class="c1"># and then convert it to NumPy array</span>
+<span class="n">train_ts</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="n">feature_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">train_ts</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.99506664e+01, 2.05793324e+01, 1.95086670e+01, 2.00086670e+01,
+        2.96871000e+08],
+       [2.04060001e+01, 2.04166679e+01, 1.96753330e+01, 1.99666672e+01,
+        1.33410000e+08],
+       [2.01853333e+01, 2.05000000e+01, 1.99340000e+01, 2.04666672e+01,
+        9.72900000e+07],
+       ...,
+       [2.36086670e+02, 2.46833328e+02, 2.33826660e+02, 2.34503326e+02,
+        1.01107500e+08],
+       [2.35070007e+02, 2.39316666e+02, 2.28636673e+02, 2.37906662e+02,
+        1.04202600e+08],
+       [2.45706665e+02, 2.46066666e+02, 2.36086670e+02, 2.37470001e+02,
+        9.57708000e+07]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, if we want to know what is the meaning of the first column if <code class="docutils literal notranslate"><span class="pre">train_ts</span></code>, we can use the following code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># index 0 means the first column</span>
+<span class="n">feature_encoder</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;Close&#39;], dtype=&#39;&lt;U6&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hence, the first column stores the closing prices.</p>
+</section>
+<section id="sliding-windows">
+<h2>Sliding Windows<a class="headerlink" href="#sliding-windows" title="Permalink to this headline">#</a></h2>
+<p>Basically, in our LSTM model, we need to use <span class="math notranslate nohighlight">\(M\)</span> days’ data to predict the closing prices of the next <span class="math notranslate nohighlight">\(N\)</span> days. Hence, we need to slide a window (with size <span class="math notranslate nohighlight">\(M + N\)</span>) across the time series data (imagine a single-variate time series for now), and then <em>stack</em> all the windows together into a large matrix.</p>
+<p>The following figure illustrates this idea.</p>
+<img alt="../_images/sliding-window.png" src="../_images/sliding-window.png" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="k">class</span> <span class="nc">TimeSeriesTransformer</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">feature_encoder</span><span class="p">:</span> <span class="n">LabelEncoder</span><span class="p">,</span>
+            <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">],</span>
+            <span class="n">seq_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="n">pred_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A transformer that transform the time series</span>
+<span class="sd">        to the format suitable for LSTM model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_encoder</span> <span class="o">=</span> <span class="n">feature_encoder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span> <span class="o">=</span> <span class="n">seq_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span> <span class="o">=</span> <span class="n">pred_len</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> 
+            <span class="n">ts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">split_X_y</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="p">):</span>
+        
+        <span class="c1"># make sure &quot;Close&quot; is at the end of features</span>
+        <span class="k">if</span> <span class="s2">&quot;Close&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># select features of interest</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)]</span>
+        
+        <span class="c1"># fit min-max scaler to the data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span>
+    
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> 
+            <span class="n">ts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+            <span class="n">split_X_y</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        
+        <span class="c1"># select features of interest</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)]</span>
+
+        <span class="c1"># scale the values of the time series</span>
+        <span class="n">scaled_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+        
+        <span class="c1"># convert to the format suitable for LSTM</span>
+        <span class="n">window_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span> <span class="k">if</span> <span class="n">split_X_y</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span>
+        <span class="n">X_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="n">scaled_ts</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">window_size</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scaled_ts</span><span class="p">)</span> <span class="o">-</span> <span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">])</span>
+        
+        <span class="k">if</span> <span class="n">split_X_y</span><span class="p">:</span>
+            
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X_y</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">X_y</span><span class="p">[:,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            
+            <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X_y</span>
+            <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="build-lstm-model">
+<h2>Build LSTM Model<a class="headerlink" href="#build-lstm-model" title="Permalink to this headline">#</a></h2>
+<p>We use the framework of PyTorch to build an LSTM model for multivariate time series:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LSTM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-
+    
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-            <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_size</span><span class="p">:</span> <span class="nb">int</span>
-        <span class="p">):</span>
+            <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
+            <span class="n">hidden_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
+            <span class="n">output_size</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         
         <span class="c1"># initialize super class</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -862,22 +891,26 @@ title="Print to PDF"
 
         <span class="c1"># fully connected layer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">)</span>
-
+    
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Notes:</span>
+<span class="sd">        ------</span>
+<span class="sd">        - `output` has shape (N, L, H)</span>
+<span class="sd">        - `h_n` has shape (`num_layers`, N, H)</span>
+<span class="sd">        </span>
+<span class="sd">        where </span>
+<span class="sd">        - N is the batch size,</span>
+<span class="sd">        - L is the sequence length, and</span>
+<span class="sd">        - H is the hidden size</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="c1"># output has shape (N, L, H)</span>
-        <span class="c1"># h_n has shape (num_layers, N, H)</span>
-        <span class="c1">#</span>
-        <span class="c1"># where N is the batch size</span>
-        <span class="c1"># L is the sequence length</span>
-        <span class="c1"># and H is the hidden size</span>
-        <span class="c1"># output, (h_n, c_n) = self.lstm.forward(x, (h0.detach(), c0.detach()))</span>
         <span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="n">h_n</span><span class="p">,</span> <span class="n">c_n</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
         <span class="c1"># in fact, we want the last hidden value</span>
         <span class="c1"># from the last LSTM layer, i.e., h_n[-1, :, :]</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">h_n</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
-        
+
         <span class="c1"># get predicted value from</span>
         <span class="c1"># the fully connected layer</span>
         <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
@@ -887,27 +920,634 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+<p>We have also implemented a function to train the LSTM:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-<span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_train</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">LSTM</span><span class="p">,</span> 
+        <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+        <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">num_epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    
+    <span class="c1"># convert to tensors</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+    
+    <span class="c1"># loss function</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># optimizer</span>
+    <span class="n">optimiser</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        
+        <span class="c1"># predicted value</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
 
-<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-<span class="p">])</span>
+        <span class="c1"># calculate loss</span>
+        <span class="n">loss</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;epoch:</span><span class="se">\t</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="se">\t</span><span class="s2">loss:</span><span class="se">\t</span><span class="si">{</span><span class="n">loss</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">))</span>
+        <span class="c1"># clear gradients</span>
+        <span class="n">optimiser</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+        <span class="c1"># compute gradients through backward propagation</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+        <span class="c1"># update parameters</span>
+        <span class="n">optimiser</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that we put an underscore in the front of this funciton to indicate that it is a private function of this module. We don’t expect users to use this function directly, since in fact we will wrap another class <code class="docutils literal notranslate"><span class="pre">PricePredictor</span></code> over this LSTM model.</p>
+</div>
+</section>
+<section id="price-predictor">
+<h2>Price Predictor<a class="headerlink" href="#price-predictor" title="Permalink to this headline">#</a></h2>
+<p>Note that there are a lot of <em>hyperparameters</em> to be determined for the LSTM. The idea is that we want to keep the inner central LSTM model as simple as possible. So, we define another class <code class="docutils literal notranslate"><span class="pre">PricePredictor</span></code> that wraps in the LSTM, and at the same time, provides all possible hyperparameters and other methods like <code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">predict</span></code> that will be exposed to the users.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+
+<span class="k">class</span> <span class="nc">PricePredictor</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
+    
+    <span class="n">feature_encoder</span><span class="p">:</span> <span class="n">LabelEncoder</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">],</span>
+            <span class="n">seq_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="n">pred_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_days_ago</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="n">hidden_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+            <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>   
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A model that takes in M days to predict N-day closing prices </span>
+<span class="sd">        where M is `seq_len` and N is `pred_len`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            features (list[str], optional): Features of interest. Defaults to [&quot;Close&quot;].</span>
+<span class="sd">            seq_len (int, optional): The number of days needed to predict prices. Defaults to 10.</span>
+<span class="sd">            pred_len (int, optional): The number of days of closing prices to predict. Defaults to 1.</span>
+<span class="sd">            num_days_ago (int, optional): The latest few days of the provided trainig date to consider. Defaults to 100.</span>
+<span class="sd">            hidden_size (int, optional): Hidden size of LSTM. Defaults to 32.</span>
+<span class="sd">            num_layers (int, optional): Number of layers of LSTM. Defaults to 1.</span>
+<span class="sd">            num_epochs (int, optional): Number of epochs to train. Defaults to 10.</span>
+<span class="sd">            lr (float, optional): Learning rate. Defaults to 0.01.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">            Exception: Missing feature encoder.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        
+        <span class="c1"># initialize feature encoder</span>
+        <span class="k">if</span> <span class="n">PricePredictor</span><span class="o">.</span><span class="n">feature_encoder</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Feature encoder must be proveded as a class attribute.&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span> <span class="o">=</span> <span class="n">seq_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span> <span class="o">=</span> <span class="n">pred_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_days_ago</span> <span class="o">=</span> <span class="n">num_days_ago</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_epochs</span> <span class="o">=</span> <span class="n">num_epochs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+        
+        <span class="c1"># underlying LSTM model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span> <span class="n">LSTM</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># time series transformer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="p">:</span> <span class="n">TimeSeriesTransformer</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># the last sequence of input time series with length `self.seq_len`</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_seq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># metric / method of scoring</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;R2&quot;</span>
+        
+        <span class="c1"># R2 score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># mean squared error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mse</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+        
+    <span class="k">def</span> <span class="nf">_get_input_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Find the input size for the LSTM model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            int: Input size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">input_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Close&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">:</span>
+            <span class="n">input_size</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">input_size</span>
+    
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit the model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            ts (np.ndarray): Training time series.</span>
+<span class="sd">            quiet (bool, optional): If `quiet` is `False` then training losses will be printed in the terminal. </span>
+<span class="sd">            Defaults to True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># initialize LSTM model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_input_size</span><span class="p">(),</span>
+            <span class="n">hidden_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span>
+            <span class="n">num_layers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span><span class="p">,</span>
+            <span class="n">output_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># initialize time series transformer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span> <span class="o">=</span> <span class="n">TimeSeriesTransformer</span><span class="p">(</span>
+            <span class="n">feature_encoder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_encoder</span><span class="p">,</span>
+            <span class="n">features</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span>
+            <span class="n">seq_len</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span><span class="p">,</span>
+            <span class="n">pred_len</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span>
+        <span class="p">)</span>
+        
+        <span class="c1"># only keep the last few days</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">num_days_ago</span><span class="p">:]</span>
+        
+        <span class="c1"># store the last sequence of the time series for prediction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_seq</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">seq_len</span><span class="p">:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+        <span class="c1"># get X and y</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+        
+        <span class="c1"># train LSTM model</span>
+        <span class="n">_train</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">X_train</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+            <span class="n">y_train</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">num_epochs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">,</span>
+            <span class="n">lr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
+            <span class="n">quiet</span><span class="o">=</span><span class="n">quiet</span>
+        <span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_ts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compute the fitting score.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            test_ts (np.ndarray): Test time seires.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            float:</span>
+<span class="sd">            </span>
+<span class="sd">                1. R2 score is returned by default.</span>
+<span class="sd">                2. If the computation of R2 score fails, then the negative MSE is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># get true prices</span>
+        <span class="n">test_ts</span> <span class="o">=</span> <span class="n">test_ts</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_len</span><span class="p">]</span>
+        <span class="n">test_ts</span> <span class="o">=</span> <span class="n">test_ts</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s2">&quot;Close&quot;</span><span class="p">])]</span>
+        <span class="n">y_true</span> <span class="o">=</span> <span class="n">test_ts</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="c1"># predicted prices</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span>
+        
+        <span class="c1"># mean squred error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="s2">&quot;Negative MSE&quot;</span>
+            <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mse</span>
+    
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> 
+            <span class="n">ts</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Predict the prices of future N days if no input is provided</span>
+<span class="sd">        where n equals the attribute `pred_len`. </span>
+<span class="sd">        If a time series (M days) is passed to this function, </span>
+<span class="sd">        then each time the function will take one of M days </span>
+<span class="sd">        to predict the prices of the next N days. </span>
+<span class="sd">        So, there will be (M + 1) batches of N-day prices.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            ts (Union[np.ndarray, None], optional): A time series consisting of future data. </span>
+<span class="sd">            Defaults to None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            np.ndarray: </span>
+<span class="sd">            </span>
+<span class="sd">                1. If the input is `None`, then a 1-D NumPy array of future N-day prices is returned.</span>
+<span class="sd">                2. If there is an input time series, then an (M + 1)-by-N NumPy array is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># a flag indicating whether there is an input time series</span>
+        <span class="n">is_empty_input</span> <span class="o">=</span> <span class="n">ts</span> <span class="ow">is</span> <span class="kc">None</span>
+        
+        <span class="k">if</span> <span class="n">is_empty_input</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_seq</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># attach the input time series</span>
+            <span class="c1"># to the last sequence of data</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">last_seq</span><span class="p">,</span> <span class="n">ts</span><span class="p">))</span>
+        
+        <span class="c1"># transform the time series</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">split_X_y</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+        <span class="c1"># convert to tensor</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+              
+        <span class="c1"># predit with LSTM model</span>
+        <span class="n">y_pred</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># convert to NumPy array</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        
+        <span class="c1"># rescale the predicted values to prices</span>
+        <span class="n">sliding_prices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_to_price</span><span class="p">,</span> 
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+            <span class="n">arr</span><span class="o">=</span><span class="n">y_pred</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">is_empty_input</span><span class="p">:</span>
+            <span class="c1"># return a 1-D array of future N-day prices</span>
+            <span class="n">price</span> <span class="o">=</span> <span class="n">sliding_prices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">price</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># return (M + 1) baches of N-day prices</span>
+            <span class="k">return</span> <span class="n">sliding_prices</span>
+    
+    <span class="k">def</span> <span class="nf">_to_price</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Recover the price from the scaled data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            y_pred (np.ndarray): Predicted values ranging from -1 to 1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            np.ndarray: Prices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">price_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">data_min_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">price_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">data_range_</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">feature_min</span><span class="p">,</span> <span class="n">feature_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">feature_range</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="n">price_min</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">feature_min</span><span class="p">)</span> <span class="o">*</span> <span class="n">price_range</span> <span class="o">/</span> <span class="p">(</span><span class="n">feature_max</span> <span class="o">-</span> <span class="n">feature_min</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">price</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fine-tune-the-model-randomized-search">
+<h2>Fine-Tune the Model: Randomized Search<a class="headerlink" href="#fine-tune-the-model-randomized-search" title="Permalink to this headline">#</a></h2>
+<p>The common methods of tuning the hyperparameters are grid search and randomized search. For grid search, we will need to fit a model for every combination of possible parameters, which is extremely time-consuming. In practice, it is pref red to use randomized search.</p>
+<p>In out project, we intend use Scikit-learn’s <code class="docutils literal notranslate"><span class="pre">RandomizedSearchCV</span></code> to do the randomized search. As described in the official documentation, our estimator / model needs to implement <code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">score</span></code> methods, which we have already done this in the previous section.</p>
+<p>We define a function <code class="docutils literal notranslate"><span class="pre">train</span></code> that implements the randomized search to train our model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">TimeSeriesSplit</span><span class="p">,</span> <span class="n">RandomizedSearchCV</span>
+
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span>
+        <span class="n">stocks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">company</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">num_days_left_out</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span>
+        <span class="n">pred_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    
+    <span class="n">feature_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+    <span class="n">feature_encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ALL_FEATURES</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Company == &#39;</span><span class="si">{</span><span class="n">company</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="n">train_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="o">-</span><span class="n">num_days_left_out</span><span class="p">]</span>
+    <span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="n">ALL_FEATURES</span><span class="p">]</span>
+    <span class="n">train_ts</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="n">feature_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    
+    <span class="c1"># a sliding window splitter for time series cross validation</span>
+    <span class="n">ts_cv</span> <span class="o">=</span> <span class="n">TimeSeriesSplit</span><span class="p">(</span>
+        <span class="n">n_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">test_size</span><span class="o">=</span><span class="n">pred_len</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># initialize a price predictor model</span>
+    <span class="n">PricePredictor</span><span class="o">.</span><span class="n">feature_encoder</span> <span class="o">=</span> <span class="n">feature_encoder</span>
+    <span class="n">price_predictor</span> <span class="o">=</span> <span class="n">PricePredictor</span><span class="p">(</span><span class="n">pred_len</span><span class="o">=</span><span class="n">pred_len</span><span class="p">)</span>
+    
+    <span class="c1"># use random search to tune the model</span>
+    <span class="n">search</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span>
+        <span class="n">price_predictor</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">],</span>
+                <span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">,</span> <span class="s2">&quot;Open&quot;</span><span class="p">],</span>
+                <span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">,</span> <span class="s2">&quot;Open&quot;</span><span class="p">,</span> <span class="s2">&quot;Volume&quot;</span><span class="p">]</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;seq_len&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">90</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;num_days_ago&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;hidden_size&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;num_layers&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="n">cv</span><span class="o">=</span><span class="n">ts_cv</span><span class="p">,</span>
+        <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># train!</span>
+    <span class="n">search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ts</span><span class="p">)</span>
+    
+    <span class="c1"># return the training result</span>
+    <span class="n">train_result</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span>
+        <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_params_</span><span class="p">,</span>
+        <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_score_</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">train_result</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we are ready to train the model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">train_result</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">stocks</span><span class="p">,</span> <span class="n">company</span><span class="o">=</span><span class="s2">&quot;TSLA&quot;</span><span class="p">,</span> <span class="n">num_days_left_out</span><span class="o">=</span><span class="n">num_days</span><span class="p">,</span> <span class="n">pred_len</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">train_result</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 2],
-       [3, 4],
-       [5, 6]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 2 folds for each of 10 candidates, totalling 20 fits
 </pre></div>
 </div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=32, num_days_ago=500, num_layers=2, seq_len=90; total time=  10.1s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=32, num_days_ago=500, num_layers=2, seq_len=90; total time=   9.2s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;, &#39;Open&#39;], hidden_size=16, num_days_ago=300, num_layers=1, seq_len=90; total time=   1.8s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;, &#39;Open&#39;], hidden_size=16, num_days_ago=300, num_layers=1, seq_len=90; total time=   1.9s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=90; total time=   2.1s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=90; total time=   2.1s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=30; total time=   0.8s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=30; total time=   0.8s
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="nn">Input In [12],</span> in <span class="ni">&lt;cell line: 3&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">train_result</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">stocks</span><span class="p">,</span> <span class="n">company</span><span class="o">=</span><span class="s2">&quot;TSLA&quot;</span><span class="p">,</span> <span class="n">num_days_left_out</span><span class="o">=</span><span class="n">num_days</span><span class="p">,</span> <span class="n">pred_len</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">train_result</span>
+
+<span class="nn">Input In [11],</span> in <span class="ni">train</span><span class="nt">(stocks, company, num_days_left_out, pred_len)</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">search</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span>     <span class="n">price_predictor</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span>     <span class="p">{</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="c1"># train!</span>
+<span class="ne">---&gt; </span><span class="mi">55</span> <span class="n">search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ts</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="c1"># return the training result</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span> <span class="n">train_result</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>     <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_params_</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>     <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_score_</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span> <span class="p">}</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_search.py:891,</span> in <span class="ni">BaseSearchCV.fit</span><span class="nt">(self, X, y, groups, **fit_params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">885</span>     <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_results</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">886</span>         <span class="n">all_candidate_params</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">all_out</span><span class="p">,</span> <span class="n">all_more_results</span>
+<span class="g g-Whitespace">    </span><span class="mi">887</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">889</span>     <span class="k">return</span> <span class="n">results</span>
+<span class="ne">--&gt; </span><span class="mi">891</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_search</span><span class="p">(</span><span class="n">evaluate_candidates</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">893</span> <span class="c1"># multimetric is determined here because in the case of a callable</span>
+<span class="g g-Whitespace">    </span><span class="mi">894</span> <span class="c1"># self.scoring the return type is only known after calling</span>
+<span class="g g-Whitespace">    </span><span class="mi">895</span> <span class="n">first_test_score</span> <span class="o">=</span> <span class="n">all_out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;test_scores&quot;</span><span class="p">]</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_search.py:1766,</span> in <span class="ni">RandomizedSearchCV._run_search</span><span class="nt">(self, evaluate_candidates)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1764</span> <span class="k">def</span> <span class="nf">_run_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evaluate_candidates</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1765</span>     <span class="sd">&quot;&quot;&quot;Search n_iter candidates from param_distributions&quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1766</span>     <span class="n">evaluate_candidates</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1767</span>         <span class="n">ParameterSampler</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1768</span>             <span class="bp">self</span><span class="o">.</span><span class="n">param_distributions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span>
+<span class="g g-Whitespace">   </span><span class="mi">1769</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1770</span>     <span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_search.py:838,</span> in <span class="ni">BaseSearchCV.fit.&lt;locals&gt;.evaluate_candidates</span><span class="nt">(candidate_params, cv, more_results)</span>
+<span class="g g-Whitespace">    </span><span class="mi">830</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">831</span>     <span class="nb">print</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">832</span>         <span class="s2">&quot;Fitting </span><span class="si">{0}</span><span class="s2"> folds for each of </span><span class="si">{1}</span><span class="s2"> candidates,&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">833</span>         <span class="s2">&quot; totalling </span><span class="si">{2}</span><span class="s2"> fits&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">834</span>             <span class="n">n_splits</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">,</span> <span class="n">n_candidates</span> <span class="o">*</span> <span class="n">n_splits</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">836</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">838</span> <span class="n">out</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">839</span>     <span class="n">delayed</span><span class="p">(</span><span class="n">_fit_and_score</span><span class="p">)(</span>
+<span class="g g-Whitespace">    </span><span class="mi">840</span>         <span class="n">clone</span><span class="p">(</span><span class="n">base_estimator</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">841</span>         <span class="n">X</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">842</span>         <span class="n">y</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">843</span>         <span class="n">train</span><span class="o">=</span><span class="n">train</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">844</span>         <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">845</span>         <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">846</span>         <span class="n">split_progress</span><span class="o">=</span><span class="p">(</span><span class="n">split_idx</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">847</span>         <span class="n">candidate_progress</span><span class="o">=</span><span class="p">(</span><span class="n">cand_idx</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">848</span>         <span class="o">**</span><span class="n">fit_and_score_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">849</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">850</span>     <span class="k">for</span> <span class="p">(</span><span class="n">cand_idx</span><span class="p">,</span> <span class="n">parameters</span><span class="p">),</span> <span class="p">(</span><span class="n">split_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">851</span>         <span class="nb">enumerate</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">),</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">852</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">855</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>         <span class="s2">&quot;No fits were performed. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">858</span>         <span class="s2">&quot;Was the CV iterator empty? &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">859</span>         <span class="s2">&quot;Were there no candidates?&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span>     <span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:1046,</span> in <span class="ni">Parallel.__call__</span><span class="nt">(self, iterable)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1043</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatch_one_batch</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1044</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_iterating</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_iterator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1046</span> <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatch_one_batch</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1047</span>     <span class="k">pass</span>
+<span class="g g-Whitespace">   </span><span class="mi">1049</span> <span class="k">if</span> <span class="n">pre_dispatch</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span> <span class="ow">or</span> <span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1050</span>     <span class="c1"># The iterable was consumed all at once by the above for loop.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1051</span>     <span class="c1"># No need to wait for async callbacks to trigger to</span>
+<span class="g g-Whitespace">   </span><span class="mi">1052</span>     <span class="c1"># consumption.</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:861,</span> in <span class="ni">Parallel.dispatch_one_batch</span><span class="nt">(self, iterator)</span>
+<span class="g g-Whitespace">    </span><span class="mi">859</span>     <span class="k">return</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">861</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">862</span>     <span class="k">return</span> <span class="kc">True</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:779,</span> in <span class="ni">Parallel._dispatch</span><span class="nt">(self, batch)</span>
+<span class="g g-Whitespace">    </span><span class="mi">777</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">778</span>     <span class="n">job_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">779</span>     <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">cb</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">780</span>     <span class="c1"># A job can complete so quickly than its callback is</span>
+<span class="g g-Whitespace">    </span><span class="mi">781</span>     <span class="c1"># called before we get here, causing self._jobs to</span>
+<span class="g g-Whitespace">    </span><span class="mi">782</span>     <span class="c1"># grow. To ensure correct results ordering, .insert is</span>
+<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="c1"># used (rather than .append) in the following line</span>
+<span class="g g-Whitespace">    </span><span class="mi">784</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">job_idx</span><span class="p">,</span> <span class="n">job</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/_parallel_backends.py:208,</span> in <span class="ni">SequentialBackend.apply_async</span><span class="nt">(self, func, callback)</span>
+<span class="g g-Whitespace">    </span><span class="mi">206</span> <span class="k">def</span> <span class="nf">apply_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">207</span>     <span class="sd">&quot;&quot;&quot;Schedule a func to be run&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">208</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">ImmediateResult</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">209</span>     <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">210</span>         <span class="n">callback</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/_parallel_backends.py:572,</span> in <span class="ni">ImmediateResult.__init__</span><span class="nt">(self, batch)</span>
+<span class="g g-Whitespace">    </span><span class="mi">569</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">570</span>     <span class="c1"># Don&#39;t delay the application, to avoid keeping the input</span>
+<span class="g g-Whitespace">    </span><span class="mi">571</span>     <span class="c1"># arguments in memory</span>
+<span class="ne">--&gt; </span><span class="mi">572</span>     <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">batch</span><span class="p">()</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:262,</span> in <span class="ni">BatchedCalls.__call__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span>     <span class="c1"># Set the default nested backend to self._backend but do not set the</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>     <span class="c1"># change the default number of processes to -1</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="k">with</span> <span class="n">parallel_backend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">262</span>         <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>                 <span class="k">for</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:262,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span>     <span class="c1"># Set the default nested backend to self._backend but do not set the</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>     <span class="c1"># change the default number of processes to -1</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="k">with</span> <span class="n">parallel_backend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">262</span>         <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>                 <span class="k">for</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/utils/fixes.py:216,</span> in <span class="ni">_FuncWrapper.__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span>     <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">216</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_validation.py:678,</span> in <span class="ni">_fit_and_score</span><span class="nt">(estimator, X, y, scorer, train, test, verbose, parameters, fit_params, return_train_score, return_parameters, return_n_test_samples, return_times, return_estimator, split_progress, candidate_progress, error_score)</span>
+<span class="g g-Whitespace">    </span><span class="mi">676</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">677</span>     <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">678</span>         <span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">679</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">680</span>         <span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
+
+<span class="nn">Input In [10],</span> in <span class="ni">PricePredictor.fit</span><span class="nt">(self, ts, quiet)</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="c1"># train LSTM model</span>
+<span class="ne">--&gt; </span><span class="mi">119</span> <span class="n">_train</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">120</span>     <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span>     <span class="n">X_train</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">122</span>     <span class="n">y_train</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span>     <span class="n">num_epochs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">124</span>     <span class="n">lr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">125</span>     <span class="n">quiet</span><span class="o">=</span><span class="n">quiet</span>
+<span class="g g-Whitespace">    </span><span class="mi">126</span> <span class="p">)</span>
+
+<span class="nn">Input In [9],</span> in <span class="ni">_train</span><span class="nt">(model, X_train, y_train, num_epochs, lr, quiet)</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="n">optimiser</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="c1"># compute gradients through backward propagation</span>
+<span class="ne">---&gt; </span><span class="mi">35</span> <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span> <span class="c1"># update parameters</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span> <span class="n">optimiser</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/torch/_tensor.py:487,</span> in <span class="ni">Tensor.backward</span><span class="nt">(self, gradient, retain_graph, create_graph, inputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">477</span> <span class="k">if</span> <span class="n">has_torch_function_unary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">478</span>     <span class="k">return</span> <span class="n">handle_torch_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">479</span>         <span class="n">Tensor</span><span class="o">.</span><span class="n">backward</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">480</span>         <span class="p">(</span><span class="bp">self</span><span class="p">,),</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span>         <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">486</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">487</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span> <span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/torch/autograd/__init__.py:197,</span> in <span class="ni">backward</span><span class="nt">(tensors, grad_tensors, retain_graph, create_graph, grad_variables, inputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span>     <span class="n">retain_graph</span> <span class="o">=</span> <span class="n">create_graph</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># The reason we repeat same the comment below is that</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="c1"># some Python versions print out the first line of a multi-line function</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span> <span class="c1"># calls in the traceback and some print out the last line</span>
+<span class="ne">--&gt; </span><span class="mi">197</span> <span class="n">Variable</span><span class="o">.</span><span class="n">_execution_engine</span><span class="o">.</span><span class="n">run_backward</span><span class="p">(</span>  <span class="c1"># Calls into the C++ engine to run the backward pass</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="n">tensors</span><span class="p">,</span> <span class="n">grad_tensors_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span>     <span class="n">allow_unreachable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load trained model</span>
+<span class="n">price_predictor</span><span class="p">:</span> <span class="n">PricePredictor</span> <span class="o">=</span> <span class="n">train_result</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+
+<span class="c1"># transform the test data</span>
+<span class="n">test_ts</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="n">feature_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">index</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">sliding_prices</span> <span class="o">=</span> <span class="n">price_predictor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_ts</span><span class="p">)</span>
+
+<span class="c1"># possible values for num_days_ahead are 1, 2 and 3</span>
+<span class="n">num_days_ahead</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># since the model predict the future prices up to 3 days, </span>
+<span class="c1"># here we only need the future 2-day price</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">sliding_prices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_days_ahead</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># plot the result</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;True Closing Price&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Future </span><span class="si">{</span><span class="n">num_days_ahead</span><span class="si">}</span><span class="s2">-Day Price&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Price&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/multivariate-time-series_37_0.png" src="../_images/multivariate-time-series_37_0.png" />
 </div>
 </div>
 </section>
@@ -940,6 +1580,20 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="arima.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Closing Price Prediction with ARIMA</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../trading-strategy/index.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Trading Strategy</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>

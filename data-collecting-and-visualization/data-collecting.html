@@ -27,7 +27,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/code.css" />
     <link rel="stylesheet" type="text/css" href="../_static/dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
@@ -156,8 +155,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/lstm-1-dim-input.html">
-     Closing Price Prediction with LSTM
+    <a class="reference internal" href="../closing-price-prediction/multivariate-time-series.html">
+     LSTM for Multivariate Time Series
     </a>
    </li>
   </ul>
@@ -202,6 +201,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="../news-investigation/news-scraping.html">
      News Scraping
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../news-investigation/quantification.html">
+     Quantification
     </a>
    </li>
   </ul>
@@ -500,7 +504,7 @@ title="Print to PDF"
  &#39;grossProfits&#39;: 170782000000,
  &#39;freeCashflow&#39;: 90215251968,
  &#39;targetMedianPrice&#39;: 180,
- &#39;currentPrice&#39;: 144.09,
+ &#39;currentPrice&#39;: 141.17,
  &#39;earningsGrowth&#39;: 0.048,
  &#39;currentRatio&#39;: 0.879,
  &#39;returnOnAssets&#39;: 0.21214001,
@@ -529,10 +533,10 @@ title="Print to PDF"
  &#39;messageBoardId&#39;: &#39;finmb_24937&#39;,
  &#39;market&#39;: &#39;us_market&#39;,
  &#39;annualHoldingsTurnover&#39;: None,
- &#39;enterpriseToRevenue&#39;: 6.032,
+ &#39;enterpriseToRevenue&#39;: 5.909,
  &#39;beta3Year&#39;: None,
- &#39;enterpriseToEbitda&#39;: 18.22,
- &#39;52WeekChange&#39;: -0.12752569,
+ &#39;enterpriseToEbitda&#39;: 17.848,
+ &#39;52WeekChange&#39;: -0.14322996,
  &#39;morningStarRiskRating&#39;: None,
  &#39;forwardEps&#39;: 6.81,
  &#39;revenueQuarterlyGrowth&#39;: None,
@@ -545,12 +549,12 @@ title="Print to PDF"
  &#39;sharesPercentSharesOut&#39;: 0.0072000003,
  &#39;fundFamily&#39;: None,
  &#39;lastFiscalYearEnd&#39;: 1663977600,
- &#39;heldPercentInstitutions&#39;: 0.59973997,
+ &#39;heldPercentInstitutions&#39;: 0.59981996,
  &#39;netIncomeToCommon&#39;: 99802996736,
  &#39;trailingEps&#39;: 6.11,
  &#39;lastDividendValue&#39;: 0.23,
- &#39;SandP52WeekChange&#39;: -0.1320473,
- &#39;priceToBook&#39;: 45.339836,
+ &#39;SandP52WeekChange&#39;: -0.123067796,
+ &#39;priceToBook&#39;: 44.42102,
  &#39;heldPercentInsiders&#39;: 0.00071999995,
  &#39;nextFiscalYearEnd&#39;: 1727136000,
  &#39;yield&#39;: None,
@@ -559,7 +563,7 @@ title="Print to PDF"
  &#39;sharesShortPreviousMonthDate&#39;: 1665705600,
  &#39;floatShares&#39;: 15891414476,
  &#39;beta&#39;: 1.246644,
- &#39;enterpriseValue&#39;: 2378444832768,
+ &#39;enterpriseValue&#39;: 2329925124096,
  &#39;priceHint&#39;: 2,
  &#39;threeYearAverageReturn&#39;: None,
  &#39;lastSplitDate&#39;: 1598832000,
@@ -568,11 +572,11 @@ title="Print to PDF"
  &#39;lastDividendDate&#39;: 1667520000,
  &#39;morningStarOverallRating&#39;: None,
  &#39;earningsQuarterlyGrowth&#39;: 0.008,
- &#39;priceToSalesTrailing12Months&#39;: 5.8129225,
+ &#39;priceToSalesTrailing12Months&#39;: 5.6951227,
  &#39;dateShortInterest&#39;: 1668470400,
  &#39;pegRatio&#39;: 2.6,
  &#39;ytdReturn&#39;: None,
- &#39;forwardPE&#39;: 21.15859,
+ &#39;forwardPE&#39;: 20.729809,
  &#39;lastCapGain&#39;: None,
  &#39;shortPercentOfFloat&#39;: 0.0072000003,
  &#39;sharesShortPriorMonth&#39;: 108664761,
@@ -581,52 +585,52 @@ title="Print to PDF"
  &#39;fiveYearAverageReturn&#39;: None,
  &#39;previousClose&#39;: 144.22,
  &#39;regularMarketOpen&#39;: 144.29,
- &#39;twoHundredDayAverage&#39;: 154.45564,
+ &#39;twoHundredDayAverage&#39;: 154.3183,
  &#39;trailingAnnualDividendYield&#39;: 0.0062404657,
  &#39;payoutRatio&#39;: 0.14729999,
  &#39;volume24Hr&#39;: None,
- &#39;regularMarketDayHigh&#39;: 144.46,
+ &#39;regularMarketDayHigh&#39;: 144.81,
  &#39;navPrice&#39;: None,
- &#39;averageDailyVolume10Day&#39;: 65591620,
+ &#39;averageDailyVolume10Day&#39;: 66622150,
  &#39;regularMarketPreviousClose&#39;: 144.22,
- &#39;fiftyDayAverage&#39;: 146.4022,
+ &#39;fiftyDayAverage&#39;: 146.136,
  &#39;trailingAnnualDividendRate&#39;: 0.9,
  &#39;open&#39;: 144.29,
  &#39;toCurrency&#39;: None,
- &#39;averageVolume10days&#39;: 65591620,
+ &#39;averageVolume10days&#39;: 66622150,
  &#39;expireDate&#39;: None,
  &#39;algorithm&#39;: None,
  &#39;dividendRate&#39;: 0.92,
  &#39;exDividendDate&#39;: 1667520000,
  &#39;circulatingSupply&#39;: None,
  &#39;startDate&#39;: None,
- &#39;regularMarketDayLow&#39;: 142.96,
+ &#39;regularMarketDayLow&#39;: 140.355,
  &#39;currency&#39;: &#39;USD&#39;,
- &#39;trailingPE&#39;: 23.582651,
- &#39;regularMarketVolume&#39;: 18307360,
+ &#39;trailingPE&#39;: 23.104746,
+ &#39;regularMarketVolume&#39;: 83763803,
  &#39;lastMarket&#39;: None,
  &#39;maxSupply&#39;: None,
  &#39;openInterest&#39;: None,
- &#39;marketCap&#39;: 2292198146048,
+ &#39;marketCap&#39;: 2245746491392,
  &#39;volumeAllCurrencies&#39;: None,
  &#39;strikePrice&#39;: None,
- &#39;averageVolume&#39;: 89654822,
- &#39;dayLow&#39;: 142.96,
- &#39;ask&#39;: 144.23,
- &#39;askSize&#39;: 1300,
- &#39;volume&#39;: 18307360,
+ &#39;averageVolume&#39;: 89746460,
+ &#39;dayLow&#39;: 140.355,
+ &#39;ask&#39;: 0,
+ &#39;askSize&#39;: 1400,
+ &#39;volume&#39;: 83763803,
  &#39;fiftyTwoWeekHigh&#39;: 182.94,
  &#39;fromCurrency&#39;: None,
  &#39;fiveYearAvgDividendYield&#39;: 1,
  &#39;fiftyTwoWeekLow&#39;: 129.04,
- &#39;bid&#39;: 144.22,
+ &#39;bid&#39;: 0,
  &#39;tradeable&#39;: False,
- &#39;dividendYield&#39;: 0.0062,
- &#39;bidSize&#39;: 800,
- &#39;dayHigh&#39;: 144.46,
+ &#39;dividendYield&#39;: 0.0064999997,
+ &#39;bidSize&#39;: 1300,
+ &#39;dayHigh&#39;: 144.81,
  &#39;coinMarketCapLink&#39;: None,
- &#39;regularMarketPrice&#39;: 144.09,
- &#39;preMarketPrice&#39;: 144.271,
+ &#39;regularMarketPrice&#39;: 141.17,
+ &#39;preMarketPrice&#39;: 142,
  &#39;logo_url&#39;: &#39;https://logo.clearbit.com/apple.com&#39;,
  &#39;trailingPegRatio&#39;: 2.8654}
 </pre></div>
@@ -648,9 +652,6 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -755,16 +756,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>AAPL</td>
-      <td>Technology</td>
-      <td>43.157501</td>
-      <td>43.230000</td>
-      <td>41.790001</td>
-      <td>42.369999</td>
-      <td>166665600</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>AAPL</td>
       <td>Technology</td>
@@ -803,6 +794,16 @@ title="Print to PDF"
       <td>42.099998</td>
       <td>42.410000</td>
       <td>109400800</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>41.875000</td>
+      <td>42.549999</td>
+      <td>41.615002</td>
+      <td>42.252499</td>
+      <td>114240000</td>
     </tr>
     <tr>
       <th>...</th>
@@ -859,14 +860,14 @@ title="Print to PDF"
       <td>AAPL</td>
       <td>Technology</td>
       <td>144.289993</td>
-      <td>144.460007</td>
-      <td>142.960007</td>
-      <td>144.110001</td>
-      <td>18308573</td>
+      <td>144.809998</td>
+      <td>140.350006</td>
+      <td>141.169998</td>
+      <td>83679400</td>
     </tr>
   </tbody>
 </table>
-<p>1259 rows × 7 columns</p>
+<p>1258 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -926,9 +927,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -991,16 +989,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>UNH</td>
-      <td>Healthcare</td>
-      <td>217.699997</td>
-      <td>224.270004</td>
-      <td>217.360001</td>
-      <td>222.880005</td>
-      <td>4247200</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>UNH</td>
       <td>Healthcare</td>
@@ -1039,6 +1027,16 @@ title="Print to PDF"
       <td>219.160004</td>
       <td>220.089996</td>
       <td>3246300</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>UNH</td>
+      <td>Healthcare</td>
+      <td>221.020004</td>
+      <td>221.960007</td>
+      <td>219.029999</td>
+      <td>219.940002</td>
+      <td>2397500</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1096,13 +1094,13 @@ title="Print to PDF"
       <td>Healthcare</td>
       <td>531.669983</td>
       <td>532.969971</td>
-      <td>526.401794</td>
-      <td>527.130005</td>
-      <td>974801</td>
+      <td>523.650024</td>
+      <td>528.000000</td>
+      <td>3751000</td>
     </tr>
   </tbody>
 </table>
-<p>1259 rows × 7 columns</p>
+<p>1258 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -1146,9 +1144,6 @@ title="Print to PDF"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
 </pre></div>
 </div>
@@ -1162,9 +1157,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -1239,16 +1231,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>AMZN</td>
-      <td>Consumer Cyclical</td>
-      <td>59.740002</td>
-      <td>59.740002</td>
-      <td>57.259499</td>
-      <td>58.063499</td>
-      <td>185150000</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>AMZN</td>
       <td>Consumer Cyclical</td>
@@ -1287,6 +1269,16 @@ title="Print to PDF"
       <td>56.237000</td>
       <td>57.078499</td>
       <td>81596000</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>AMZN</td>
+      <td>Consumer Cyclical</td>
+      <td>56.899502</td>
+      <td>57.794498</td>
+      <td>56.804001</td>
+      <td>57.617500</td>
+      <td>57066000</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1344,13 +1336,13 @@ title="Print to PDF"
       <td>Consumer Cyclical</td>
       <td>94.040001</td>
       <td>94.410004</td>
-      <td>92.700996</td>
-      <td>92.919998</td>
-      <td>17499331</td>
+      <td>91.440002</td>
+      <td>92.419998</td>
+      <td>65438500</td>
     </tr>
   </tbody>
 </table>
-<p>1259 rows × 7 columns</p>
+<p>1258 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -1427,16 +1419,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>RTX</td>
-      <td>Industrials</td>
-      <td>74.159851</td>
-      <td>74.550034</td>
-      <td>74.052864</td>
-      <td>74.361237</td>
-      <td>4400418</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>RTX</td>
       <td>Industrials</td>
@@ -1475,6 +1457,16 @@ title="Print to PDF"
       <td>75.645058</td>
       <td>75.701698</td>
       <td>5004238</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>RTX</td>
+      <td>Industrials</td>
+      <td>76.249214</td>
+      <td>76.400253</td>
+      <td>75.752045</td>
+      <td>76.274384</td>
+      <td>4143159</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1533,12 +1525,12 @@ title="Print to PDF"
       <td>96.800003</td>
       <td>97.910004</td>
       <td>96.610001</td>
-      <td>97.470001</td>
-      <td>550702</td>
+      <td>97.430000</td>
+      <td>2915300</td>
     </tr>
   </tbody>
 </table>
-<p>1259 rows × 7 columns</p>
+<p>1258 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -1651,16 +1643,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>C</td>
-      <td>Financial Services</td>
-      <td>75.129997</td>
-      <td>75.769997</td>
-      <td>74.050003</td>
-      <td>75.040001</td>
-      <td>21876400</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>C</td>
       <td>Financial Services</td>
@@ -1699,6 +1681,16 @@ title="Print to PDF"
       <td>76.190002</td>
       <td>76.540001</td>
       <td>16045900</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>C</td>
+      <td>Financial Services</td>
+      <td>76.239998</td>
+      <td>76.500000</td>
+      <td>75.089996</td>
+      <td>75.440002</td>
+      <td>16612500</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1755,14 +1747,14 @@ title="Print to PDF"
       <td>C</td>
       <td>Financial Services</td>
       <td>47.230000</td>
-      <td>47.869999</td>
-      <td>47.310001</td>
-      <td>47.805000</td>
-      <td>2428678</td>
+      <td>47.900002</td>
+      <td>47.209999</td>
+      <td>47.570000</td>
+      <td>12221800</td>
     </tr>
   </tbody>
 </table>
-<p>1259 rows × 7 columns</p>
+<p>1258 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -1780,6 +1772,9 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[*********************100%***********************]  1 of 1 completed
@@ -1854,16 +1849,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>GOOG</td>
-      <td>Communication Services</td>
-      <td>52.133999</td>
-      <td>52.203999</td>
-      <td>50.782501</td>
-      <td>51.083000</td>
-      <td>49188000</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>GOOG</td>
       <td>Communication Services</td>
@@ -1902,6 +1887,16 @@ title="Print to PDF"
       <td>49.414001</td>
       <td>50.257500</td>
       <td>41346000</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>GOOG</td>
+      <td>Communication Services</td>
+      <td>50.075001</td>
+      <td>51.248501</td>
+      <td>50.056999</td>
+      <td>50.918999</td>
+      <td>25440000</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1958,14 +1953,14 @@ title="Print to PDF"
       <td>GOOG</td>
       <td>Communication Services</td>
       <td>96.000000</td>
-      <td>96.382202</td>
-      <td>95.260002</td>
-      <td>95.760002</td>
-      <td>4230059</td>
+      <td>96.389999</td>
+      <td>94.389999</td>
+      <td>95.440002</td>
+      <td>20211700</td>
     </tr>
   </tbody>
 </table>
-<p>1259 rows × 7 columns</p>
+<p>1258 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -2054,16 +2049,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>SHEL</td>
-      <td>Energy</td>
-      <td>63.820000</td>
-      <td>64.169998</td>
-      <td>63.419998</td>
-      <td>63.689999</td>
-      <td>2672631</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>SHEL</td>
       <td>Energy</td>
@@ -2102,6 +2087,16 @@ title="Print to PDF"
       <td>63.830002</td>
       <td>63.990002</td>
       <td>2357710</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>SHEL</td>
+      <td>Energy</td>
+      <td>63.639999</td>
+      <td>63.849998</td>
+      <td>63.360001</td>
+      <td>63.500000</td>
+      <td>2487625</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2151,7 +2146,7 @@ title="Print to PDF"
       <td>57.055000</td>
       <td>56.255001</td>
       <td>56.490002</td>
-      <td>3804778</td>
+      <td>3806189</td>
     </tr>
     <tr>
       <th>2022-11-29</th>
@@ -2160,12 +2155,12 @@ title="Print to PDF"
       <td>57.270000</td>
       <td>58.029999</td>
       <td>57.270000</td>
-      <td>57.915001</td>
-      <td>1377656</td>
+      <td>57.619999</td>
+      <td>4286441</td>
     </tr>
   </tbody>
 </table>
-<p>1259 rows × 7 columns</p>
+<p>1258 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
@@ -2227,16 +2222,6 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>2017-11-29</th>
-      <td>AAPL</td>
-      <td>Technology</td>
-      <td>43.157501</td>
-      <td>43.230000</td>
-      <td>41.790001</td>
-      <td>42.369999</td>
-      <td>166665600</td>
-    </tr>
-    <tr>
       <th>2017-11-30</th>
       <td>AAPL</td>
       <td>Technology</td>
@@ -2244,7 +2229,7 @@ title="Print to PDF"
       <td>43.035000</td>
       <td>42.110001</td>
       <td>42.962502</td>
-      <td>166108800</td>
+      <td>166108800.0</td>
     </tr>
     <tr>
       <th>2017-12-01</th>
@@ -2254,7 +2239,7 @@ title="Print to PDF"
       <td>42.917500</td>
       <td>42.125000</td>
       <td>42.762501</td>
-      <td>159037200</td>
+      <td>159037200.0</td>
     </tr>
     <tr>
       <th>2017-12-04</th>
@@ -2264,7 +2249,7 @@ title="Print to PDF"
       <td>43.154999</td>
       <td>42.407501</td>
       <td>42.450001</td>
-      <td>130169600</td>
+      <td>130169600.0</td>
     </tr>
     <tr>
       <th>2017-12-05</th>
@@ -2274,7 +2259,17 @@ title="Print to PDF"
       <td>42.880001</td>
       <td>42.099998</td>
       <td>42.410000</td>
-      <td>109400800</td>
+      <td>109400800.0</td>
+    </tr>
+    <tr>
+      <th>2017-12-06</th>
+      <td>AAPL</td>
+      <td>Technology</td>
+      <td>41.875000</td>
+      <td>42.549999</td>
+      <td>41.615002</td>
+      <td>42.252499</td>
+      <td>114240000.0</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2294,7 +2289,7 @@ title="Print to PDF"
       <td>130.550003</td>
       <td>126.459999</td>
       <td>129.979996</td>
-      <td>5604200</td>
+      <td>5604200.0</td>
     </tr>
     <tr>
       <th>2022-11-23</th>
@@ -2304,7 +2299,7 @@ title="Print to PDF"
       <td>129.220001</td>
       <td>125.800003</td>
       <td>126.739998</td>
-      <td>7482600</td>
+      <td>7482600.0</td>
     </tr>
     <tr>
       <th>2022-11-25</th>
@@ -2314,7 +2309,7 @@ title="Print to PDF"
       <td>127.769997</td>
       <td>126.500000</td>
       <td>126.809998</td>
-      <td>2547800</td>
+      <td>2547800.0</td>
     </tr>
     <tr>
       <th>2022-11-28</th>
@@ -2324,21 +2319,21 @@ title="Print to PDF"
       <td>125.059998</td>
       <td>121.239998</td>
       <td>123.839996</td>
-      <td>5648600</td>
+      <td>5648600.0</td>
     </tr>
     <tr>
       <th>2022-11-29</th>
       <td>COP</td>
       <td>Energy</td>
       <td>125.820000</td>
-      <td>126.725197</td>
-      <td>125.040001</td>
-      <td>126.099998</td>
-      <td>1083607</td>
+      <td>126.830002</td>
+      <td>123.919998</td>
+      <td>124.250000</td>
+      <td>4909700.0</td>
     </tr>
   </tbody>
 </table>
-<p>63446 rows × 7 columns</p>
+<p>63396 rows × 7 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">

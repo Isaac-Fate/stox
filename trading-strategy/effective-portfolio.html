@@ -27,7 +27,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/code.css" />
     <link rel="stylesheet" type="text/css" href="../_static/dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
@@ -158,8 +157,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/lstm-1-dim-input.html">
-     Closing Price Prediction with LSTM
+    <a class="reference internal" href="../closing-price-prediction/multivariate-time-series.html">
+     LSTM for Multivariate Time Series
     </a>
    </li>
   </ul>
@@ -204,6 +203,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="../news-investigation/news-scraping.html">
      News Scraping
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../news-investigation/quantification.html">
+     Quantification
     </a>
    </li>
   </ul>
@@ -755,10 +759,19 @@ title="Print to PDF"
 \[
 \text{Today's Stock Return} = \frac{\text{Today's Price} - \text{Yesterday's Price}}{\text{Yesterday's Price}}
 \]</div>
+<p>Sometimes, it is preferred to use the <strong>log return</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Log Return} = \log \left( 1 + \text{Stock Return} \right)
+\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stock_returns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># standard returns</span>
+<span class="n">stock_returns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># log returns</span>
 <span class="n">stock_returns</span> <span class="o">=</span> <span class="n">stock_returns</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
 <span class="n">stock_returns</span>
 </pre></div>
 </div>
@@ -1164,7 +1177,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/effective-portfolio_26_0.png" src="../_images/effective-portfolio_26_0.png" />
+<img alt="../_images/effective-portfolio_27_0.png" src="../_images/effective-portfolio_27_0.png" />
 </div>
 </div>
 </section>
@@ -1212,7 +1225,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/effective-portfolio_32_0.png" src="../_images/effective-portfolio_32_0.png" />
+<img alt="../_images/effective-portfolio_33_0.png" src="../_images/effective-portfolio_33_0.png" />
 </div>
 </div>
 </section>

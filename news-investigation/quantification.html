@@ -27,7 +27,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/code.css" />
     <link rel="stylesheet" type="text/css" href="../_static/dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
@@ -58,6 +57,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="shortcut icon" href="../_static/icon.jpg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="News Scraping" href="news-scraping.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -117,7 +117,7 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../data-collecting-and-visualization/index.html">
    Data Collecting and Visualization
@@ -156,8 +156,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/lstm-1-dim-input.html">
-     Closing Price Prediction with LSTM
+    <a class="reference internal" href="../closing-price-prediction/multivariate-time-series.html">
+     LSTM for Multivariate Time Series
     </a>
    </li>
   </ul>
@@ -189,19 +189,24 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="index.html">
    News Investigation
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="news-scraping.html">
      News Scraping
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Quantification
     </a>
    </li>
   </ul>
@@ -463,45 +468,6 @@ title="Print to PDF"
    Word Embedding
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#binary-classifier">
-   Binary Classifier
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-performance">
-   Training Performance
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#confusion-matrix">
-     Confusion Matrix
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#roc-curve">
-     ROC Curve
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-performance-and-profit">
-   Test Performance and Profit
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
-     Confusion Matrix
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     ROC Curve
-    </a>
-   </li>
-  </ul>
- </li>
 </ul>
 
     </nav>
@@ -535,45 +501,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#word-embedding">
    Word Embedding
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#binary-classifier">
-   Binary Classifier
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-performance">
-   Training Performance
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#confusion-matrix">
-     Confusion Matrix
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#roc-curve">
-     ROC Curve
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-performance-and-profit">
-   Test Performance and Profit
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id1">
-     Confusion Matrix
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     ROC Curve
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -1007,372 +934,6 @@ title="Print to PDF"
 </div>
 <p>As we can see, each headline is transformed to an array with length 384.</p>
 </section>
-<section id="binary-classifier">
-<h2>Binary Classifier<a class="headerlink" href="#binary-classifier" title="Permalink to this headline">#</a></h2>
-<p>As mentioned, we want to solve a classification problem, the simplest model is Scikit-learn’s <code class="docutils literal notranslate"><span class="pre">SGDClassifier</span></code>, which implements a <em>linear</em> model with stochastic gradient descent (SGD) learning.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>In terms of machine learning terminologies, each sample <span class="math notranslate nohighlight">\((\mathbf{x}, y)\)</span> consists of a vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> representing 384 features (encoded news headline) and a binary label <span class="math notranslate nohighlight">\(y \in \{\text{True}, \text{False}\}\)</span>.</p>
-<p>Training data:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">embeddings</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Will Go Up?&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Train the Model:</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Since <code class="docutils literal notranslate"><span class="pre">SGDClassifier</span></code> applies stochastic gradient descent during the training process. To ensure reproduction of the expreiment result, we pass a random seed to the model.</p>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SEED</span> <span class="o">=</span> <span class="mi">7008</span>
-<span class="c1"># sgd_clf = SGDClassifier(random_state=SEED)</span>
-<span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SVC(C=5, kernel=&#39;sigmoid&#39;)
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="training-performance">
-<h2>Training Performance<a class="headerlink" href="#training-performance" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">y_train_pred</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ True, False, False, ...,  True, False,  True])
-</pre></div>
-</div>
-</div>
-</div>
-<section id="confusion-matrix">
-<h3>Confusion Matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_pred</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[238, 320],
-       [256, 353]])
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="roc-curve">
-<h3>ROC Curve<a class="headerlink" href="#roc-curve" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Plot the ROC curve:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_pred</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;False Positive Rate&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;True Positive Rate&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/quantification_37_0.png" src="../_images/quantification_37_0.png" />
-</div>
-</div>
-<p>The area under the ROC curve (AUC):</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_pred</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5030810247717923
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="test-performance-and-profit">
-<h2>Test Performance and Profit<a class="headerlink" href="#test-performance-and-profit" title="Permalink to this headline">#</a></h2>
-<p>Perform the same transformation on the test data set:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># whther price will go up the next day</span>
-<span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[[</span><span class="s2">&quot;Close&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-<span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span> <span class="o">&gt;</span> <span class="mi">0</span>
-<span class="n">test_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span> <span class="s2">&quot;Will Go Up?&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># attach news headlines</span>
-<span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;Headline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">test_df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-    <span class="n">date_str</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">news_filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;../../data/news/&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;TSLA/</span><span class="si">{</span><span class="n">date_str</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">news_filepath</span><span class="p">):</span>
-        <span class="k">continue</span>
-    
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">news_filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">news</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    
-    <span class="n">test_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;Headline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">news</span><span class="p">[</span><span class="s2">&quot;Headline&quot;</span><span class="p">]</span>
-<span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[[</span><span class="s2">&quot;Headline&quot;</span><span class="p">,</span> <span class="s2">&quot;Will Go Up?&quot;</span><span class="p">]]</span>
-
-<span class="n">test_df</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Headline</th>
-      <th>Will Go Up?</th>
-    </tr>
-    <tr>
-      <th>Date</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2022-06-27</th>
-      <td>You can now use CarPlay in your Tesla - and it...</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2022-06-28</th>
-      <td>Tesla is cutting about 200 Autopilot jobs and ...</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2022-06-29</th>
-      <td>Tesla lays off about 200 Autopilot workers and...</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2022-06-30</th>
-      <td>Tesla Deliveries Are Coming. The ‘Line in the ...</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2022-07-01</th>
-      <td>Bloomberg</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>2022-10-25</th>
-      <td>Tesla China price cuts ‘not unexpected’ say Ca...</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2022-10-26</th>
-      <td>Exclusive: Tesla faces U.S. criminal probe ove...</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2022-10-27</th>
-      <td>From Tesla to SpaceX, what Elon Musk touches t...</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2022-10-28</th>
-      <td>Wall Street asks if Musk can manage Twitter, T...</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2022-10-31</th>
-      <td>Elon Musk has pulled more than 50 Tesla employ...</td>
-      <td>True</td>
-    </tr>
-  </tbody>
-</table>
-<p>89 rows × 2 columns</p>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">headline_encoder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;Headline&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-<span class="n">y_test</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;Will Go Up?&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Make prediction:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<section id="id1">
-<h3>Confusion Matrix<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_pred</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[18, 22],
-       [21, 28]])
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="id2">
-<h3>ROC Curve<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_pred</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;False Positive Rate&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;True Positive Rate&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/quantification_49_0.png" src="../_images/quantification_49_0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_pred</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5107142857142857
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">profit</span> <span class="kn">import</span> <span class="n">calc_profit</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">buy_dates</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">sell_dates</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">is_holding_shares</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">date</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">is_holding_shares</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">y_test_pred</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">sell_dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
-            <span class="n">is_holding_shares</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">y_test_pred</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">buy_dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
-            <span class="n">is_holding_shares</span> <span class="o">=</span> <span class="kc">True</span>
-            
-<span class="n">buy_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">buy_dates</span><span class="p">)</span>
-<span class="n">sell_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">sell_dates</span><span class="p">)</span>
-
-<span class="n">buy_dates</span><span class="p">,</span> <span class="n">sell_dates</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DatetimeIndex([&#39;2022-06-27&#39;, &#39;2022-07-01&#39;, &#39;2022-07-11&#39;, &#39;2022-07-13&#39;,
-                &#39;2022-07-18&#39;, &#39;2022-07-22&#39;, &#39;2022-07-26&#39;, &#39;2022-08-02&#39;,
-                &#39;2022-08-05&#39;, &#39;2022-08-09&#39;, &#39;2022-08-15&#39;, &#39;2022-08-19&#39;,
-                &#39;2022-08-25&#39;, &#39;2022-08-30&#39;, &#39;2022-09-07&#39;, &#39;2022-09-13&#39;,
-                &#39;2022-09-20&#39;, &#39;2022-09-29&#39;, &#39;2022-10-04&#39;, &#39;2022-10-11&#39;,
-                &#39;2022-10-17&#39;, &#39;2022-10-21&#39;, &#39;2022-10-26&#39;],
-               dtype=&#39;datetime64[ns]&#39;, freq=None),
- DatetimeIndex([&#39;2022-06-28&#39;, &#39;2022-07-05&#39;, &#39;2022-07-12&#39;, &#39;2022-07-14&#39;,
-                &#39;2022-07-20&#39;, &#39;2022-07-25&#39;, &#39;2022-07-29&#39;, &#39;2022-08-04&#39;,
-                &#39;2022-08-08&#39;, &#39;2022-08-12&#39;, &#39;2022-08-17&#39;, &#39;2022-08-24&#39;,
-                &#39;2022-08-29&#39;, &#39;2022-09-02&#39;, &#39;2022-09-12&#39;, &#39;2022-09-19&#39;,
-                &#39;2022-09-27&#39;, &#39;2022-10-03&#39;, &#39;2022-10-10&#39;, &#39;2022-10-13&#39;,
-                &#39;2022-10-18&#39;, &#39;2022-10-25&#39;, &#39;2022-10-27&#39;],
-               dtype=&#39;datetime64[ns]&#39;, freq=None))
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">profit_rate</span> <span class="o">=</span> <span class="n">calc_profit</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">buy_dates</span><span class="p">,</span> <span class="n">sell_dates</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;2022-06-27&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mi">100</span> <span class="o">*</span> <span class="n">profit_rate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.84%
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1402,6 +963,13 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="news-scraping.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">News Scraping</p>
+        </div>
+    </a>
 </div>
             </footer>
         </div>
