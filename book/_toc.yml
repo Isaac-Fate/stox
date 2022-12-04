@@ -7,7 +7,6 @@ chapters:
   - file: data-collecting-and-visualization/visualization
 - file: closing-price-prediction/index
   sections:
-  - file: closing-price-prediction/arima
   - file: closing-price-prediction/multivariate-time-series
 - file: trading-strategy/index
   sections:
