@@ -58,7 +58,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Trading Strategy" href="../trading-strategy/index.html" />
-    <link rel="prev" title="Closing Price Prediction with ARIMA" href="arima.html" />
+    <link rel="prev" title="Closing Price Prediction" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -151,11 +151,6 @@ const thebe_selector_output = ".output, .cell_output"
    </i>
   </label>
   <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="arima.html">
-     Closing Price Prediction with ARIMA
-    </a>
-   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      LSTM for Multivariate Time Series
@@ -563,7 +558,9 @@ title="Print to PDF"
 <p>We explore the Tesla stock data in our demonstration.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stock</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/TSLA.pkl&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">company</span> <span class="o">=</span> <span class="s2">&quot;TSLA&quot;</span>
+<span class="n">stock</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Company == &#39;</span><span class="si">{</span><span class="n">company</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Sector&quot;</span><span class="p">])</span>
 <span class="n">stock</span>
 </pre></div>
 </div>
@@ -1295,234 +1292,72 @@ title="Print to PDF"
 </div>
 </div>
 <p>Finally, we are ready to train the model:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following cell is not executable since we discover that something may go wrong when one execute this notebook online. Therefore, we display execution output from our machine in the following.</p>
+</div>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">company</span> <span class="o">=</span> <span class="s2">&quot;TSLA&quot;</span>
+<span class="n">stock</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Company == &#39;</span><span class="si">{</span><span class="n">company</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Sector&quot;</span><span class="p">])</span>
 
-<span class="n">train_result</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">stocks</span><span class="p">,</span> <span class="n">company</span><span class="o">=</span><span class="s2">&quot;TSLA&quot;</span><span class="p">,</span> <span class="n">num_days_left_out</span><span class="o">=</span><span class="n">num_days</span><span class="p">,</span> <span class="n">pred_len</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">train_result</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">stocks</span><span class="p">,</span> <span class="n">company</span><span class="o">=</span><span class="s2">&quot;TSLA&quot;</span><span class="p">,</span> <span class="n">num_days_left_out</span><span class="o">=</span><span class="n">num_days</span><span class="p">,</span> <span class="n">pred_len</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">train_result</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fitting 2 folds for each of 10 candidates, totalling 20 fits
+<p>The output is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Fitting</span> <span class="mi">2</span> <span class="n">folds</span> <span class="k">for</span> <span class="n">each</span> <span class="n">of</span> <span class="mi">10</span> <span class="n">candidates</span><span class="p">,</span> <span class="n">totalling</span> <span class="mi">20</span> <span class="n">fits</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">5.4</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">4.6</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">30</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.6</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">30</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.6</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Volume&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">3.8</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Volume&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">4.0</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">90</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>  <span class="mf">10.6</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">90</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">9.9</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">90</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">8.9</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">90</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">9.1</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">30</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.9</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">30</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.8</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">90</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">4.1</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">90</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">4.1</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.7</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.7</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Volume&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.9</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Volume&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.9</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">30</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.7</span><span class="n">s</span>
+<span class="p">[</span><span class="n">CV</span><span class="p">]</span> <span class="n">END</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">30</span><span class="p">;</span> <span class="n">total</span> <span class="n">time</span><span class="o">=</span>   <span class="mf">1.6</span><span class="n">s</span>
+<span class="p">{</span><span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">PricePredictor</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Volume&#39;</span><span class="p">,</span> <span class="s1">&#39;Close&#39;</span><span class="p">],</span> <span class="n">num_days_ago</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+                <span class="n">pred_len</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">seq_len</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>
+ <span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;seq_len&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+  <span class="s1">&#39;num_layers&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s1">&#39;num_days_ago&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+  <span class="s1">&#39;hidden_size&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+  <span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">,</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Volume&#39;</span><span class="p">]},</span>
+ <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.7899972418662307</span><span class="p">}</span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=32, num_days_ago=500, num_layers=2, seq_len=90; total time=  10.1s
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="c1"># load trained model</span>
+<span class="n">price_predictor</span><span class="p">:</span> <span class="n">PricePredictor</span> <span class="o">=</span> <span class="n">train_result</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=32, num_days_ago=500, num_layers=2, seq_len=90; total time=   9.2s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;, &#39;Open&#39;], hidden_size=16, num_days_ago=300, num_layers=1, seq_len=90; total time=   1.8s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;, &#39;Open&#39;], hidden_size=16, num_days_ago=300, num_layers=1, seq_len=90; total time=   1.9s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=90; total time=   2.1s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=90; total time=   2.1s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=30; total time=   0.8s
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] END features=[&#39;Close&#39;], hidden_size=16, num_days_ago=400, num_layers=1, seq_len=30; total time=   0.8s
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="nn">Input In [12],</span> in <span class="ni">&lt;cell line: 3&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">train_result</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">stocks</span><span class="p">,</span> <span class="n">company</span><span class="o">=</span><span class="s2">&quot;TSLA&quot;</span><span class="p">,</span> <span class="n">num_days_left_out</span><span class="o">=</span><span class="n">num_days</span><span class="p">,</span> <span class="n">pred_len</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">train_result</span>
+<p>Alternatively, we have implemented a function <code class="docutils literal notranslate"><span class="pre">load_price_predictor</span></code> in our <code class="docutils literal notranslate"><span class="pre">lstm.py</span></code> moduel to load a pre-trained model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span> 
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
 
-<span class="nn">Input In [11],</span> in <span class="ni">train</span><span class="nt">(stocks, company, num_days_left_out, pred_len)</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">search</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span>     <span class="n">price_predictor</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span>     <span class="p">{</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span>
-<span class="g g-Whitespace">     </span><span class="mi">52</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="c1"># train!</span>
-<span class="ne">---&gt; </span><span class="mi">55</span> <span class="n">search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ts</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="c1"># return the training result</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span> <span class="n">train_result</span> <span class="o">=</span> <span class="p">{</span>
-<span class="g g-Whitespace">     </span><span class="mi">59</span>     <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_params_</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">61</span>     <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">search</span><span class="o">.</span><span class="n">best_score_</span>
-<span class="g g-Whitespace">     </span><span class="mi">62</span> <span class="p">}</span>
+<span class="c1"># import our modules</span>
+<span class="kn">import</span> <span class="nn">lstm</span>
 
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_search.py:891,</span> in <span class="ni">BaseSearchCV.fit</span><span class="nt">(self, X, y, groups, **fit_params)</span>
-<span class="g g-Whitespace">    </span><span class="mi">885</span>     <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_results</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">886</span>         <span class="n">all_candidate_params</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">all_out</span><span class="p">,</span> <span class="n">all_more_results</span>
-<span class="g g-Whitespace">    </span><span class="mi">887</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">889</span>     <span class="k">return</span> <span class="n">results</span>
-<span class="ne">--&gt; </span><span class="mi">891</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_search</span><span class="p">(</span><span class="n">evaluate_candidates</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">893</span> <span class="c1"># multimetric is determined here because in the case of a callable</span>
-<span class="g g-Whitespace">    </span><span class="mi">894</span> <span class="c1"># self.scoring the return type is only known after calling</span>
-<span class="g g-Whitespace">    </span><span class="mi">895</span> <span class="n">first_test_score</span> <span class="o">=</span> <span class="n">all_out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;test_scores&quot;</span><span class="p">]</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_search.py:1766,</span> in <span class="ni">RandomizedSearchCV._run_search</span><span class="nt">(self, evaluate_candidates)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1764</span> <span class="k">def</span> <span class="nf">_run_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evaluate_candidates</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1765</span>     <span class="sd">&quot;&quot;&quot;Search n_iter candidates from param_distributions&quot;&quot;&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">1766</span>     <span class="n">evaluate_candidates</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1767</span>         <span class="n">ParameterSampler</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1768</span>             <span class="bp">self</span><span class="o">.</span><span class="n">param_distributions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span>
-<span class="g g-Whitespace">   </span><span class="mi">1769</span>         <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1770</span>     <span class="p">)</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_search.py:838,</span> in <span class="ni">BaseSearchCV.fit.&lt;locals&gt;.evaluate_candidates</span><span class="nt">(candidate_params, cv, more_results)</span>
-<span class="g g-Whitespace">    </span><span class="mi">830</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">831</span>     <span class="nb">print</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">832</span>         <span class="s2">&quot;Fitting </span><span class="si">{0}</span><span class="s2"> folds for each of </span><span class="si">{1}</span><span class="s2"> candidates,&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">833</span>         <span class="s2">&quot; totalling </span><span class="si">{2}</span><span class="s2"> fits&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">834</span>             <span class="n">n_splits</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">,</span> <span class="n">n_candidates</span> <span class="o">*</span> <span class="n">n_splits</span>
-<span class="g g-Whitespace">    </span><span class="mi">835</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">836</span>     <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">838</span> <span class="n">out</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">839</span>     <span class="n">delayed</span><span class="p">(</span><span class="n">_fit_and_score</span><span class="p">)(</span>
-<span class="g g-Whitespace">    </span><span class="mi">840</span>         <span class="n">clone</span><span class="p">(</span><span class="n">base_estimator</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">841</span>         <span class="n">X</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">842</span>         <span class="n">y</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">843</span>         <span class="n">train</span><span class="o">=</span><span class="n">train</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">844</span>         <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">845</span>         <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">846</span>         <span class="n">split_progress</span><span class="o">=</span><span class="p">(</span><span class="n">split_idx</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">847</span>         <span class="n">candidate_progress</span><span class="o">=</span><span class="p">(</span><span class="n">cand_idx</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">848</span>         <span class="o">**</span><span class="n">fit_and_score_kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">849</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">850</span>     <span class="k">for</span> <span class="p">(</span><span class="n">cand_idx</span><span class="p">,</span> <span class="n">parameters</span><span class="p">),</span> <span class="p">(</span><span class="n">split_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">851</span>         <span class="nb">enumerate</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">),</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">852</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">853</span> <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">855</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">856</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">857</span>         <span class="s2">&quot;No fits were performed. &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">858</span>         <span class="s2">&quot;Was the CV iterator empty? &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">859</span>         <span class="s2">&quot;Were there no candidates?&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">860</span>     <span class="p">)</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:1046,</span> in <span class="ni">Parallel.__call__</span><span class="nt">(self, iterable)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1043</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatch_one_batch</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1044</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_iterating</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_iterator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-<span class="ne">-&gt; </span><span class="mi">1046</span> <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatch_one_batch</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1047</span>     <span class="k">pass</span>
-<span class="g g-Whitespace">   </span><span class="mi">1049</span> <span class="k">if</span> <span class="n">pre_dispatch</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span> <span class="ow">or</span> <span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1050</span>     <span class="c1"># The iterable was consumed all at once by the above for loop.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1051</span>     <span class="c1"># No need to wait for async callbacks to trigger to</span>
-<span class="g g-Whitespace">   </span><span class="mi">1052</span>     <span class="c1"># consumption.</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:861,</span> in <span class="ni">Parallel.dispatch_one_batch</span><span class="nt">(self, iterator)</span>
-<span class="g g-Whitespace">    </span><span class="mi">859</span>     <span class="k">return</span> <span class="kc">False</span>
-<span class="g g-Whitespace">    </span><span class="mi">860</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">861</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_dispatch</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">862</span>     <span class="k">return</span> <span class="kc">True</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:779,</span> in <span class="ni">Parallel._dispatch</span><span class="nt">(self, batch)</span>
-<span class="g g-Whitespace">    </span><span class="mi">777</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">778</span>     <span class="n">job_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">779</span>     <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">cb</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">780</span>     <span class="c1"># A job can complete so quickly than its callback is</span>
-<span class="g g-Whitespace">    </span><span class="mi">781</span>     <span class="c1"># called before we get here, causing self._jobs to</span>
-<span class="g g-Whitespace">    </span><span class="mi">782</span>     <span class="c1"># grow. To ensure correct results ordering, .insert is</span>
-<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="c1"># used (rather than .append) in the following line</span>
-<span class="g g-Whitespace">    </span><span class="mi">784</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">job_idx</span><span class="p">,</span> <span class="n">job</span><span class="p">)</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/_parallel_backends.py:208,</span> in <span class="ni">SequentialBackend.apply_async</span><span class="nt">(self, func, callback)</span>
-<span class="g g-Whitespace">    </span><span class="mi">206</span> <span class="k">def</span> <span class="nf">apply_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">207</span>     <span class="sd">&quot;&quot;&quot;Schedule a func to be run&quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">208</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">ImmediateResult</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">209</span>     <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">210</span>         <span class="n">callback</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/_parallel_backends.py:572,</span> in <span class="ni">ImmediateResult.__init__</span><span class="nt">(self, batch)</span>
-<span class="g g-Whitespace">    </span><span class="mi">569</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">570</span>     <span class="c1"># Don&#39;t delay the application, to avoid keeping the input</span>
-<span class="g g-Whitespace">    </span><span class="mi">571</span>     <span class="c1"># arguments in memory</span>
-<span class="ne">--&gt; </span><span class="mi">572</span>     <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">batch</span><span class="p">()</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:262,</span> in <span class="ni">BatchedCalls.__call__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">258</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">259</span>     <span class="c1"># Set the default nested backend to self._backend but do not set the</span>
-<span class="g g-Whitespace">    </span><span class="mi">260</span>     <span class="c1"># change the default number of processes to -1</span>
-<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="k">with</span> <span class="n">parallel_backend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">262</span>         <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">263</span>                 <span class="k">for</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/joblib/parallel.py:262,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
-<span class="g g-Whitespace">    </span><span class="mi">258</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">259</span>     <span class="c1"># Set the default nested backend to self._backend but do not set the</span>
-<span class="g g-Whitespace">    </span><span class="mi">260</span>     <span class="c1"># change the default number of processes to -1</span>
-<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="k">with</span> <span class="n">parallel_backend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_jobs</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">262</span>         <span class="k">return</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">263</span>                 <span class="k">for</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/utils/fixes.py:216,</span> in <span class="ni">_FuncWrapper.__call__</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">214</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">215</span>     <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">216</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/sklearn/model_selection/_validation.py:678,</span> in <span class="ni">_fit_and_score</span><span class="nt">(estimator, X, y, scorer, train, test, verbose, parameters, fit_params, return_train_score, return_parameters, return_n_test_samples, return_times, return_estimator, split_progress, candidate_progress, error_score)</span>
-<span class="g g-Whitespace">    </span><span class="mi">676</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">677</span>     <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">678</span>         <span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">679</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">680</span>         <span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
-
-<span class="nn">Input In [10],</span> in <span class="ni">PricePredictor.fit</span><span class="nt">(self, ts, quiet)</span>
-<span class="g g-Whitespace">    </span><span class="mi">116</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">118</span> <span class="c1"># train LSTM model</span>
-<span class="ne">--&gt; </span><span class="mi">119</span> <span class="n">_train</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">120</span>     <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">121</span>     <span class="n">X_train</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">122</span>     <span class="n">y_train</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">123</span>     <span class="n">num_epochs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">124</span>     <span class="n">lr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">125</span>     <span class="n">quiet</span><span class="o">=</span><span class="n">quiet</span>
-<span class="g g-Whitespace">    </span><span class="mi">126</span> <span class="p">)</span>
-
-<span class="nn">Input In [9],</span> in <span class="ni">_train</span><span class="nt">(model, X_train, y_train, num_epochs, lr, quiet)</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="n">optimiser</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="c1"># compute gradients through backward propagation</span>
-<span class="ne">---&gt; </span><span class="mi">35</span> <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">37</span> <span class="c1"># update parameters</span>
-<span class="g g-Whitespace">     </span><span class="mi">38</span> <span class="n">optimiser</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/torch/_tensor.py:487,</span> in <span class="ni">Tensor.backward</span><span class="nt">(self, gradient, retain_graph, create_graph, inputs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">477</span> <span class="k">if</span> <span class="n">has_torch_function_unary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">478</span>     <span class="k">return</span> <span class="n">handle_torch_function</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">479</span>         <span class="n">Tensor</span><span class="o">.</span><span class="n">backward</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">480</span>         <span class="p">(</span><span class="bp">self</span><span class="p">,),</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">485</span>         <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">486</span>     <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">487</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span>
-<span class="g g-Whitespace">    </span><span class="mi">489</span> <span class="p">)</span>
-
-<span class="nn">File /opt/anaconda3/envs/stox/lib/python3.10/site-packages/torch/autograd/__init__.py:197,</span> in <span class="ni">backward</span><span class="nt">(tensors, grad_tensors, retain_graph, create_graph, grad_variables, inputs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">192</span>     <span class="n">retain_graph</span> <span class="o">=</span> <span class="n">create_graph</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># The reason we repeat same the comment below is that</span>
-<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="c1"># some Python versions print out the first line of a multi-line function</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span> <span class="c1"># calls in the traceback and some print out the last line</span>
-<span class="ne">--&gt; </span><span class="mi">197</span> <span class="n">Variable</span><span class="o">.</span><span class="n">_execution_engine</span><span class="o">.</span><span class="n">run_backward</span><span class="p">(</span>  <span class="c1"># Calls into the C++ engine to run the backward pass</span>
-<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="n">tensors</span><span class="p">,</span> <span class="n">grad_tensors_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">199</span>     <span class="n">allow_unreachable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
+<span class="c1"># load pre-trained model</span>
+<span class="n">price_predictor</span><span class="p">:</span> <span class="n">PricePredictor</span> <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">load_price_predictor</span><span class="p">(</span><span class="s2">&quot;../../models/TSLA-3-day-predictor.pkl&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load trained model</span>
-<span class="n">price_predictor</span><span class="p">:</span> <span class="n">PricePredictor</span> <span class="o">=</span> <span class="n">train_result</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
-
-<span class="c1"># transform the test data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># transform the test data</span>
 <span class="n">test_ts</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="n">feature_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">index</span>
 <span class="n">y_true</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
@@ -1547,7 +1382,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/multivariate-time-series_37_0.png" src="../_images/multivariate-time-series_37_0.png" />
+<img alt="../_images/multivariate-time-series_43_0.png" src="../_images/multivariate-time-series_43_0.png" />
 </div>
 </div>
 </section>
@@ -1580,11 +1415,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="arima.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Closing Price Prediction with ARIMA</p>
+            <p class="prev-next-title">Closing Price Prediction</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../trading-strategy/index.html" title="next page">

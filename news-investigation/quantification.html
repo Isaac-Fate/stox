@@ -151,11 +151,6 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/arima.html">
-     Closing Price Prediction with ARIMA
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../closing-price-prediction/multivariate-time-series.html">
      LSTM for Multivariate Time Series
     </a>
@@ -468,6 +463,21 @@ title="Print to PDF"
    Word Embedding
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binary-classification-problem-using-svm">
+   Binary Classification Problem using SVM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#profit">
+   Profit
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -502,6 +512,21 @@ title="Print to PDF"
    Word Embedding
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binary-classification-problem-using-svm">
+   Binary Classification Problem using SVM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#profit">
+   Profit
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -518,10 +543,15 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
+
+<span class="c1"># import our modules</span>
+<span class="kn">from</span> <span class="nn">news</span> <span class="kn">import</span> <span class="n">fetch_news_headline</span>
+<span class="kn">from</span> <span class="nn">profit</span> <span class="kn">import</span> <span class="n">calc_profit</span>
 </pre></div>
 </div>
 </div>
@@ -530,7 +560,9 @@ title="Print to PDF"
 <h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stock</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/TSLA.pkl&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">company</span> <span class="o">=</span> <span class="s2">&quot;TSLA&quot;</span>
+<span class="n">stock</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Company == &#39;</span><span class="si">{</span><span class="n">company</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Sector&quot;</span><span class="p">])</span>
 <span class="n">stock</span>
 </pre></div>
 </div>
@@ -663,16 +695,6 @@ title="Print to PDF"
 <p>1258 rows × 5 columns</p>
 </div></div></div>
 </div>
-<p>Split training and test data sets:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_days</span> <span class="o">=</span> <span class="mi">90</span>
-<span class="n">train_df</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[:</span><span class="o">-</span><span class="n">num_days</span><span class="p">]</span>
-<span class="n">test_df</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[</span><span class="o">-</span><span class="n">num_days</span><span class="p">:]</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="combine-stocks-and-news">
 <h2>Combine Stocks and News<a class="headerlink" href="#combine-stocks-and-news" title="Permalink to this headline">#</a></h2>
@@ -680,12 +702,12 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># shifted percentage change: (tomorrow - today) / today</span>
-<span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[[</span><span class="s2">&quot;Close&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[[</span><span class="s2">&quot;Close&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 
 <span class="c1"># whether the stock price will increase compared with today&#39;s price</span>
-<span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span> <span class="o">&gt;</span> <span class="mi">0</span>
-<span class="n">train_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span> <span class="s2">&quot;Will Go Up?&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">train_df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Close&quot;</span><span class="p">:</span> <span class="s2">&quot;Will Go Up?&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span>
 </pre></div>
 </div>
 </div>
@@ -741,49 +763,49 @@ title="Print to PDF"
       <td>...</td>
     </tr>
     <tr>
-      <th>2022-06-16</th>
+      <th>2022-10-25</th>
       <td>True</td>
     </tr>
     <tr>
-      <th>2022-06-17</th>
+      <th>2022-10-26</th>
       <td>True</td>
     </tr>
     <tr>
-      <th>2022-06-21</th>
+      <th>2022-10-27</th>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2022-10-28</th>
       <td>False</td>
     </tr>
     <tr>
-      <th>2022-06-22</th>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2022-06-23</th>
+      <th>2022-10-31</th>
       <td>True</td>
     </tr>
   </tbody>
 </table>
-<p>1167 rows × 1 columns</p>
+<p>1257 rows × 1 columns</p>
 </div></div></div>
 </div>
 <p>Now, we attach the news headline on each date to the data frame:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Headline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATABASE_FILEPATH</span> <span class="o">=</span> <span class="s2">&quot;../../data/news.db&quot;</span>
 
-<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">train_df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Headline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="c1"># correct date format</span>
     <span class="n">date_str</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">news_filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;../../data/news/&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;TSLA/</span><span class="si">{</span><span class="n">date_str</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
     
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">news_filepath</span><span class="p">):</span>
-        <span class="k">continue</span>
+    <span class="c1"># fetch news headline from database</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">fetch_news_headline</span><span class="p">(</span><span class="n">DATABASE_FILEPATH</span><span class="p">,</span> <span class="n">company</span><span class="p">,</span> <span class="n">date_str</span><span class="p">)</span>
     
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">news_filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">news</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    
-    <span class="n">train_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;Headline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">news</span><span class="p">[</span><span class="s2">&quot;Headline&quot;</span><span class="p">]</span>
+    <span class="c1"># attch news headline to data frame</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;Headline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">headline</span>
 
-<span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[[</span><span class="s2">&quot;Headline&quot;</span><span class="p">,</span> <span class="s2">&quot;Will Go Up?&quot;</span><span class="p">]]</span>
-<span class="n">train_df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Headline&quot;</span><span class="p">,</span> <span class="s2">&quot;Will Go Up?&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">df</span>
 </pre></div>
 </div>
 </div>
@@ -818,7 +840,7 @@ title="Print to PDF"
   <tbody>
     <tr>
       <th>2017-11-02</th>
-      <td>The GOP tax bill kills a $7,500 electric-vehic...</td>
+      <td>Okay Elon Musk, what's gone wrong with the Tes...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -838,7 +860,7 @@ title="Print to PDF"
     </tr>
     <tr>
       <th>2017-11-08</th>
-      <td>Tesla buys Perbix industrial automation company</td>
+      <td>Elon Musk met with Erdogan to discuss Tesla's ...</td>
       <td>False</td>
     </tr>
     <tr>
@@ -847,34 +869,44 @@ title="Print to PDF"
       <td>...</td>
     </tr>
     <tr>
-      <th>2022-06-16</th>
-      <td>Tesla to charge more for cars in United States...</td>
+      <th>2022-10-25</th>
+      <td>Update: Tesla Cuts Prices in China After Signs...</td>
       <td>True</td>
     </tr>
     <tr>
-      <th>2022-06-17</th>
-      <td>Tesla Raises EV Prices By as Much as $6,000 USD</td>
+      <th>2022-10-26</th>
+      <td>Exclusive: Tesla faces U.S. criminal probe ove...</td>
       <td>True</td>
     </tr>
     <tr>
-      <th>2022-06-21</th>
-      <td>Bloomberg</td>
+      <th>2022-10-27</th>
+      <td>From Tesla to SpaceX, what Elon Musk touches t...</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2022-10-28</th>
+      <td>Wall Street asks if Musk can manage Twitter, T...</td>
       <td>False</td>
     </tr>
     <tr>
-      <th>2022-06-22</th>
-      <td>EXCLUSIVE Tesla plans 2-week suspension for mo...</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2022-06-23</th>
-      <td>Elon Musk says he’s worried about keeping Tesl...</td>
+      <th>2022-10-31</th>
+      <td>Elon Musk has pulled more than 50 Tesla employ...</td>
       <td>True</td>
     </tr>
   </tbody>
 </table>
-<p>1167 rows × 2 columns</p>
+<p>1068 rows × 2 columns</p>
 </div></div></div>
+</div>
+<p>Split training and test data sets:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_days_left_out</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="o">-</span><span class="n">num_days_left_out</span><span class="p">]</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">-</span><span class="n">num_days_left_out</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="word-embedding">
@@ -912,18 +944,18 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>embeddings.shape: (1167, 384)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>embeddings.shape: (978, 384)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.02502805,  0.05323019,  0.09939805, ..., -0.04196155,
-         0.04668063,  0.05590457],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.00946767,  0.01169717,  0.07283923, ..., -0.07292849,
+        -0.02329506,  0.11975066],
        [-0.01846967, -0.02873902,  0.03534317, ..., -0.13485262,
          0.01329796,  0.13287042],
        [ 0.02563943, -0.04956274,  0.04786101, ..., -0.07707552,
         -0.05291679,  0.0715071 ],
        ...,
-       [-0.01015677,  0.00959312, -0.01810676, ..., -0.03960473,
-         0.00950317,  0.05490932],
+       [-0.00674385,  0.0027471 ,  0.09396511, ..., -0.09142395,
+         0.01973804,  0.08486167],
        [-0.07479677,  0.01877449,  0.07296403, ..., -0.08446505,
          0.02360164,  0.05853827],
        [ 0.01585246,  0.05186599,  0.07435998, ..., -0.07771911,
@@ -933,6 +965,147 @@ title="Print to PDF"
 </div>
 </div>
 <p>As we can see, each headline is transformed to an array with length 384.</p>
+</section>
+<section id="binary-classification-problem-using-svm">
+<h2>Binary Classification Problem using SVM<a class="headerlink" href="#binary-classification-problem-using-svm" title="Permalink to this headline">#</a></h2>
+<p>As mentioned, we want to solve a classification problem.</p>
+<p>In terms of machine learning terminologies, each sample <span class="math notranslate nohighlight">\((\mathbf{x}, y)\)</span> consists of a vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> representing 384 features (encoded news headline) and a binary label <span class="math notranslate nohighlight">\(y \in \{\text{True}, \text{False}\}\)</span>.</p>
+<p>The most popular choice is the Support Vector Machine (SVM).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+
+<span class="c1"># prepare training data</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">embeddings</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">train_df</span><span class="p">[</span><span class="s2">&quot;Will Go Up?&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># train!</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;rbf&quot;</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SVC(C=1)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Prepare the test data follows exactly the same procedure as before:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">headline_encoder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;Headline&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;Will Go Up?&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Predict the whether price will go up or down:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ROC curve and AUC score:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/quantification_30_0.png" src="../_images/quantification_30_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5316077650572424
+</pre></div>
+</div>
+</div>
+</div>
+<p>Unfortunately, the value of AUC is only <em>slightly</em> grater than 0.5, which means the classifier not very satisfactory.</p>
+</section>
+<section id="profit">
+<h2>Profit<a class="headerlink" href="#profit" title="Permalink to this headline">#</a></h2>
+<p>Decide the dates to buy and sell:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find buying and selling dates</span>
+<span class="n">buy_dates</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sell_dates</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">is_holding_shares</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">date</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+    <span class="n">will_go_up</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">is_holding_shares</span><span class="p">:</span>
+        <span class="c1"># price will go down, sell it!</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">will_go_up</span><span class="p">:</span>
+            <span class="n">sell_dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+            <span class="n">is_holding_shares</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># price will go up, buy!</span>
+        <span class="k">if</span> <span class="n">will_go_up</span><span class="p">:</span>
+            <span class="n">buy_dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+            <span class="n">is_holding_shares</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># convert to Pandas `DatetimeIndex`</span>
+<span class="n">buy_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">buy_dates</span><span class="p">)</span>
+<span class="n">sell_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">sell_dates</span><span class="p">)</span>
+
+<span class="n">buy_dates</span><span class="p">,</span> <span class="n">sell_dates</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DatetimeIndex([&#39;2022-06-27&#39;, &#39;2022-07-05&#39;, &#39;2022-07-07&#39;, &#39;2022-07-12&#39;,
+                &#39;2022-07-14&#39;, &#39;2022-07-19&#39;, &#39;2022-07-26&#39;, &#39;2022-08-01&#39;,
+                &#39;2022-08-05&#39;, &#39;2022-08-11&#39;, &#39;2022-09-01&#39;, &#39;2022-09-12&#39;,
+                &#39;2022-09-14&#39;, &#39;2022-09-20&#39;, &#39;2022-09-26&#39;, &#39;2022-09-29&#39;,
+                &#39;2022-10-07&#39;, &#39;2022-10-11&#39;, &#39;2022-10-25&#39;],
+               dtype=&#39;datetime64[ns]&#39;, freq=None),
+ DatetimeIndex([&#39;2022-07-01&#39;, &#39;2022-07-06&#39;, &#39;2022-07-11&#39;, &#39;2022-07-13&#39;,
+                &#39;2022-07-15&#39;, &#39;2022-07-21&#39;, &#39;2022-07-27&#39;, &#39;2022-08-04&#39;,
+                &#39;2022-08-09&#39;, &#39;2022-08-23&#39;, &#39;2022-09-08&#39;, &#39;2022-09-13&#39;,
+                &#39;2022-09-19&#39;, &#39;2022-09-22&#39;, &#39;2022-09-27&#39;, &#39;2022-10-03&#39;,
+                &#39;2022-10-10&#39;, &#39;2022-10-19&#39;, &#39;2022-10-27&#39;],
+               dtype=&#39;datetime64[ns]&#39;, freq=None))
+</pre></div>
+</div>
+</div>
+</div>
+<p>How much can we earn if the strategy is entirely news-driven?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_date</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">profit_rate</span> <span class="o">=</span> <span class="n">calc_profit</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">buy_dates</span><span class="p">,</span> <span class="n">sell_dates</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Profit rate: </span><span class="si">{</span><span class="n">profit_rate</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Profit rate: 3.25%
+</pre></div>
+</div>
+</div>
+</div>
+<p>The profit rate is only 3.25%, which lower than both SMA and prediction-based (LSTM) strategies.</p>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h2>
+<p>As we can see, it is not adequate to predict whether the stock price will go up or down tomorrow <em>only</em> based on the news. More delicate techniques are required in future works!</p>
 </section>
 </section>
 

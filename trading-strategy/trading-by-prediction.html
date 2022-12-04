@@ -150,11 +150,6 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/arima.html">
-     Closing Price Prediction with ARIMA
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../closing-price-prediction/multivariate-time-series.html">
      LSTM for Multivariate Time Series
     </a>
@@ -555,7 +550,9 @@ title="Print to PDF"
 <p>We again consider the Tesla stock of the latest 90 days.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stock</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/TSLA.pkl&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">company</span> <span class="o">=</span> <span class="s2">&quot;TSLA&quot;</span>
+<span class="n">stock</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Company == &#39;</span><span class="si">{</span><span class="n">company</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Sector&quot;</span><span class="p">])</span>
 <span class="n">num_days</span> <span class="o">=</span> <span class="mi">90</span>
 <span class="n">stock</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[</span><span class="o">-</span><span class="n">num_days</span><span class="p">:]</span>
 <span class="n">stock</span>
@@ -739,8 +736,8 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PricePredictor(features=[&#39;Open&#39;, &#39;Volume&#39;, &#39;Close&#39;], num_days_ago=400,
-               pred_len=3, seq_len=30)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PricePredictor(features=[&#39;Open&#39;, &#39;Volume&#39;, &#39;Close&#39;], hidden_size=16,
+               num_days_ago=400, pred_len=3, seq_len=30)
 </pre></div>
 </div>
 </div>
@@ -803,27 +800,27 @@ title="Print to PDF"
     <tr>
       <th>2022-06-27</th>
       <td>244.919998</td>
-      <td>247.893295</td>
+      <td>245.929047</td>
     </tr>
     <tr>
       <th>2022-06-28</th>
       <td>232.663330</td>
-      <td>245.430481</td>
+      <td>243.220215</td>
     </tr>
     <tr>
       <th>2022-06-29</th>
       <td>228.490005</td>
-      <td>238.189026</td>
+      <td>237.126190</td>
     </tr>
     <tr>
       <th>2022-06-30</th>
       <td>224.473328</td>
-      <td>230.715347</td>
+      <td>231.133057</td>
     </tr>
     <tr>
       <th>2022-07-01</th>
       <td>227.263336</td>
-      <td>227.550049</td>
+      <td>229.120163</td>
     </tr>
     <tr>
       <th>...</th>
@@ -833,27 +830,27 @@ title="Print to PDF"
     <tr>
       <th>2022-10-26</th>
       <td>224.639999</td>
-      <td>219.733490</td>
+      <td>219.918671</td>
     </tr>
     <tr>
       <th>2022-10-27</th>
       <td>225.089996</td>
-      <td>224.808502</td>
+      <td>223.878922</td>
     </tr>
     <tr>
       <th>2022-10-28</th>
       <td>228.520004</td>
-      <td>227.869354</td>
+      <td>226.528946</td>
     </tr>
     <tr>
       <th>2022-10-31</th>
       <td>227.539993</td>
-      <td>229.057281</td>
+      <td>227.581192</td>
     </tr>
     <tr>
       <th>2022-11-01</th>
       <td>227.820007</td>
-      <td>231.273514</td>
+      <td>229.530670</td>
     </tr>
   </tbody>
 </table>
@@ -896,16 +893,16 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(DatetimeIndex([&#39;2022-06-27&#39;, &#39;2022-07-11&#39;, &#39;2022-07-18&#39;, &#39;2022-07-20&#39;,
-                &#39;2022-07-22&#39;, &#39;2022-08-01&#39;, &#39;2022-08-11&#39;, &#39;2022-08-16&#39;,
-                &#39;2022-08-25&#39;, &#39;2022-09-02&#39;, &#39;2022-09-12&#39;, &#39;2022-09-20&#39;,
-                &#39;2022-09-29&#39;, &#39;2022-10-05&#39;, &#39;2022-10-07&#39;, &#39;2022-10-11&#39;,
-                &#39;2022-10-14&#39;, &#39;2022-10-20&#39;, &#39;2022-10-24&#39;, &#39;2022-10-31&#39;],
+                &#39;2022-07-25&#39;, &#39;2022-08-01&#39;, &#39;2022-08-11&#39;, &#39;2022-08-17&#39;,
+                &#39;2022-08-26&#39;, &#39;2022-09-02&#39;, &#39;2022-09-13&#39;, &#39;2022-09-20&#39;,
+                &#39;2022-09-29&#39;, &#39;2022-10-05&#39;, &#39;2022-10-07&#39;, &#39;2022-10-14&#39;,
+                &#39;2022-10-20&#39;, &#39;2022-10-24&#39;, &#39;2022-10-31&#39;],
                dtype=&#39;datetime64[ns]&#39;, freq=None),
  DatetimeIndex([&#39;2022-07-05&#39;, &#39;2022-07-14&#39;, &#39;2022-07-19&#39;, &#39;2022-07-21&#39;,
                 &#39;2022-07-29&#39;, &#39;2022-08-10&#39;, &#39;2022-08-12&#39;, &#39;2022-08-23&#39;,
-                &#39;2022-09-01&#39;, &#39;2022-09-06&#39;, &#39;2022-09-19&#39;, &#39;2022-09-27&#39;,
-                &#39;2022-10-04&#39;, &#39;2022-10-06&#39;, &#39;2022-10-10&#39;, &#39;2022-10-12&#39;,
-                &#39;2022-10-17&#39;, &#39;2022-10-21&#39;, &#39;2022-10-25&#39;],
+                &#39;2022-09-01&#39;, &#39;2022-09-06&#39;, &#39;2022-09-19&#39;, &#39;2022-09-26&#39;,
+                &#39;2022-10-04&#39;, &#39;2022-10-06&#39;, &#39;2022-10-12&#39;, &#39;2022-10-17&#39;,
+                &#39;2022-10-21&#39;, &#39;2022-10-25&#39;],
                dtype=&#39;datetime64[ns]&#39;, freq=None))
 </pre></div>
 </div>
@@ -960,12 +957,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Profit rate: 12.82%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Profit rate: 17.05%
 </pre></div>
 </div>
 </div>
 </div>
-<p>Recall the profit rate with moving average strategy is 9.19%. Hence, the strategy proposed in this section is some how better.</p>
+<p>Recall the profit rate with moving average strategy is 9.19%. Hence, the strategy proposed in this section is somewhat better.</p>
 </section>
 </section>
 

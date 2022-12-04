@@ -152,11 +152,6 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/arima.html">
-     Closing Price Prediction with ARIMA
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../closing-price-prediction/multivariate-time-series.html">
      LSTM for Multivariate Time Series
     </a>
@@ -579,7 +574,7 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_days</span> <span class="o">=</span> <span class="mi">90</span>
 
 <span class="c1"># load data</span>
-<span class="n">stocks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="o">-</span><span class="n">num_days</span><span class="p">]</span>
+<span class="n">stocks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">company</span> <span class="ow">in</span> <span class="n">companies</span><span class="p">:</span>

@@ -152,11 +152,6 @@ const thebe_selector_output = ".output, .cell_output"
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../closing-price-prediction/arima.html">
-     Closing Price Prediction with ARIMA
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../closing-price-prediction/multivariate-time-series.html">
      LSTM for Multivariate Time Series
     </a>
@@ -539,8 +534,10 @@ title="Print to PDF"
 <p>Consider the Tesla stock of the latest 90 days.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;../../data/TSLA.pkl&quot;</span><span class="p">)</span>
-<span class="n">stock_price</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Close&quot;</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stocks</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/stocks.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">company</span> <span class="o">=</span> <span class="s2">&quot;TSLA&quot;</span>
+<span class="n">stock</span> <span class="o">=</span> <span class="n">stocks</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Company == &#39;</span><span class="si">{</span><span class="n">company</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Company&quot;</span><span class="p">,</span> <span class="s2">&quot;Sector&quot;</span><span class="p">])</span>
+<span class="n">stock_price</span> <span class="o">=</span> <span class="n">stock</span><span class="p">[[</span><span class="s2">&quot;Close&quot;</span><span class="p">]]</span>
 <span class="n">stock_price</span>
 </pre></div>
 </div>
