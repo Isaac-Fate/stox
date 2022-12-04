@@ -1,7 +1,16 @@
+"""
+Implements functions to automatically scrape news headlines, and then insert them into the SQLite database. And it contains fetch news headlines from the database.
+"""
+
+
+
 import requests
 from bs4 import BeautifulSoup, Tag
 from datetime import datetime
 from typing import Union
+import os
+import sqlite3
+import pandas as pd
 
 GOOGLE = "https://www.google.com"
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:106.0) Gecko/20100101 Firefox/106.0"
@@ -111,7 +120,7 @@ def extract_headline(link: str) -> str:
     
     return headline
 
-def find_news_headline(query: str, date: str, skip: int = 0) -> Union[str, None]:
+def search_news_headline(query: str, date: str, skip: int = 0) -> Union[str, None]:
     """Find the news headline based on a query and sprecified date.
 
     Parameters
@@ -137,5 +146,149 @@ def find_news_headline(query: str, date: str, skip: int = 0) -> Union[str, None]
             break
         except:
             continue
+    
+    return headline
+
+def init_db(db: os.PathLike, company: str):
+    
+    # connect to database
+    con = sqlite3.connect(db)
+    
+    # create cursor
+    cur = con.cursor()
+    
+    # initialize a table for the company
+    cur.execute(
+        f"""CREATE TABLE IF NOT EXISTS {company} (
+            Date     TEXT PRIMARY KEY NOT NULL,
+            Headline TEXT
+        )
+        """
+    )
+    
+    # commit!
+    con.commit()
+    
+    # close connection
+    con.close()
+
+def fetch_news_headline(db: os.PathLike, company: str, date: str) -> Union[str, None]:
+    """Fetch one news headline from the data base given the company ticker and the date.
+
+    Parameters
+    ----------
+        db (str): File path to data base.
+        company (str): Company ticker.
+        date (str): Date with format YYYY-mm-dd.
+
+    Returns
+    -------
+        Union[str, None]: Returns a news headline if there is one.
+    """
+    
+    # initialize database
+    init_db(db, company)
+    
+    # connect to data base
+    con = sqlite3.connect(db)
+    cur = con.cursor()
+    
+    # query
+    res = cur.execute(
+        f"""SELECT * FROM {company}
+        WHERE Date == "{date}"
+        """
+    )
+    row = res.fetchone() 
+    
+    # close data base
+    con.commit()
+    con.close()
+    
+    if row is not None:
+        headline = row[1]
+        if headline is None:
+            headline = ""
+        return headline
+    else:
+        return None
+
+def fetch_news_headlines(db: os.PathLike, company: str) -> pd.DataFrame:
+    """Fetch all news headlines from the data base given the company ticker.
+
+    Parameters
+    ----------
+        db (str): File path to data base.
+        company (str): Company ticker.
+
+    Returns
+    -------
+        pd.DataFrame: A data frame consisting of one column named Headline, 
+        and it is indexed by dates.
+    """
+    
+    # initialize database
+    init_db(db, company)
+    
+    # connect to data base
+    con = sqlite3.connect(db)
+    cur = con.cursor()
+    
+    # query
+    res = cur.execute(
+        f"""SELECT * FROM {company}
+        """
+    )
+    rows = res.fetchall() 
+    
+    # close data base
+    con.commit()
+    con.close()
+    
+    # convert rows to a data frame
+    df = pd.DataFrame(rows, columns=["Date", "Headline"]).set_index("Date")
+    df.index = pd.DatetimeIndex(df.index)
+    
+    return df
+
+def search_and_insert_news_healine_to_db(
+        db: os.PathLike,
+        company: str,
+        query: str,
+        date: str,
+        skip: int = 0
+    ) -> str:
+    
+    # initialize database
+    init_db(db, company)
+    
+    # connect to data base
+    con = sqlite3.connect(db)
+    cur = con.cursor()
+    
+    # convert date string to right format
+    date = datetime.strptime(date, "%Y-%m-%d")
+    date = datetime.strftime(date, "%Y-%m-%d")
+    
+    # search news headline
+    headline = search_news_headline(query, date, skip)
+    
+    # there exists a headline, we need to remove it
+    if fetch_news_headline(db, company, date) is not None:
+        cur.execute(
+            f"""DELETE FROM {company}
+            WHERE Date == "{date}"
+            """
+        )
+    
+    # insert news headline to database
+    cur.execute(
+        f"INSERT INTO {company} VALUES (?, ?)",
+        (date, headline)
+    )
+    
+    # close data base
+    con.commit()
+    con.close()
     
     return headline

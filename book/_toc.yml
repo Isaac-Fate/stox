@@ -8,11 +8,13 @@ chapters:
 - file: closing-price-prediction/index
   sections:
   - file: closing-price-prediction/arima
-  - file: closing-price-prediction/lstm-1-dim-input
+  - file: closing-price-prediction/multivariate-time-series
 - file: trading-strategy/index
   sections:
   - file: trading-strategy/simple-moving-average
   - file: trading-strategy/trading-by-prediction
+  - file: trading-strategy/effective-portfolio
 - file: news-investigation/index
   sections:
   - file: news-investigation/news-scraping
+  - file: news-investigation/quantification

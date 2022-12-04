@@ -1,3 +1,9 @@
+"""
+Contains a function to calculate the profit given the dates to buy and sell.
+"""
+
+
+
 import numpy as np
 import pandas as pd
 from typing import Union
@@ -13,7 +19,7 @@ def calc_profit(
 
     Parameters
     ----------
-        stock_price (pd.DataFrame): A data frame whose first column consists of closing prices.
+        stock_price (pd.DataFrame): A data frame containg a column named "Close" that consists of closing prices.
         buy_dates (pd.DatetimeIndex): Dates to buy.
         sell_dates (pd.DatetimeIndex): Dates to sell.
         start_date (str): Starting date represented as a string. For examples, `"2022"`, `"2022-01"` or `"2022-01-01"`.
@@ -24,16 +30,12 @@ def calc_profit(
         float: Profit or its rate if the capital is not provided.
     """
     
-    # column name that stores the closing prices
-    price_col = stock_price.columns[0]
-    price_col = "Close"
-    
     # only consider the dates after the provided starting date
     buy_dates = buy_dates[buy_dates >= start_date]
     sell_dates = sell_dates[sell_dates >= start_date]
     
     # gain nothing
-    if len(buy_dates) == 0:
+    if len(buy_dates) == 0 or len(sell_dates) == 0:
         return 0
     
     # if we need to sell first, then ignore the first selling date 
@@ -41,16 +43,16 @@ def calc_profit(
     if buy_dates[0] > sell_dates[0]:
         sell_dates = sell_dates[1:]
     
-    buy = stock_price.loc[buy_dates, price_col].to_numpy()
-    sell = stock_price.loc[sell_dates, price_col].to_numpy()
+    # make the times of buying and selling equal
+    buy_dates = buy_dates[:len(sell_dates)]
     
-    # buying and selling dates should come in pairs 
-    # except that there may be one more buying date in the end
-    assert len(buy) == len(sell) or len(buy) == len(sell) + 1
+    # check if buy's and sell's match
+    if not (buy_dates < sell_dates).all():
+        raise Exception("Actions of buying and selling do not match.")
     
-    # don't buy
-    if len(buy) == len(sell) + 1:
-        buy = buy[:-1]
+    # get prices
+    buy = stock_price.loc[buy_dates, "Close"].to_numpy()
+    sell = stock_price.loc[sell_dates, "Close"].to_numpy()
         
     # an array of percentage profit
     pct = (sell - buy) / buy

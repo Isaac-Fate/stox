@@ -1,3 +1,7 @@
+"""
+Mainly contains an LSTM model, a self-defined `PricePredictor` for prediction and functions to train and load models.
+"""
+
 import numpy as np
 import pandas as pd
 import torch
@@ -9,6 +13,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import TimeSeriesSplit, GridSearchCV, RandomizedSearchCV
 from typing import Union
 import os
+import joblib
 
 ALL_FEATURES = ["Open", "High", "Low", "Close", "Volume"]
 
@@ -472,3 +477,26 @@ def train(
     }
     
     return train_result
+
+def load_price_predictor(model_filepath: os.PathLike) -> PricePredictor:
+    """Load the trained model from the path. 
+    The feature encoder will be assigned automatically.
+
+    Parameters
+    ----------
+        model_filepath (os.PathLike): Path to the trained model
+
+    Returns
+    -------
+        PricePredictor: Trained model.
+    """
+    
+    # load model
+    price_predictor: PricePredictor = joblib.load(model_filepath)
+    
+    # assign a label encoder
+    feature_encoder = LabelEncoder()
+    feature_encoder.fit(ALL_FEATURES)
+    price_predictor.feature_encoder = feature_encoder
+    
+    return price_predictor

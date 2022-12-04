@@ -1,3 +1,7 @@
+"""This is a command line app based on the framework
+provided by the module `click`.
+"""
+
 import click
 import pandas as pd
 import os
@@ -5,30 +9,40 @@ import joblib
 import json
 from datetime import datetime, timedelta
 
+# the following are our modules
 import lstm
+import strat
+import profit
 import news
 
-DATA_DIR = "./data"
-STOCKS_FILEPATH = "./data/stocks.csv"
-NEWS_DIR_NAME = "news"
 
+
+DATA_DIR = "./data"
+MODELS_DIR = "./models"
+NEWS_DATABASE = os.path.join(DATA_DIR, "news.db")
+STOCKS_FILEPATH = os.path.join(DATA_DIR, "stocks.csv")
+COMPANIES_FILEPATH = os.path.join(DATA_DIR, "companies.json")
+NEWS_DIR_NAME = "news"
+NUM_DAYS_LEFT_OUT = 90
+    
+    
 @click.group()
 def cli():
     pass
 
+
+
 @cli.command()
-@click.option("-s", "--stocks", default=STOCKS_FILEPATH, help="Path to the stocks data.", show_default=True)
 @click.option("-c", "--company", required=True, help="Company stock/ticker symbol.")
 @click.option("-l", "--pred-len", default=1, help="Number of days to predict.", show_default=True)
-@click.option("-m", "--model-dir", default="./models", help="Where the model is saved.", show_default=True)
-def train(stocks, company, pred_len, model_dir):
+def train(company, pred_len,):
     """Train an LSTM model to predict future stock prices for a company.
+    Model will be saved as ./models/<company ticker>-<prediction length>-day-predictor.pkl.
+    For example, ./models/TSLA-3-day-predictor.pkl.
     """
     
     try:
-        stocks_path = stocks
-        STOCKS_FILEPATH = stocks_path
-        stocks = pd.read_csv(stocks_path, index_col=0, parse_dates=True)
+        stocks = pd.read_csv(STOCKS_FILEPATH, index_col=0, parse_dates=True)
     except:
         click.echo("Failed to read stocks data.")
         return
@@ -39,6 +53,7 @@ def train(stocks, company, pred_len, model_dir):
         train_result = lstm.train(
             stocks,
             company,
+            num_days_left_out=NUM_DAYS_LEFT_OUT,
             pred_len=pred_len
         )
     except:
@@ -47,7 +62,7 @@ def train(stocks, company, pred_len, model_dir):
     
     model = train_result["model"]
     model_filename = f"{company}-{pred_len}-day-predictor.pkl"
-    model_filepath = os.path.join(model_dir, model_filename)
+    model_filepath = os.path.join(MODELS_DIR, model_filename)
     
     try:
         joblib.dump(model, model_filepath)
@@ -56,6 +71,99 @@ def train(stocks, company, pred_len, model_dir):
         return
     
     click.echo(f"Training complete!\nModel is saved as {model_filepath}.")
+    
+    
+    
+@cli.command()
+@click.option("-c", "--capital", default=10000.0, help="Ammount of money to invest.", show_default=True)  
+@click.option("-n", "--last-n-days", default=90, help="The number of days to test.", show_default=True)    
+def report_profit(capital, last_n_days):
+    """Report the profits using SMA strategy and prediction-based strategy (LSTM), respectively.
+    """
+    
+    num_days_left_out = last_n_days
+    
+    try:
+        stocks = pd.read_csv(STOCKS_FILEPATH, index_col=0, parse_dates=True)
+        companies: list[str] = json.load(open(COMPANIES_FILEPATH, "r"))
+    except:
+        click.echo("Failed to read stocks data or companies.")
+        return
+    
+    
+    
+    # a summary of profits
+    profit_report = {}
+    
+    for company in companies:
+        
+        profit_dict = {}
+        
+        # select stock
+        stock = stocks.query(f"Company == '{company}'").drop(columns=["Company", "Sector"])
+        
+        # load model
+        try:
+            model_filepath = os.path.join(MODELS_DIR, f"{company}-3-day-predictor.pkl")
+            price_predictor = lstm.load_price_predictor(model_filepath)
+        except:
+            click.echo(f"Failed to load the model {model_filepath}.")
+            return
+        
+        # test data
+        stock_test = stock[-num_days_left_out:]
+        start_date = stock_test.index[0]
+        
+        # decide when to buy and sell using SMA
+        buy_dates, sell_dates = strat.sma(
+            stock,long_period=20
+        )
+        
+        # profit rate of SMA
+        profit_rate = profit.calc_profit(stock, buy_dates, sell_dates, start_date)
+        profit_dict["SMA"] = profit_rate
+        
+        # decide when to buy and sell using LSTM
+        buy_dates, sell_dates = strat.trade_by_pred(
+            stock_test, 
+            price_predictor, 
+            num_days_ahead=2,
+        )
+        
+        # profit rate of LSTM
+        profit_rate = profit.calc_profit(stock, buy_dates, sell_dates, start_date)
+        profit_dict["LSTM"] = profit_rate
+        
+        # add to report
+        profit_report[company] = profit_dict
+    
+    # convert to data frame
+    profit_report = pd.DataFrame(profit_report)
+    
+    # find weights
+    weight = strat.determine_portfolio(stocks, companies, num_days_left_out, random_seed=7008)
+    
+    # weighted profit rates 
+    profit_report.loc["Weight"] = weight
+    profit_report.loc["Weighted SMA"] = profit_report.loc["Weight"] * profit_report.loc["SMA"]
+    profit_report.loc["Weighted LSTM"] = profit_report.loc["Weight"] * profit_report.loc["LSTM"]
+    
+    # report
+    
+    pd.options.display.float_format = "{:.2%}".format
+    click.echo("Report:")
+    print("----------------------------------------------------------------")
+    print(profit_report)
+    print("----------------------------------------------------------------")
+    
+    total = profit_report.sum(1).loc[["Weighted SMA", "Weighted LSTM"]] * capital
+    total_sma = total["Weighted SMA"]
+    total_lstm = total["Weighted LSTM"]
+    click.echo(f"Total profit using SMA: {total_sma:.2f}")
+    click.echo(f"Total profit using LSTM: {total_lstm:.2f}")
+    print("================================================================")
+      
+        
 
 @cli.command(name="find-company-news")
 @click.option("-c", "--company", required=True, help="Company stock/ticker symbol.")
@@ -67,7 +175,7 @@ def train(stocks, company, pred_len, model_dir):
 def find_news_headlines_for_company(company, query, from_date, to_date, skip, force):
     """Find news headlines for the specified company. 
     
-    Notes: Each news headline will be saved as a single JSON file under the directory ./data/news/<company ticker>/. And the file will be named by the date.
+    Notes: Each news headline will be inserted into the SQLite database located at ./data/news.db.
     """
     
     try:
@@ -84,13 +192,7 @@ def find_news_headlines_for_company(company, query, from_date, to_date, skip, fo
         click.echo("Wrong date format.")
         return
     
-    # get news dir
-    news_dir = os.path.join(DATA_DIR, NEWS_DIR_NAME)
-    news_dir = os.path.join(news_dir, company)
-    if not os.path.exists(news_dir):
-        os.makedirs(news_dir)
-    
-    click.echo("Start finding news headlines...")
+    click.echo("Start searching for news headlines...")
     for date in [from_date + timedelta(days=n) for n in range((to_date-from_date).days + 1)]:
 
         # format date string
@@ -98,17 +200,14 @@ def find_news_headlines_for_company(company, query, from_date, to_date, skip, fo
         
         # if the news headline already exists,
         # then don't find it again
-        news_filepath = os.path.join(news_dir, f"{date_str}.json")
-        if not force and os.path.exists(news_filepath):
+        if not force and news.fetch_news_headline(NEWS_DATABASE, company, date_str):
             continue
+            
+        # search and insert news headline to database
+        headline = news.search_and_insert_news_healine_to_db(NEWS_DATABASE, company, query, date_str, skip)
         
-        # find headline
-        headline = news.find_news_headline(query, date_str, skip)
+        # news.search_and_insert_news_healine_to_db("", company, query, date_str, skip)
         click.echo(f"News on {date_str}: {headline}")
-        
-        # save data
-        with open(news_filepath, "w") as f:
-            json.dump({"Date": date_str, "Headline": headline}, f, indent=4)
     
     click.echo(f"Successfully found all the news for {company}.")
     

@@ -1,3 +1,9 @@
+"""
+Contains two trading strategies: 1. Simple Moving Average (SMA); 2. Prediction-based strategy using pre-trained LSTM model. It also has a function to determine the best portfolio by assigning the weight of money to invest to each stock.
+"""
+
+
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -8,7 +14,7 @@ import lstm
 
 def sma(
         stock: pd.DataFrame,
-        long_period: int = 15,
+        long_period: int = 20,
         short_period: int = 5
     ) -> tuple[pd.DatetimeIndex, pd.DatetimeIndex]:
     """Simple moving average strategy.
@@ -17,9 +23,16 @@ def sma(
     ----------
         stock (pd.DataFrame): A data frame containing stock prices. 
             It must contains a `"Close"` column.
-        long_period (int, optional): _description_. Defaults to 15.
+        long_period (int, optional): _description_. Defaults to 20.
         short_period (int, optional): _description_. Defaults to 5.
-
+    
+    Notes
+    -----
+        Since the SMA strategy is NOT based on a trained model.
+        The provided stock data frame does not need to be a test data frame.
+        In fact, it should be as large as possible so that the 
+        values of moving averages are sufficient.
+        
     Returns
     -------
         tuple[pd.DatetimeIndex, pd.DatetimeIndex]: 
@@ -47,11 +60,16 @@ def trade_by_pred(
 
     Parameters
     ----------
-        stock (pd.DataFrame): A data frame containing stock prices. 
+        stock (pd.DataFrame): A test data frame containing stock prices. 
             It must contains a `"Close"` column.
         price_predictor (lstm.PricePredictor): A pretrained model.
         num_days_ahead (int, optional): Refer to the stock price in the N-th day ahead from now. Defaults to 1.
 
+    Notes
+    -----
+        This strategy is based on a trained model! 
+        Hence, the provided stock data frame should be a test data frame.
+        
     Raises
     ------
         Exception: Missing feature encoder.
@@ -126,11 +144,13 @@ def determine_portfolio(
 
     Returns
     -------
-        np.ndarray: Weight to be assigned to each company.
+        np.ndarray: Weight to be assigned to each company. 
+        The order of the weights are matched with the orders of the input companies.
+        The weights sum up to 1.
     """
     
     # get daily stock returns
-    stock_returns = get_stock_returns(stocks, companies, num_days_left_out)
+    stock_returns = _get_stock_returns(stocks, companies, num_days_left_out)
     
     # Monte Carlo simulation
 
@@ -143,14 +163,14 @@ def determine_portfolio(
 
     # calculate volatility for each portfolio
     volatilities = np.apply_along_axis(
-        partial(calc_volatility, stock_returns),
+        partial(_calc_volatility, stock_returns),
         axis=1,
         arr=simulated_weights
     )
 
     # calculate stock return for each portfolio
     weighted_stock_returns = np.apply_along_axis(
-        partial(calc_weighted_stock_return, stock_returns),
+        partial(_calc_weighted_stock_return, stock_returns),
         axis=1,
         arr=simulated_weights
     )
@@ -168,7 +188,7 @@ def determine_portfolio(
     return optimal_weight
     
 
-def get_stock_returns(
+def _get_stock_returns(
        stocks: pd.DataFrame,
        companies: list[str],
        num_days_left_out: int = 0 
@@ -188,7 +208,7 @@ def get_stock_returns(
     
     return df
 
-def calc_volatility(stock_returns: pd.DataFrame, weight: np.ndarray) -> float:
+def _calc_volatility(stock_returns: pd.DataFrame, weight: np.ndarray) -> float:
     
     # scale weights
     weight = weight / weight.sum()
@@ -202,7 +222,7 @@ def calc_volatility(stock_returns: pd.DataFrame, weight: np.ndarray) -> float:
     
     return volatility
 
-def calc_weighted_stock_return(stock_returns: pd.DataFrame, weight: np.ndarray) -> float:
+def _calc_weighted_stock_return(stock_returns: pd.DataFrame, weight: np.ndarray) -> float:
     
     # scale weights
     weight = weight / weight.sum()
