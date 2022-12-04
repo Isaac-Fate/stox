@@ -4,9 +4,9 @@
 
 ## GitHub Repository and Webpage
 
-Our source code is also available on the GitHub repository: `https://github.com/Isaac-Fate/stox`.
+Our source code is also available on the GitHub repository: https://github.com/Isaac-Fate/stox.
 
-We have deployed a website that serves as both an outline and documentation for the project. The URL is `https://isaac-fate.github.io/stox`.
+We have deployed a website that serves as both an outline and documentation for the project. The URL is https://isaac-fate.github.io/stox.
 
 
 
@@ -36,6 +36,7 @@ torch==1.13.0
 .
 ├── __init__.py
 ├── main.py
+├── collect_data.py
 ├── lstm.py
 ├── strat.py
 ├── profit.py
@@ -71,6 +72,7 @@ torch==1.13.0
 
 The central code files/modules are placed directly under the root directory.
 
+- `collect_data.py` is a script that downloads the stock prices as a CSV file.
 - `lstm.py` mainly contains an LSTM model, a self-defined `PricePredictor` for prediction and functions to train and load models.
 - `strat.py` contains two trading strategies: 1. Simple Moving Average (SMA); 2. Prediction-based strategy using pre-trained LSTM model. It also has a function to determine the best portfolio by assigning the weight of money to invest to each stock.
 - `profit.py` contains a function to calculate the profit given the dates to buy and sell.
@@ -79,7 +81,7 @@ The central code files/modules are placed directly under the root directory.
 
 ### Notebooks
 
-Jupyter notebooks are placed under `./book/`. However, it is recommended to visit our website `https://isaac-fate.github.io/stox` to view these notebooks easily.
+Jupyter notebooks are placed under `./book/`. However, it is recommended to visit our website https://isaac-fate.github.io/stox to view these notebooks easily.
 
 ### Data
 
