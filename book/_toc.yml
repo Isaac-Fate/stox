@@ -13,6 +13,7 @@ chapters:
   - file: trading-strategy/simple-moving-average
   - file: trading-strategy/trading-by-prediction
   - file: trading-strategy/effective-portfolio
+  - file: trading-strategy/profit-report
 - file: news-investigation/index
   sections:
   - file: news-investigation/news-scraping
