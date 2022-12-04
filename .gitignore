@@ -16,6 +16,17 @@
 # `out` directory
 /out/
 
+# my playground for experiments
 /playground/
 /tests/
-/data/news/
+
+# some auxiliary files when compiling latex
+/report/*.aux
+/report/*.bbl
+/report/*.bcf
+/report/*.blg
+/report/*.log
+/report/*.out
+/report/*.run.xml
+/report/*.synctex.gz
+/report/*.toc
