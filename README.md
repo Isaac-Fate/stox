@@ -171,15 +171,15 @@ This display the major result of our project. We compare how much money we can g
 > python main.py report-profit --capital 10000
 Report:
 ----------------------------------------------------------------
-                 META    TSLA    XOM    BAC    UNH     BA   AAPL
-SMA           -19.97%   9.19% -2.80% -2.12%  0.77%  0.00% 17.77%
-LSTM            9.44% -13.08%  2.06% 11.74%  0.19%  8.91% 15.18%
-Weight         14.70%   0.87% 25.35%  3.45% 26.79% 28.44%  0.39%
-Weighted SMA   -2.94%   0.08% -0.71% -0.07%  0.21%  0.00%  0.07%
-Weighted LSTM   1.39%  -0.11%  0.52%  0.41%  0.05%  2.54%  0.06%
+                 META   TSLA    XOM    BAC    UNH     BA   AAPL
+SMA           -19.97%  9.19% -2.80% -2.12%  0.77%  0.00% 17.77%
+LSTM            9.44% 17.05%  2.06% 11.74%  0.19%  8.91% 15.18%
+Weight         14.70%  0.87% 25.35%  3.45% 26.79% 28.44%  0.39%
+Weighted SMA   -2.94%  0.08% -0.71% -0.07%  0.21%  0.00%  0.07%
+Weighted LSTM   1.39%  0.15%  0.52%  0.41%  0.05%  2.54%  0.06%
 ----------------------------------------------------------------
 Total profit using SMA: -336.22
-Total profit using LSTM: 484.81
+Total profit using LSTM: 510.95
 ================================================================
 ```
 
